@@ -37,7 +37,7 @@ jobs:
         remote_path: ${{ secrets.SERVER_PATH }}
         switches: "-avz --delete --exclude='.env' --exclude='storage/'   --exclude='.git/' --exclude='bootstrap/cache/' --exclude='/public'  --no-perms --checksum"
 
-    # 5. Run Laravel Artisan commands12
+    # 5. Run Laravel Artisan commands1223
 
     - name: Run Laravel commands on server
       uses: appleboy/ssh-action@v0.1.10
