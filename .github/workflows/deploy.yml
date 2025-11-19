@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       run: composer install --no-dev --optimize-autoloader
 
-    # 4. Sync changed files (skip .env, storage, .git, bootstrap/cache)
+    # 4. Sync changed files (skip .env, storage, .git, bootstrap/cache)12
     - name: Sync changed files to server
       uses: burnett01/rsync-deployments@7.0.2
       with:
