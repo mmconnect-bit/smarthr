@@ -70,7 +70,8 @@ class Activities extends \Google\Service\Resource
    * itself can be requested in August. If the `endTime` is not specified, the
    * report returns all activities from the `startTime` until the current time or
    * the most recent 180 days if the `startTime` is more than 180 days in the
-   * past.
+   * past. For Gmail requests, `startTime` and `endTime` must be provided and the
+   * difference must not be greater than 30 days.
    * @opt_param string eventName The name of the event being queried by the API.
    * Each `eventName` is related to a specific Google Workspace service or feature
    * which the API organizes into types of events. An example is the Google
@@ -113,7 +114,11 @@ class Activities extends \Google\Service\Resource
    * @opt_param string groupIdFilter Comma separated group ids (obfuscated) on
    * which user activities are filtered, i.e. the response will contain activities
    * for only those users that are a part of at least one of the group ids
-   * mentioned here. Format: "id:abc123,id:xyz456"
+   * mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by
+   * groups, you must explicitly add the groups to your filtering groups
+   * allowlist. For more information about adding groups to filtering groups
+   * allowlist, see [Filter results by Google
+   * Group](https://support.google.com/a/answer/11482175)
    * @opt_param int maxResults Determines how many activity records are shown on
    * each response page. For example, if the request sets `maxResults=1` and the
    * report has two activities, the report has two pages. The response's
@@ -132,7 +137,10 @@ class Activities extends \Google\Service\Resource
    * 2010-10-28T10:26:35.000Z. The report returns all activities from `startTime`
    * until `endTime`. The `startTime` must be before the `endTime` (if specified)
    * and the current time when the request is made, or the API returns an error.
+   * For Gmail requests, `startTime` and `endTime` must be provided and the
+   * difference must not be greater than 30 days.
    * @return ActivitiesModel
+   * @throws \Google\Service\Exception
    */
   public function listActivities($userKey, $applicationName, $optParams = [])
   {
@@ -217,17 +225,22 @@ class Activities extends \Google\Service\Resource
    * ignores that parameter and returns the response corresponding to the
    * remaining valid parameters. If no parameters are requested, all parameters
    * are returned.
-   * @opt_param string groupIdFilter Comma separated group ids (obfuscated) on
-   * which user activities are filtered, i.e. the response will contain activities
-   * for only those users that are a part of at least one of the group ids
-   * mentioned here. Format: "id:abc123,id:xyz456"
+   * @opt_param string groupIdFilter `Deprecated`. This field is deprecated and is
+   * no longer supported. Comma separated group ids (obfuscated) on which user
+   * activities are filtered, i.e. the response will contain activities for only
+   * those users that are a part of at least one of the group ids mentioned here.
+   * Format: "id:abc123,id:xyz456" *Important:* To filter by groups, you must
+   * explicitly add the groups to your filtering groups allowlist. For more
+   * information about adding groups to filtering groups allowlist, see [Filter
+   * results by Google Group](https://support.google.com/a/answer/11482175)
    * @opt_param int maxResults Determines how many activity records are shown on
    * each response page. For example, if the request sets `maxResults=1` and the
    * report has two activities, the report has two pages. The response's
    * `nextPageToken` property has the token to the second page. The `maxResults`
    * query string is optional in the request. The default value is 1000.
-   * @opt_param string orgUnitID ID of the organizational unit to report on.
-   * Activity records will be shown only for users who belong to the specified
+   * @opt_param string orgUnitID `Deprecated`. This field is deprecated and is no
+   * longer supported. ID of the organizational unit to report on. Activity
+   * records will be shown only for users who belong to the specified
    * organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered
    * results.
    * @opt_param string pageToken The token to specify next page. A report with
@@ -240,6 +253,7 @@ class Activities extends \Google\Service\Resource
    * until `endTime`. The `startTime` must be before the `endTime` (if specified)
    * and the current time when the request is made, or the API returns an error.
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function watch($userKey, $applicationName, Channel $postBody, $optParams = [])
   {

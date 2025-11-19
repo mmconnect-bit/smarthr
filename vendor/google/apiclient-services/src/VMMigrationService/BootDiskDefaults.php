@@ -20,22 +20,62 @@ namespace Google\Service\VMMigrationService;
 class BootDiskDefaults extends \Google\Model
 {
   /**
+   * An unspecified disk type. Will be used as STANDARD.
+   */
+  public const DISK_TYPE_COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED = 'COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED';
+  /**
+   * A Standard disk type.
+   */
+  public const DISK_TYPE_COMPUTE_ENGINE_DISK_TYPE_STANDARD = 'COMPUTE_ENGINE_DISK_TYPE_STANDARD';
+  /**
+   * SSD hard disk type.
+   */
+  public const DISK_TYPE_COMPUTE_ENGINE_DISK_TYPE_SSD = 'COMPUTE_ENGINE_DISK_TYPE_SSD';
+  /**
+   * An alternative to SSD persistent disks that balance performance and cost.
+   */
+  public const DISK_TYPE_COMPUTE_ENGINE_DISK_TYPE_BALANCED = 'COMPUTE_ENGINE_DISK_TYPE_BALANCED';
+  /**
+   * Hyperdisk balanced disk type.
+   */
+  public const DISK_TYPE_COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED = 'COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED';
+  /**
+   * Optional. Specifies a unique device name of your choice that is reflected
+   * into the /dev/disk/by-id/google-* tree of a Linux operating system running
+   * within the instance. If not specified, the server chooses a default device
+   * name to apply to this disk, in the form persistent-disk-x, where x is a
+   * number assigned by Google Compute Engine. This field is only applicable for
+   * persistent disks.
+   *
    * @var string
    */
   public $deviceName;
   /**
+   * Optional. The name of the disk.
+   *
    * @var string
    */
   public $diskName;
   /**
+   * Optional. The type of disk provisioning to use for the VM.
+   *
    * @var string
    */
   public $diskType;
+  protected $encryptionType = Encryption::class;
+  protected $encryptionDataType = '';
   protected $imageType = DiskImageDefaults::class;
   protected $imageDataType = '';
 
   /**
-   * @param string
+   * Optional. Specifies a unique device name of your choice that is reflected
+   * into the /dev/disk/by-id/google-* tree of a Linux operating system running
+   * within the instance. If not specified, the server chooses a default device
+   * name to apply to this disk, in the form persistent-disk-x, where x is a
+   * number assigned by Google Compute Engine. This field is only applicable for
+   * persistent disks.
+   *
+   * @param string $deviceName
    */
   public function setDeviceName($deviceName)
   {
@@ -49,7 +89,9 @@ class BootDiskDefaults extends \Google\Model
     return $this->deviceName;
   }
   /**
-   * @param string
+   * Optional. The name of the disk.
+   *
+   * @param string $diskName
    */
   public function setDiskName($diskName)
   {
@@ -63,21 +105,46 @@ class BootDiskDefaults extends \Google\Model
     return $this->diskName;
   }
   /**
-   * @param string
+   * Optional. The type of disk provisioning to use for the VM.
+   *
+   * Accepted values: COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED,
+   * COMPUTE_ENGINE_DISK_TYPE_STANDARD, COMPUTE_ENGINE_DISK_TYPE_SSD,
+   * COMPUTE_ENGINE_DISK_TYPE_BALANCED,
+   * COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED
+   *
+   * @param self::DISK_TYPE_* $diskType
    */
   public function setDiskType($diskType)
   {
     $this->diskType = $diskType;
   }
   /**
-   * @return string
+   * @return self::DISK_TYPE_*
    */
   public function getDiskType()
   {
     return $this->diskType;
   }
   /**
-   * @param DiskImageDefaults
+   * Optional. The encryption to apply to the boot disk.
+   *
+   * @param Encryption $encryption
+   */
+  public function setEncryption(Encryption $encryption)
+  {
+    $this->encryption = $encryption;
+  }
+  /**
+   * @return Encryption
+   */
+  public function getEncryption()
+  {
+    return $this->encryption;
+  }
+  /**
+   * The image to use when creating the disk.
+   *
+   * @param DiskImageDefaults $image
    */
   public function setImage(DiskImageDefaults $image)
   {

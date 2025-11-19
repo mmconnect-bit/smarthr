@@ -20,18 +20,32 @@ namespace Google\Service\Integrations;
 class GoogleCloudConnectorsV1EventingRuntimeData extends \Google\Model
 {
   /**
+   * Output only. Events listener endpoint. The value will populated after
+   * provisioning the events listener.
+   *
    * @var string
    */
   public $eventsListenerEndpoint;
   /**
+   * Output only. Events listener PSC Service attachment. The value will be
+   * populated after provisioning the events listener with private connectivity
+   * enabled.
+   *
    * @var string
    */
   public $eventsListenerPscSa;
   protected $statusType = GoogleCloudConnectorsV1EventingStatus::class;
   protected $statusDataType = '';
+  protected $webhookDataType = GoogleCloudConnectorsV1EventingRuntimeDataWebhookData::class;
+  protected $webhookDataDataType = '';
+  protected $webhookSubscriptionsType = GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions::class;
+  protected $webhookSubscriptionsDataType = '';
 
   /**
-   * @param string
+   * Output only. Events listener endpoint. The value will populated after
+   * provisioning the events listener.
+   *
+   * @param string $eventsListenerEndpoint
    */
   public function setEventsListenerEndpoint($eventsListenerEndpoint)
   {
@@ -45,7 +59,11 @@ class GoogleCloudConnectorsV1EventingRuntimeData extends \Google\Model
     return $this->eventsListenerEndpoint;
   }
   /**
-   * @param string
+   * Output only. Events listener PSC Service attachment. The value will be
+   * populated after provisioning the events listener with private connectivity
+   * enabled.
+   *
+   * @param string $eventsListenerPscSa
    */
   public function setEventsListenerPscSa($eventsListenerPscSa)
   {
@@ -59,7 +77,9 @@ class GoogleCloudConnectorsV1EventingRuntimeData extends \Google\Model
     return $this->eventsListenerPscSa;
   }
   /**
-   * @param GoogleCloudConnectorsV1EventingStatus
+   * Output only. Current status of eventing.
+   *
+   * @param GoogleCloudConnectorsV1EventingStatus $status
    */
   public function setStatus(GoogleCloudConnectorsV1EventingStatus $status)
   {
@@ -71,6 +91,38 @@ class GoogleCloudConnectorsV1EventingRuntimeData extends \Google\Model
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * Output only. Webhook data.
+   *
+   * @param GoogleCloudConnectorsV1EventingRuntimeDataWebhookData $webhookData
+   */
+  public function setWebhookData(GoogleCloudConnectorsV1EventingRuntimeDataWebhookData $webhookData)
+  {
+    $this->webhookData = $webhookData;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1EventingRuntimeDataWebhookData
+   */
+  public function getWebhookData()
+  {
+    return $this->webhookData;
+  }
+  /**
+   * Output only. Webhook subscriptions.
+   *
+   * @param GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions $webhookSubscriptions
+   */
+  public function setWebhookSubscriptions(GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions $webhookSubscriptions)
+  {
+    $this->webhookSubscriptions = $webhookSubscriptions;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions
+   */
+  public function getWebhookSubscriptions()
+  {
+    return $this->webhookSubscriptions;
   }
 }
 

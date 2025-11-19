@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ namespace YooKassa;
 
 use Exception;
 use InvalidArgumentException;
+use JsonException;
 use YooKassa\Client\BaseClient;
 use YooKassa\Common\Exceptions\ApiConnectionException;
 use YooKassa\Common\Exceptions\ApiException;
@@ -38,6 +39,7 @@ use YooKassa\Common\Exceptions\ForbiddenException;
 use YooKassa\Common\Exceptions\InternalServerError;
 use YooKassa\Common\Exceptions\InvalidPropertyValueException;
 use YooKassa\Common\Exceptions\InvalidPropertyValueTypeException;
+use YooKassa\Common\Exceptions\InvalidRequestException;
 use YooKassa\Common\Exceptions\NotFoundException;
 use YooKassa\Common\Exceptions\ResponseProcessingException;
 use YooKassa\Common\Exceptions\TooManyRequestsException;
@@ -46,9 +48,11 @@ use YooKassa\Common\HttpVerb;
 use YooKassa\Helpers\TypeCast;
 use YooKassa\Helpers\UUID;
 use YooKassa\Model\Deal\DealInterface;
+use YooKassa\Model\Invoice\InvoiceInterface;
 use YooKassa\Model\Payment\PaymentInterface;
 use YooKassa\Model\Payout\PayoutInterface;
 use YooKassa\Model\PersonalData\PersonalDataInterface;
+use YooKassa\Model\SavePaymentMethod\SavePaymentMethodInterface;
 use YooKassa\Model\SelfEmployed\SelfEmployedInterface;
 use YooKassa\Model\Webhook\Webhook;
 use YooKassa\Request\Deals\CreateDealRequest;
@@ -60,6 +64,14 @@ use YooKassa\Request\Deals\DealsRequest;
 use YooKassa\Request\Deals\DealsRequestInterface;
 use YooKassa\Request\Deals\DealsRequestSerializer;
 use YooKassa\Request\Deals\DealsResponse;
+use YooKassa\Request\Invoices\CreateInvoiceRequest;
+use YooKassa\Request\Invoices\CreateInvoiceRequestInterface;
+use YooKassa\Request\Invoices\CreateInvoiceRequestSerializer;
+use YooKassa\Request\Invoices\InvoiceResponse;
+use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequest;
+use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequestInterface;
+use YooKassa\Request\PaymentMethods\CreatePaymentMethodRequestSerializer;
+use YooKassa\Request\PaymentMethods\PaymentMethodResponse;
 use YooKassa\Request\Payments\CancelResponse;
 use YooKassa\Request\Payments\CreateCaptureRequest;
 use YooKassa\Request\Payments\CreateCaptureRequestInterface;
@@ -80,10 +92,9 @@ use YooKassa\Request\Payouts\CreatePayoutRequestSerializer;
 use YooKassa\Request\Payouts\CreatePayoutResponse;
 use YooKassa\Request\Payouts\PayoutResponse;
 use YooKassa\Request\Payouts\SbpBanksResponse;
-use YooKassa\Request\PersonalData\CreatePersonalDataRequest;
-use YooKassa\Request\PersonalData\CreatePersonalDataRequestInterface;
-use YooKassa\Request\PersonalData\CreatePersonalDataRequestSerializer;
 use YooKassa\Request\PersonalData\PersonalDataResponse;
+use YooKassa\Request\PersonalData\PersonalDataType\AbstractPersonalDataRequest;
+use YooKassa\Request\PersonalData\PersonalDataType\RecipientPersonalDataRequestFactory;
 use YooKassa\Request\Receipts\AbstractReceiptResponse;
 use YooKassa\Request\Receipts\CreatePostReceiptRequest;
 use YooKassa\Request\Receipts\CreatePostReceiptRequestInterface;
@@ -119,7 +130,7 @@ class Client extends BaseClient
     /**
      * Текущая версия библиотеки.
      */
-    public const SDK_VERSION = '3.1.1';
+    public const SDK_VERSION = '3.11.1';
 
     /**
      * Получить список платежей магазина.
@@ -197,7 +208,7 @@ class Client extends BaseClient
      *
      * @example 01-client.php 21 28 Запрос на создание платежа
      *
-     * @param array|CreatePaymentRequestInterface $payment Запрос на создание платежа
+     * @param array|CreatePaymentRequestInterface $paymentData Запрос на создание платежа
      * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @return CreatePaymentResponse|null
@@ -213,24 +224,16 @@ class Client extends BaseClient
      * @throws TooManyRequestsException Превышен лимит запросов в единицу времени. Попробуйте снизить интенсивность запросов
      * @throws UnauthorizedException Неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
      */
-    public function createPayment(CreatePaymentRequestInterface|array $payment, ?string $idempotenceKey = null): ?CreatePaymentResponse
+    public function createPayment(CreatePaymentRequestInterface|array $paymentData, ?string $idempotenceKey = null): ?CreatePaymentResponse
     {
         $path = self::PAYMENTS_PATH;
 
-        $headers = [];
-
-        if ($idempotenceKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotenceKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($payment)) {
-            $payment = CreatePaymentRequest::builder()->build($payment);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($paymentData) ? CreatePaymentRequest::builder()->build($paymentData) : $paymentData;
 
         $serializer = new CreatePaymentRequestSerializer();
-        $serializedData = $serializer->serialize($payment);
-        $httpBody = $this->encodeData($serializedData);
+        $serializedData = $serializer->serialize($request);
+        $httpBody = $this->encodeData($this->addDefaultCmsName($serializedData));
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
 
@@ -305,9 +308,9 @@ class Client extends BaseClient
      *
      * @example 01-client.php 51 35 Подтверждение платежа
      *
-     * @param array|CreateCaptureRequestInterface $captureRequest Запрос на создание подтверждения платежа
+     * @param array|CreateCaptureRequestInterface $captureData Запрос на создание подтверждения платежа
      * @param string $paymentId Идентификатор платежа
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
      * @throws BadApiRequestException Неправильный запрос. Чаще всего этот статус выдается из-за нарушения правил взаимодействия с API
@@ -320,7 +323,7 @@ class Client extends BaseClient
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
      */
-    public function capturePayment(array|CreateCaptureRequestInterface $captureRequest, string $paymentId, ?string $idempotencyKey = null): ?CreateCaptureResponse
+    public function capturePayment(array|CreateCaptureRequestInterface $captureData, string $paymentId, ?string $idempotenceKey = null): ?CreateCaptureResponse
     {
         if (!TypeCast::canCastToString($paymentId)) {
             throw new InvalidArgumentException('Invalid paymentId value: string required');
@@ -331,19 +334,11 @@ class Client extends BaseClient
 
         $path = '/payments/' . $paymentId . '/capture';
 
-        $headers = [];
-
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($captureRequest)) {
-            $captureRequest = CreateCaptureRequest::builder()->build($captureRequest);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($captureData) ? CreateCaptureRequest::builder()->build($captureData) : $captureData;
 
         $serializer = new CreateCaptureRequestSerializer();
-        $serializedData = $serializer->serialize($captureRequest);
+        $serializedData = $serializer->serialize($request);
         $httpBody = $this->encodeData($serializedData);
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
@@ -370,7 +365,7 @@ class Client extends BaseClient
      * @example 01-client.php 88 10 Отменить незавершенную оплату заказа
      *
      * @param string $paymentId Идентификатор платежа
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
      * @throws BadApiRequestException Неправильный запрос. Чаще всего этот статус выдается из-за нарушения правил взаимодействия с API
@@ -383,7 +378,7 @@ class Client extends BaseClient
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
      */
-    public function cancelPayment(string $paymentId, ?string $idempotencyKey = null): ?CancelResponse
+    public function cancelPayment(string $paymentId, ?string $idempotenceKey = null): ?CancelResponse
     {
         if (!TypeCast::canCastToString($paymentId)) {
             throw new InvalidArgumentException('Invalid paymentId value: string required');
@@ -393,12 +388,7 @@ class Client extends BaseClient
         }
 
         $path = self::PAYMENTS_PATH . '/' . $paymentId . '/cancel';
-        $headers = [];
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
 
         $response = $this->execute($path, HttpVerb::POST, [], null, $headers);
 
@@ -473,8 +463,8 @@ class Client extends BaseClient
      *
      * @example 01-client.php 145 26 Запрос на создание возврата
      *
-     * @param array|CreateRefundRequestInterface $request Запрос на создание возврата
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param array|CreateRefundRequestInterface $refundData Запрос на создание возврата
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @return CreateRefundResponse|null
      *
@@ -491,20 +481,12 @@ class Client extends BaseClient
      * @throws UnauthorizedException Неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
      * @throws Exception
      */
-    public function createRefund(array|CreateRefundRequestInterface $request, ?string $idempotencyKey = null): ?CreateRefundResponse
+    public function createRefund(array|CreateRefundRequestInterface $refundData, ?string $idempotenceKey = null): ?CreateRefundResponse
     {
         $path = self::REFUNDS_PATH;
 
-        $headers = [];
-
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($request)) {
-            $request = CreateRefundRequest::builder()->build($request);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($refundData) ? CreateRefundRequest::builder()->build($refundData) : $refundData;
 
         $serializer = new CreateRefundRequestSerializer();
         $serializedData = $serializer->serialize($request);
@@ -574,8 +556,8 @@ class Client extends BaseClient
      *
      * @example 01-client.php 202 36 Создание Webhook
      *
-     * @param array|Webhook $request Запрос на создание вебхука
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param array|Webhook $webhookData Запрос на создание вебхука
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
      * @throws BadApiRequestException Неправильный запрос. Чаще всего этот статус выдается из-за нарушения правил взаимодействия с API
@@ -588,28 +570,18 @@ class Client extends BaseClient
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
      */
-    public function addWebhook(array|Webhook $request, ?string $idempotencyKey = null): ?Webhook
+    public function addWebhook(array|Webhook $webhookData, ?string $idempotenceKey = null): ?Webhook
     {
         $path = self::WEBHOOKS_PATH;
 
-        $headers = [];
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($webhookData) ? new Webhook($webhookData) : $webhookData;
 
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($request)) {
-            $webhook = new Webhook($request);
-        } else {
-            $webhook = $request;
-        }
-
-        if (!$webhook instanceof Webhook) {
+        if (!$request instanceof Webhook) {
             throw new InvalidArgumentException();
         }
 
-        $httpBody = $this->encodeData($webhook->jsonSerialize());
+        $httpBody = $this->encodeData($request->jsonSerialize());
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
 
@@ -630,10 +602,8 @@ class Client extends BaseClient
      * Запрос позволяет отписаться от уведомлений о событии для переданного OAuth-токена.
      * Чтобы удалить webhook, вам нужно передать в запросе его идентификатор.
      *
-     * @example 01-client.php 202 36 Удаление Webhook
-     *
      * @param string $webhookId Идентификатор Webhook
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
      * @throws BadApiRequestException Неправильный запрос. Чаще всего этот статус выдается из-за нарушения правил взаимодействия с API
@@ -645,16 +615,12 @@ class Client extends BaseClient
      * @throws UnauthorizedException Неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
+     *@example 01-client.php 202 36 Удаление Webhook
+     *
      */
-    public function removeWebhook(string $webhookId, ?string $idempotencyKey = null): ?Webhook
+    public function removeWebhook(string $webhookId, ?string $idempotenceKey = null): ?Webhook
     {
-        $headers = [];
-
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
         $path = self::WEBHOOKS_PATH . '/' . $webhookId;
 
         $response = $this->execute($path, HttpVerb::DELETE, [], null, $headers);
@@ -765,7 +731,7 @@ class Client extends BaseClient
      *
      * @example 01-client.php 100 43 Запрос на создание чека
      *
-     * @param array|CreatePostReceiptRequestInterface $receipt Запрос на создание чека
+     * @param array|CreatePostReceiptRequestInterface $receiptData Запрос на создание чека
      * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
@@ -780,24 +746,15 @@ class Client extends BaseClient
      * @throws AuthorizeException Ошибка авторизации. Не установлен заголовок
      * @throws Exception
      */
-    public function createReceipt(array|CreatePostReceiptRequestInterface $receipt, ?string $idempotenceKey = null): ?AbstractReceiptResponse
+    public function createReceipt(array|CreatePostReceiptRequestInterface $receiptData, ?string $idempotenceKey = null): ?AbstractReceiptResponse
     {
         $path = self::RECEIPTS_PATH;
 
-        $headers = [];
-
-        if ($idempotenceKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotenceKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-
-        if (is_array($receipt)) {
-            $receipt = CreatePostReceiptRequest::builder()->build($receipt);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($receiptData) ? CreatePostReceiptRequest::builder()->build($receiptData) : $receiptData;
 
         $serializer = new CreatePostReceiptRequestSerializer();
-        $serializedData = $serializer->serialize($receipt);
+        $serializedData = $serializer->serialize($request);
         $httpBody = $this->encodeData($serializedData);
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
@@ -879,7 +836,7 @@ class Client extends BaseClient
      *
      * @example 01-client.php 316 18 Запрос на создание сделки
      *
-     * @param array|CreateDealRequestInterface $deal Запрос на создание сделки
+     * @param array|CreateDealRequestInterface $dealData Запрос на создание сделки
      * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
@@ -892,23 +849,15 @@ class Client extends BaseClient
      * @throws UnauthorizedException Неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      */
-    public function createDeal(CreateDealRequestInterface|array $deal, ?string $idempotenceKey = null): ?CreateDealResponse
+    public function createDeal(CreateDealRequestInterface|array $dealData, ?string $idempotenceKey = null): ?CreateDealResponse
     {
         $path = self::DEALS_PATH;
 
-        $headers = [];
-
-        if ($idempotenceKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotenceKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($deal)) {
-            $deal = CreateDealRequest::builder()->build($deal);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($dealData) ? CreateDealRequest::builder()->build($dealData) : $dealData;
 
         $serializer = new CreateDealRequestSerializer();
-        $serializedData = $serializer->serialize($deal);
+        $serializedData = $serializer->serialize($request);
         $httpBody = $this->encodeData($serializedData);
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
@@ -1043,7 +992,9 @@ class Client extends BaseClient
      * <li>metadata — любые дополнительные данные, которые нужны вам для работы (например, ваш внутренний идентификатор заказа).</li>
      * </ul>
      *
-     * @param array|CreatePayoutRequestInterface $payout Запрос на создание выплаты
+     * @example 01-client.php 376 26 Запрос на создание выплаты
+     *
+     * @param array|CreatePayoutRequestInterface $payoutData Запрос на создание выплаты
      * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @throws ApiException Неожиданный код ошибки
@@ -1055,26 +1006,16 @@ class Client extends BaseClient
      * @throws UnauthorizedException Неверное имя пользователя или пароль или невалидный OAuth-токен при аутентификации
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
-     *
-     * @example 01-client.php 376 26 Запрос на создание выплаты
      */
-    public function createPayout(array|CreatePayoutRequestInterface $payout, ?string $idempotenceKey = null): ?CreatePayoutResponse
+    public function createPayout(array|CreatePayoutRequestInterface $payoutData, ?string $idempotenceKey = null): ?CreatePayoutResponse
     {
         $path = self::PAYOUTS_PATH;
 
-        $headers = [];
-
-        if ($idempotenceKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotenceKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-        if (is_array($payout)) {
-            $payout = CreatePayoutRequest::builder()->build($payout);
-        }
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($payoutData) ? CreatePayoutRequest::builder()->build($payoutData) : $payoutData;
 
         $serializer = new CreatePayoutRequestSerializer();
-        $serializedData = $serializer->serialize($payout);
+        $serializedData = $serializer->serialize($request);
         $httpBody = $this->encodeData($serializedData);
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
@@ -1194,8 +1135,8 @@ class Client extends BaseClient
      *
      * @example 01-client.php 416 17 Запрос на создание персональных данных
      *
-     * @param array|CreatePersonalDataRequestInterface $request Запрос на создание персональных данных
-     * @param null|string $idempotencyKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
+     * @param array|AbstractPersonalDataRequest $personalData Запрос на создание персональных данных
+     * @param null|string $idempotenceKey [Ключ идемпотентности](https://yookassa.ru/developers/using-api/basics?lang=php#idempotence)
      *
      * @return null|PersonalDataResponse Объект персональных данных
      *
@@ -1210,24 +1151,16 @@ class Client extends BaseClient
      * @throws ExtensionNotFoundException Требуемое PHP расширение не установлено
      * @throws Exception
      */
-    public function createPersonalData(array|CreatePersonalDataRequestInterface $request, ?string $idempotencyKey = null): ?PersonalDataResponse
+    public function createPersonalData(array|AbstractPersonalDataRequest $personalData, ?string $idempotenceKey = null): ?PersonalDataResponse
     {
         $path = self::PERSONAL_DATA_PATH;
 
-        $headers = [];
-
-        if ($idempotencyKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotencyKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($personalData) ? (new RecipientPersonalDataRequestFactory)->factoryFromArray($personalData) : $personalData;
+        if (!$request->validate()) {
+            throw new InvalidRequestException($request);
         }
-        if (is_array($request)) {
-            $request = CreatePersonalDataRequest::builder()->build($request);
-        }
-
-        $serializer = new CreatePersonalDataRequestSerializer();
-        $serializedData = $serializer->serialize($request);
-        $httpBody = $this->encodeData($serializedData);
+        $httpBody = $this->encodeData($request->toArray());
 
         $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
 
@@ -1353,14 +1286,7 @@ class Client extends BaseClient
     {
         $path = self::SELF_EMPLOYED_PATH;
 
-        $headers = [];
-
-        if ($idempotenceKey) {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = $idempotenceKey;
-        } else {
-            $headers[self::IDEMPOTENCY_KEY_HEADER] = UUID::v4();
-        }
-
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
         $request = is_array($selfEmployed) ? SelfEmployedRequest::builder()->build($selfEmployed) : $selfEmployed;
 
         $serializer = new SelfEmployedRequestSerializer();
@@ -1421,5 +1347,207 @@ class Client extends BaseClient
         }
 
         return $result;
+    }
+
+    /**
+     * Создание счета.
+     *
+     * Используйте этот запрос, чтобы создать в ЮKassa [объект счета](https://yookassa.ru/developers/api?codeLang=bash#create_invoice).
+     *
+     * @example 01-client.php 484 69 Запрос на создание счёта
+     *
+     * @param array|CreateInvoiceRequestInterface $invoice
+     * @param string|null $idempotenceKey
+     *
+     * @return InvoiceInterface|null
+     * @throws ApiConnectionException
+     * @throws ApiException
+     * @throws AuthorizeException
+     * @throws BadApiRequestException
+     * @throws ExtensionNotFoundException
+     * @throws ForbiddenException
+     * @throws InternalServerError
+     * @throws NotFoundException
+     * @throws ResponseProcessingException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
+     * @throws JsonException
+     */
+    public function createInvoice(array|CreateInvoiceRequestInterface $invoice, ?string $idempotenceKey = null): ?InvoiceInterface
+    {
+        $path = self::INVOICES_PATH;
+
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($invoice) ? CreateInvoiceRequest::builder()->build($invoice) : $invoice;
+
+        $serializer = new CreateInvoiceRequestSerializer();
+        $serializedData = $serializer->serialize($request);
+        $httpBody = $this->encodeData($serializedData);
+
+        $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
+
+        $result = null;
+        if (200 === $response->getCode()) {
+            $resultArray = $this->decodeData($response);
+            $result = new InvoiceResponse($resultArray);
+        } else {
+            $this->handleError($response);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Получить информацию о счете
+     *
+     * С помощью этого запроса вы можете получить информацию о текущем статусе счета по его уникальному идентификатору.
+     *
+     * @example 01-client.php 555 14 Получить информацию о счете
+     *
+     * @param string $invoiceId Идентификатор счета
+     *
+     * @return InvoiceInterface|null
+     * @throws ApiConnectionException
+     * @throws ApiException
+     * @throws AuthorizeException
+     * @throws BadApiRequestException
+     * @throws ExtensionNotFoundException
+     * @throws ForbiddenException
+     * @throws InternalServerError
+     * @throws JsonException
+     * @throws NotFoundException
+     * @throws ResponseProcessingException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
+     */
+    public function getInvoiceInfo(string $invoiceId): ?InvoiceInterface
+    {
+        if (!TypeCast::canCastToString($invoiceId)) {
+            throw new InvalidArgumentException('Invalid invoiceId value: string required');
+        }
+        if (mb_strlen($invoiceId) < InvoiceInterface::MIN_LENGTH_ID || mb_strlen($invoiceId) > InvoiceInterface::MAX_LENGTH_ID) {
+            throw new InvalidArgumentException('Invalid invoiceId value');
+        }
+
+        $path = self::INVOICES_PATH . '/' . $invoiceId;
+
+        $response = $this->execute($path, HttpVerb::GET, []);
+
+        $result = null;
+        if (200 === $response->getCode()) {
+            $resultArray = $this->decodeData($response);
+            $result = new InvoiceResponse($resultArray);
+        } else {
+            $this->handleError($response);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Создание способа оплаты.
+     *
+     * Используйте этот запрос, чтобы создать в ЮKassa [объект способа оплаты](https://yookassa.ru/developers/api#create_payment_method).
+     * В запросе необходимо передать код способа оплаты, который вы хотите сохранить, и при необходимости дополнительные параметры, связанные с той функциональностью, которую вы хотите использовать.
+     *
+     * Идентификатор созданного способа оплаты вы можете использовать при проведении [автоплатежей](/developers/payment-acceptance/scenario-extensions/recurring-payments/create-recurring) или [выплат](/developers/payouts/scenario-extensions/multipurpose-token).
+     *
+     * @example 01-client.php 568 34 Запрос на создание способа оплаты
+     *
+     * @param array|CreatePaymentMethodRequestInterface $paymentMethod
+     * @param string|null $idempotenceKey
+     *
+     * @return SavePaymentMethodInterface|null
+     * @throws ApiConnectionException
+     * @throws ApiException
+     * @throws AuthorizeException
+     * @throws BadApiRequestException
+     * @throws ExtensionNotFoundException
+     * @throws ForbiddenException
+     * @throws InternalServerError
+     * @throws NotFoundException
+     * @throws ResponseProcessingException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
+     * @throws JsonException
+     *
+     */
+    public function createPaymentMethod(array|CreatePaymentMethodRequestInterface $paymentMethod, ?string $idempotenceKey = null): ?SavePaymentMethodInterface
+    {
+        $path = self::PAYMENT_METHODS_PATH;
+
+        $headers = [self::IDEMPOTENCE_KEY_HEADER => $idempotenceKey ?: UUID::v4()];
+        $request = is_array($paymentMethod) ? CreatePaymentMethodRequest::builder()->build($paymentMethod) : $paymentMethod;
+
+        $serializer = new CreatePaymentMethodRequestSerializer();
+        $serializedData = $serializer->serialize($request);
+        $httpBody = $this->encodeData($serializedData);
+
+        $response = $this->execute($path, HttpVerb::POST, [], $httpBody, $headers);
+
+        $result = null;
+        if (200 === $response->getCode()) {
+            $resultArray = $this->decodeData($response);
+            $result = new PaymentMethodResponse($resultArray);
+        } else {
+            $this->handleError($response);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Получить информацию о способе оплаты
+     *
+     * Используйте этот запрос, чтобы получить информацию о текущем состоянии способа оплаты по его уникальному идентификатору.
+     *
+     * @param string $paymentMethodId Идентификатор способа оплаты
+     *
+     * @example 01-client.php 604 10 Получить информацию о способе оплаты
+     *
+     * @return SavePaymentMethodInterface|null
+     * @throws ApiConnectionException
+     * @throws ApiException
+     * @throws AuthorizeException
+     * @throws BadApiRequestException
+     * @throws ExtensionNotFoundException
+     * @throws ForbiddenException
+     * @throws InternalServerError
+     * @throws JsonException
+     * @throws NotFoundException
+     * @throws ResponseProcessingException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
+     *
+     */
+    public function getPaymentMethodInfo(string $paymentMethodId): ?SavePaymentMethodInterface
+    {
+        $path = self::PAYMENT_METHODS_PATH . '/' . $paymentMethodId;
+
+        $response = $this->execute($path, HttpVerb::GET, []);
+
+        $result = null;
+        if (200 === $response->getCode()) {
+            $resultArray = $this->decodeData($response);
+            $result = new PaymentMethodResponse($resultArray);
+        } else {
+            $this->handleError($response);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Добавляет в metadata метку cms_name, если она не была установлена
+     *
+     * @param array $requestArray
+     * @return array
+     */
+    private function addDefaultCmsName(array $requestArray): array
+    {
+        $defaultMetadata = ['cms_name' => 'yookassa_sdk_php_3'];
+        $requestArray['metadata'] = array_merge($defaultMetadata, $requestArray['metadata'] ?? []);
+
+        return $requestArray;
     }
 }

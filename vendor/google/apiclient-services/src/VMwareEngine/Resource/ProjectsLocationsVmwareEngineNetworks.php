@@ -66,6 +66,7 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * Ends with a non-hyphen character * Not formatted as a UUID * Complies with
    * [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5)
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, VmwareEngineNetwork $postBody, $optParams = [])
   {
@@ -102,6 +103,7 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * commitments. The request ID must be a valid UUID with the exception that zero
    * UUID is not supported (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -121,6 +123,7 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * `projects/my-project/locations/global/vmwareEngineNetworks/my-network`
    * @param array $optParams Optional parameters.
    * @return VmwareEngineNetwork
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -161,6 +164,7 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * page. When paginating, all other parameters provided to
    * `ListVmwareEngineNetworks` must match the call that provided the page token.
    * @return ListVmwareEngineNetworksResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVmwareEngineNetworks($parent, $optParams = [])
   {
@@ -173,10 +177,11 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * updated: `description`. Only fields specified in `updateMask` are applied.
    * (vmwareEngineNetworks.patch)
    *
-   * @param string $name Output only. The resource name of the VMware Engine
-   * network. Resource names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. For example:
-   * `projects/my-project/locations/global/vmwareEngineNetworks/my-network`
+   * @param string $name Output only. Identifier. The resource name of the VMware
+   * Engine network. Resource names are schemeless URIs that follow the
+   * conventions in https://cloud.google.com/apis/design/resource_names. For
+   * example: `projects/my-project/locations/global/vmwareEngineNetworks/my-
+   * network`
    * @param VmwareEngineNetwork $postBody
    * @param array $optParams Optional parameters.
    *
@@ -198,6 +203,7 @@ class ProjectsLocationsVmwareEngineNetworks extends \Google\Service\Resource
    * user does not provide a mask then all fields will be overwritten. Only the
    * following fields can be updated: `description`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, VmwareEngineNetwork $postBody, $optParams = [])
   {

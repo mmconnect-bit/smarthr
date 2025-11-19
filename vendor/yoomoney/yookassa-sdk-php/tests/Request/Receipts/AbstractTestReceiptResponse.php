@@ -1,10 +1,36 @@
 <?php
 
+/*
+* The MIT License
+*
+* Copyright (c) 2025 "YooMoney", NBСO LLC
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+*/
+
 namespace Tests\YooKassa\Request\Receipts;
 
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
+use Exception;
+use ReflectionException;
+use Tests\YooKassa\AbstractTestCase;
 use TypeError;
+use YooKassa\Common\ListObject;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\IndustryDetails;
@@ -17,12 +43,17 @@ use YooKassa\Request\Receipts\ReceiptResponseInterface;
 use YooKassa\Request\Receipts\ReceiptResponseItem;
 use YooKassa\Request\Receipts\ReceiptResponseItemInterface;
 use YooKassa\Validator\Exceptions\EmptyPropertyValueException;
-use YooKassa\Validator\Exceptions\InvalidPropertyValueException;
-use YooKassa\Validator\Exceptions\InvalidPropertyValueTypeException;
 
-abstract class AbstractTestReceiptResponse extends TestCase
+/**
+ * AbstractTestReceiptResponse
+ *
+ * @category    ClassTest
+ * @author      cms@yoomoney.ru
+ * @link        https://yookassa.ru/developers/api
+ */
+abstract class AbstractTestReceiptResponse extends AbstractTestCase
 {
-    protected string $type;
+    protected string $type = 'simple';
 
     protected bool $valid = true;
 
@@ -127,7 +158,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         }
     }
 
-    public function validDataProvider()
+    public function validDataProvider(): array
     {
         date_default_timezone_set('UTC');
         $this->valid = true;
@@ -139,7 +170,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $receipts;
     }
 
-    public function invalidDataProvider()
+    public function invalidDataProvider(): array
     {
         $this->valid = false;
         $receipts = [];
@@ -150,7 +181,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $receipts;
     }
 
-    public function invalidAllDataProvider()
+    public function invalidAllDataProvider(): array
     {
         return [
             [[new ProductCode()]],
@@ -162,7 +193,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         ];
     }
 
-    public function invalidBoolDataProvider()
+    public function invalidBoolDataProvider(): array
     {
         return [
             [true],
@@ -170,14 +201,14 @@ abstract class AbstractTestReceiptResponse extends TestCase
         ];
     }
 
-    public function invalidBoolNullDataProvider()
+    public function invalidBoolNullDataProvider(): array
     {
         return [
             [new \stdClass()],
         ];
     }
 
-    public function invalidSettlementsDataProvider()
+    public function invalidSettlementsDataProvider(): array
     {
         return [
             [[[]], EmptyPropertyValueException::class],
@@ -185,7 +216,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         ];
     }
 
-    public function invalidItemsDataProvider()
+    public function invalidItemsDataProvider(): array
     {
         return [
             [[[]], EmptyPropertyValueException::class],
@@ -193,7 +224,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         ];
     }
 
-    public function invalidFromArray()
+    public function invalidFromArray(): array
     {
         return [
             [
@@ -227,15 +258,15 @@ abstract class AbstractTestReceiptResponse extends TestCase
     /**
      * @param mixed $options
      */
-    abstract protected function getTestInstance($options): ReceiptResponseInterface;
+    abstract protected function getTestInstance(mixed $options): ReceiptResponseInterface;
 
     /**
      * @param mixed $i
      * @param mixed $options
      */
-    abstract protected function addSpecificProperties($options, $i): array;
+    abstract protected function addSpecificProperties(mixed $options, mixed $i): array;
 
-    private function generateReceipts($type, $valid)
+    private function generateReceipts($type, $valid): array
     {
         $this->valid = $valid;
         $return = [];
@@ -248,7 +279,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $return;
     }
 
-    private function generateReceipt($type, $index)
+    private function generateReceipt($type, $index): array
     {
         $receipt = [
             'id' => Random::str(39),
@@ -262,6 +293,9 @@ abstract class AbstractTestReceiptResponse extends TestCase
             'items' => $this->generateItems(),
             'settlements' => $this->generateSettlements(),
             'tax_system_code' => Random::int(1, 6),
+            'send' => true,
+            'internet' => true,
+            'timezone' => Random::int(1, 11),
             'receipt_industry_details' => [
                 [
                     'federal_id' => Random::value([
@@ -285,7 +319,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $this->addSpecificProperties($receipt, $index);
     }
 
-    private function generateItems()
+    private function generateItems(): array
     {
         $return = [];
         $count = Random::int(1, 10);
@@ -297,7 +331,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $return;
     }
 
-    private function generateItem()
+    private function generateItem(): array
     {
         $item = [
             'description' => Random::str(1, 128),
@@ -333,7 +367,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $item;
     }
 
-    private function generateSettlements()
+    private function generateSettlements(): array
     {
         $return = [];
         $count = Random::int(1, 10);
@@ -345,7 +379,7 @@ abstract class AbstractTestReceiptResponse extends TestCase
         return $return;
     }
 
-    private function generateSettlement()
+    private function generateSettlement(): array
     {
         return [
             'type' => Random::value(SettlementType::getValidValues()),
@@ -358,4 +392,128 @@ abstract class AbstractTestReceiptResponse extends TestCase
             'vat_code' => Random::int(1, 6),
         ];
     }
+
+    /**
+     * Test property "internet"
+     * @dataProvider validInternetDataProvider
+     * @param mixed $value
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testInternet(mixed $value): void
+    {
+        $instance = $this->getTestInstance([]);
+        self::assertEmpty($instance->getInternet());
+        self::assertEmpty($instance->internet);
+        $instance->setInternet($value);
+        self::assertEquals($value, $instance->getInternet());
+        self::assertEquals($value, $instance->internet);
+        if (!empty($value)) {
+            self::assertNotNull($instance->getInternet());
+            self::assertNotNull($instance->internet);
+            self::assertIsBool($instance->getInternet());
+            self::assertIsBool($instance->internet);
+        }
+    }
+
+    /**
+     * Test invalid property "internet"
+     * @dataProvider invalidInternetDataProvider
+     * @param mixed $value
+     * @param string $exceptionClass
+     *
+     * @return void
+     */
+    public function testInvalidInternet(mixed $value, string $exceptionClass): void
+    {
+        $instance = $this->getTestInstance([]);
+
+        $this->expectException($exceptionClass);
+        $instance->setInternet($value);
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function validInternetDataProvider(): array
+    {
+        $instance = $this->getTestInstance([]);
+        return $this->getValidDataProviderByType($instance->getValidator()->getRulesByPropName('_internet'));
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function invalidInternetDataProvider(): array
+    {
+        $instance = $this->getTestInstance([]);
+        return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_internet'));
+    }
+
+    /**
+     * Test property "timezone"
+     * @dataProvider validTimezoneDataProvider
+     * @param mixed $value
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testTimezone(mixed $value): void
+    {
+        $instance = $this->getTestInstance([]);
+        self::assertEmpty($instance->getTimezone());
+        self::assertEmpty($instance->timezone);
+        $instance->setTimezone($value);
+        self::assertEquals($value, $instance->getTimezone());
+        self::assertEquals($value, $instance->timezone);
+        if (!empty($value)) {
+            self::assertNotNull($instance->getTimezone());
+            self::assertNotNull($instance->timezone);
+            self::assertLessThanOrEqual(11, is_string($instance->getTimezone()) ? mb_strlen($instance->getTimezone()) : $instance->getTimezone());
+            self::assertLessThanOrEqual(11, is_string($instance->timezone) ? mb_strlen($instance->timezone) : $instance->timezone);
+            self::assertGreaterThanOrEqual(1, is_string($instance->getTimezone()) ? mb_strlen($instance->getTimezone()) : $instance->getTimezone());
+            self::assertGreaterThanOrEqual(1, is_string($instance->timezone) ? mb_strlen($instance->timezone) : $instance->timezone);
+            self::assertIsNumeric($instance->getTimezone());
+            self::assertIsNumeric($instance->timezone);
+        }
+    }
+
+    /**
+     * Test invalid property "timezone"
+     * @dataProvider invalidTimezoneDataProvider
+     * @param mixed $value
+     * @param string $exceptionClass
+     *
+     * @return void
+     */
+    public function testInvalidTimezone(mixed $value, string $exceptionClass): void
+    {
+        $instance = $this->getTestInstance([]);
+
+        $this->expectException($exceptionClass);
+        $instance->setTimezone($value);
+    }
+
+    /**
+     * @return array[]
+     * @throws ReflectionException
+     */
+    public function validTimezoneDataProvider(): array
+    {
+        $instance = $this->getTestInstance([]);
+        return $this->getValidDataProviderByType($instance->getValidator()->getRulesByPropName('_timezone'));
+    }
+
+    /**
+     * @return array[]
+     */
+    public function invalidTimezoneDataProvider(): array
+    {
+        $instance = $this->getTestInstance([]);
+        return $this->getInvalidDataProviderByType($instance->getValidator()->getRulesByPropName('_timezone'));
+    }
+
 }

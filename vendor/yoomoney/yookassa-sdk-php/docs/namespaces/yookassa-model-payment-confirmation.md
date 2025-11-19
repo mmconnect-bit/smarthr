@@ -9,7 +9,7 @@
 | Name | Summary |
 | ---- | ------- |
 | [\YooKassa\Model\Payment\Confirmation\AbstractConfirmation](../classes/YooKassa-Model-Payment-Confirmation-AbstractConfirmation.md) | Класс, представляющий модель AbstractConfirmation. |
-| [\YooKassa\Model\Payment\Confirmation\ConfirmationCodeVerification](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationCodeVerification.md) | Класс, представляющий модель ConfirmationEmbedded. |
+| [\YooKassa\Model\Payment\Confirmation\ConfirmationCodeVerification](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationCodeVerification.md) | Класс, представляющий модель ConfirmationCodeVerification. |
 | [\YooKassa\Model\Payment\Confirmation\ConfirmationEmbedded](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationEmbedded.md) | Класс, представляющий модель ConfirmationEmbedded. |
 | [\YooKassa\Model\Payment\Confirmation\ConfirmationExternal](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationExternal.md) | Класс, представляющий модель ConfirmationExternal. |
 | [\YooKassa\Model\Payment\Confirmation\ConfirmationFactory](../classes/YooKassa-Model-Payment-Confirmation-ConfirmationFactory.md) | Класс, представляющий фабрику ConfirmationFactory. |
@@ -28,10 +28,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

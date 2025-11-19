@@ -35,9 +35,6 @@ use Google\Client;
  */
 class SmartDeviceManagement extends \Google\Service
 {
-  /** See, edit, configure, and delete your Google Cloud data and see the email address for your Google Account.. */
-  const CLOUD_PLATFORM =
-      "https://www.googleapis.com/auth/cloud-platform";
   /** See and/or control the devices that you selected. */
   const SDM_SERVICE =
       "https://www.googleapis.com/auth/sdm.service";
@@ -45,6 +42,7 @@ class SmartDeviceManagement extends \Google\Service
   public $enterprises_devices;
   public $enterprises_structures;
   public $enterprises_structures_rooms;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the SmartDeviceManagement
@@ -58,6 +56,7 @@ class SmartDeviceManagement extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://smartdevicemanagement.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://smartdevicemanagement.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';

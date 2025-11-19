@@ -36,7 +36,10 @@ class Operations extends \Google\Service\Resource
    * @param string $project The project ID for this request.
    * @param string $operation The name of the operation for this request.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool header.bypassBillingFilter
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($project, $operation, $optParams = [])
   {
@@ -99,6 +102,7 @@ class Operations extends \Google\Service\Resource
    * the `nextPageToken` returned by a previous list request to get the next page
    * of results.
    * @return OperationsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listOperations($project, $optParams = [])
   {

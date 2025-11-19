@@ -51,6 +51,7 @@ class ServiceNetworking extends \Google\Service
   public $services_projects_global_networks_dnsZones;
   public $services_projects_global_networks_peeredDnsDomains;
   public $services_roles;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the ServiceNetworking service.
@@ -63,6 +64,7 @@ class ServiceNetworking extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://servicenetworking.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://servicenetworking.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -124,6 +126,10 @@ class ServiceNetworking extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],
@@ -384,6 +390,16 @@ class ServiceNetworking extends \Google\Service
                 'includeUsedIpRanges' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],'getVpcServiceControls' => [
+              'path' => 'v1/{+name}/vpcServiceControls',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'updateConsumerConfig' => [

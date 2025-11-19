@@ -18,6 +18,8 @@
 namespace Google\Service\Assuredworkloads\Resource;
 
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1AnalyzeWorkloadMoveResponse;
+use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse;
+use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1EnableResourceMonitoringResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1ListWorkloadsResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest;
@@ -52,10 +54,9 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * @opt_param string assetTypes Optional. List of asset types to be analyzed,
    * including and under the source resource. If empty, all assets are analyzed.
    * The complete list of asset types is available
-   * [here](https://cloud.google.com/asset-inventory/docs/supported-asset-
-   * types#searchable_asset_types).
+   * [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types).
    * @opt_param int pageSize Optional. Page size. If a value is not specified, the
-   * default value of 10 is used.
+   * default value of 10 is used. The maximum value is 50.
    * @opt_param string pageToken Optional. The page token from the previous
    * response. It needs to be passed in the second and following requests.
    * @opt_param string project The source type is a project. Specify the project's
@@ -64,6 +65,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * "projects/951040570662" when specifying a project number, or "projects/my-
    * project-123" when specifying a project ID.
    * @return GoogleCloudAssuredworkloadsV1AnalyzeWorkloadMoveResponse
+   * @throws \Google\Service\Exception
    */
   public function analyzeWorkloadMove($target, $optParams = [])
   {
@@ -84,6 +86,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * costs for a workload. The value provided for the identifier will add a label
    * to the workload and contained projects with the identifier as the value.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudAssuredworkloadsV1Workload $postBody, $optParams = [])
   {
@@ -106,12 +109,52 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * @opt_param string etag Optional. The etag of the workload. If this is
    * provided, it must match the server's etag.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * This endpoint enables Assured Workloads service to offer compliance updates
+   * for the folder based assured workload. It sets up an Assured Workloads
+   * Service Agent, having permissions to read compliance controls (for example:
+   * Org Policies) applied on the workload. The caller must have
+   * `resourcemanager.folders.getIamPolicy` and
+   * `resourcemanager.folders.setIamPolicy` permissions on the assured workload
+   * folder. (workloads.enableComplianceUpdates)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * workload. Format:
+   * organizations/{org_id}/locations/{location_id}/workloads/{workload_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function enableComplianceUpdates($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('enableComplianceUpdates', [$params], GoogleCloudAssuredworkloadsV1EnableComplianceUpdatesResponse::class);
+  }
+  /**
+   * Enable resource violation monitoring for a workload.
+   * (workloads.enableResourceMonitoring)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * workload. Format:
+   * organizations/{org_id}/locations/{location_id}/workloads/{workload_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAssuredworkloadsV1EnableResourceMonitoringResponse
+   * @throws \Google\Service\Exception
+   */
+  public function enableResourceMonitoring($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('enableResourceMonitoring', [$params], GoogleCloudAssuredworkloadsV1EnableResourceMonitoringResponse::class);
   }
   /**
    * Gets Assured Workload associated with a CRM Node (workloads.get)
@@ -122,6 +165,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * example, "organizations/123/locations/us-east1/workloads/assured-workload-1".
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAssuredworkloadsV1Workload
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -144,6 +188,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * token contains context from previous request. Page token needs to be passed
    * in the second and following requests.
    * @return GoogleCloudAssuredworkloadsV1ListWorkloadsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsLocationsWorkloads($parent, $optParams = [])
   {
@@ -162,6 +207,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * @param GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAssuredworkloadsV1Workload
+   * @throws \Google\Service\Exception
    */
   public function mutatePartnerPermissions($name, GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest $postBody, $optParams = [])
   {
@@ -183,6 +229,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return GoogleCloudAssuredworkloadsV1Workload
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudAssuredworkloadsV1Workload $postBody, $optParams = [])
   {
@@ -205,6 +252,7 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * @param GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function restrictAllowedResources($name, GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest $postBody, $optParams = [])
   {

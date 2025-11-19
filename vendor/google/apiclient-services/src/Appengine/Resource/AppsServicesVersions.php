@@ -34,12 +34,13 @@ class AppsServicesVersions extends \Google\Service\Resource
   /**
    * Deploys code and resource files to a new version. (versions.create)
    *
-   * @param string $appsId Part of `parent`. Name of the parent resource to create
-   * this version under. Example: apps/myapp/services/default.
+   * @param string $appsId Part of `parent`. Required. Name of the parent resource
+   * to create this version under. Example: apps/myapp/services/default.
    * @param string $servicesId Part of `parent`. See documentation of `appsId`.
    * @param Version $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($appsId, $servicesId, Version $postBody, $optParams = [])
   {
@@ -50,12 +51,13 @@ class AppsServicesVersions extends \Google\Service\Resource
   /**
    * Deletes an existing Version resource. (versions.delete)
    *
-   * @param string $appsId Part of `name`. Name of the resource requested.
-   * Example: apps/myapp/services/default/versions/v1.
+   * @param string $appsId Part of `name`. Required. Name of the resource
+   * requested. Example: apps/myapp/services/default/versions/v1.
    * @param string $servicesId Part of `name`. See documentation of `appsId`.
    * @param string $versionsId Part of `name`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($appsId, $servicesId, $versionsId, $optParams = [])
   {
@@ -68,8 +70,8 @@ class AppsServicesVersions extends \Google\Service\Resource
    * returned. Specify the FULL_VIEW parameter to get the full resource.
    * (versions.get)
    *
-   * @param string $appsId Part of `name`. Name of the resource requested.
-   * Example: apps/myapp/services/default/versions/v1.
+   * @param string $appsId Part of `name`. Required. Name of the resource
+   * requested. Example: apps/myapp/services/default/versions/v1.
    * @param string $servicesId Part of `name`. See documentation of `appsId`.
    * @param string $versionsId Part of `name`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
@@ -77,6 +79,7 @@ class AppsServicesVersions extends \Google\Service\Resource
    * @opt_param string view Controls the set of fields returned in the Get
    * response.
    * @return Version
+   * @throws \Google\Service\Exception
    */
   public function get($appsId, $servicesId, $versionsId, $optParams = [])
   {
@@ -87,8 +90,8 @@ class AppsServicesVersions extends \Google\Service\Resource
   /**
    * Lists the versions of a service. (versions.listAppsServicesVersions)
    *
-   * @param string $appsId Part of `parent`. Name of the parent Service resource.
-   * Example: apps/myapp/services/default.
+   * @param string $appsId Part of `parent`. Required. Name of the parent Service
+   * resource. Example: apps/myapp/services/default.
    * @param string $servicesId Part of `parent`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
    *
@@ -98,6 +101,7 @@ class AppsServicesVersions extends \Google\Service\Resource
    * @opt_param string view Controls the set of fields returned in the List
    * response.
    * @return ListVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAppsServicesVersions($appsId, $servicesId, $optParams = [])
   {
@@ -153,8 +157,8 @@ class AppsServicesVersions extends \Google\Service\Resource
    * (https://cloud.google.com/appengine/docs/admin-
    * api/reference/rest/v1/apps.services.versions#manualscaling) (versions.patch)
    *
-   * @param string $appsId Part of `name`. Name of the resource to update.
-   * Example: apps/myapp/services/default/versions/1.
+   * @param string $appsId Part of `name`. Required. Name of the resource to
+   * update. Example: apps/myapp/services/default/versions/1.
    * @param string $servicesId Part of `name`. See documentation of `appsId`.
    * @param string $versionsId Part of `name`. See documentation of `appsId`.
    * @param Version $postBody
@@ -163,6 +167,7 @@ class AppsServicesVersions extends \Google\Service\Resource
    * @opt_param string updateMask Standard field mask for the set of fields to be
    * updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($appsId, $servicesId, $versionsId, Version $postBody, $optParams = [])
   {

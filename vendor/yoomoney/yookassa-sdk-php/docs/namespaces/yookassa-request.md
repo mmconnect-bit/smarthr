@@ -7,6 +7,8 @@
 ### Namespaces
 
 * [\YooKassa\Request\Deals](../namespaces/yookassa-request-deals.md)
+* [\YooKassa\Request\Invoices](../namespaces/yookassa-request-invoices.md)
+* [\YooKassa\Request\PaymentMethods](../namespaces/yookassa-request-paymentmethods.md)
 * [\YooKassa\Request\Payments](../namespaces/yookassa-request-payments.md)
 * [\YooKassa\Request\Payouts](../namespaces/yookassa-request-payouts.md)
 * [\YooKassa\Request\PersonalData](../namespaces/yookassa-request-personaldata.md)
@@ -32,10 +34,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

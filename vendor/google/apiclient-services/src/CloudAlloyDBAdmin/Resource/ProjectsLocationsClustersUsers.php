@@ -40,19 +40,20 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    *
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string userId Required. ID of the requesting object.
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function create($parent, User $postBody, $optParams = [])
   {
@@ -69,18 +70,19 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    *
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes after the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return AlloydbEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -95,6 +97,7 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    * format, see the comment on the User.name field.
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -117,6 +120,7 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A token identifying a page of results
    * the server should return.
    * @return ListUsersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsClustersUsers($parent, $optParams = [])
   {
@@ -136,14 +140,14 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    * mask.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string updateMask Optional. Field mask is used to specify the
    * fields to be overwritten in the User resource by the update. The fields
@@ -153,6 +157,7 @@ class ProjectsLocationsClustersUsers extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function patch($name, User $postBody, $optParams = [])
   {

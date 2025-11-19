@@ -30,7 +30,7 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListAnnotationsResponse;
 class ProjectsLocationsDatasetsDataItemsAnnotations extends \Google\Service\Resource
 {
   /**
-   * Lists Annotations belongs to a dataitem
+   * Lists Annotations belongs to a dataitem.
    * (annotations.listProjectsLocationsDatasetsDataItemsAnnotations)
    *
    * @param string $parent Required. The resource name of the DataItem to list
@@ -45,6 +45,7 @@ class ProjectsLocationsDatasetsDataItemsAnnotations extends \Google\Service\Reso
    * @opt_param string pageToken The standard list page token.
    * @opt_param string readMask Mask specifying which fields to read.
    * @return GoogleCloudAiplatformV1ListAnnotationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDatasetsDataItemsAnnotations($parent, $optParams = [])
   {

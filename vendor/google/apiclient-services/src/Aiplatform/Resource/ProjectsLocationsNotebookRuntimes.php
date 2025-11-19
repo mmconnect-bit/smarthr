@@ -21,6 +21,8 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1AssignNotebookRuntimeReques
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListNotebookRuntimesResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1NotebookRuntime;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1StartNotebookRuntimeRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1StopNotebookRuntimeRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1UpgradeNotebookRuntimeRequest;
 use Google\Service\Aiplatform\GoogleLongrunningOperation;
 
 /**
@@ -43,6 +45,7 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * @param GoogleCloudAiplatformV1AssignNotebookRuntimeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function assign($parent, GoogleCloudAiplatformV1AssignNotebookRuntimeRequest $postBody, $optParams = [])
   {
@@ -59,6 +62,7 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * NotebookRuntime in spanner.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +79,7 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * NotebookRuntime in spanner.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1NotebookRuntime
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -102,18 +107,20 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * healthState enum: [HEALTHY, UNHEALTHY, HEALTH_STATE_UNSPECIFIED]. *
    * `runtimeState` supports = and !=. runtimeState enum:
    * [RUNTIME_STATE_UNSPECIFIED, RUNNING, BEING_STARTED, BEING_STOPPED, STOPPED,
-   * BEING_UPGRADED]. * `runtimeUser` supports = and !=. * API version is UI only:
-   * `uiState` supports = and !=. uiState enum: [UI_RESOURCE_STATE_UNSPECIFIED,
-   * UI_RESOURCE_STATE_BEING_CREATED, UI_RESOURCE_STATE_ACTIVE,
-   * UI_RESOURCE_STATE_BEING_DELETED, UI_RESOURCE_STATE_CREATION_FAILED]. *
-   * `notebookRuntimeType` supports = and !=. notebookRuntimeType enum:
-   * [USER_DEFINED, ONE_CLICK]. Some examples: *
+   * BEING_UPGRADED, ERROR, INVALID]. * `runtimeUser` supports = and !=. * API
+   * version is UI only: `uiState` supports = and !=. uiState enum:
+   * [UI_RESOURCE_STATE_UNSPECIFIED, UI_RESOURCE_STATE_BEING_CREATED,
+   * UI_RESOURCE_STATE_ACTIVE, UI_RESOURCE_STATE_BEING_DELETED,
+   * UI_RESOURCE_STATE_CREATION_FAILED]. * `notebookRuntimeType` supports = and
+   * !=. notebookRuntimeType enum: [USER_DEFINED, ONE_CLICK]. * `machineType`
+   * supports = and !=. * `acceleratorType` supports = and !=. Some examples: *
    * `notebookRuntime="notebookRuntime123"` * `displayName="myDisplayName"` and
    * `displayName=~"myDisplayNameRegex"` *
    * `notebookRuntimeTemplate="notebookRuntimeTemplate321"` *
    * `healthState=HEALTHY` * `runtimeState=RUNNING` *
    * `runtimeUser="test@google.com"` * `uiState=UI_RESOURCE_STATE_BEING_DELETED` *
-   * `notebookRuntimeType=USER_DEFINED`
+   * `notebookRuntimeType=USER_DEFINED` * `machineType=e2-standard-4` *
+   * `acceleratorType=NVIDIA_TESLA_T4`
    * @opt_param string orderBy Optional. A comma-separated list of fields to order
    * by, sorted in ascending order. Use "desc" after a field name for descending.
    * Supported fields: * `display_name` * `create_time` * `update_time` Example:
@@ -124,6 +131,7 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * NotebookService.ListNotebookRuntimes call.
    * @opt_param string readMask Optional. Mask specifying which fields to read.
    * @return GoogleCloudAiplatformV1ListNotebookRuntimesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsNotebookRuntimes($parent, $optParams = [])
   {
@@ -141,12 +149,49 @@ class ProjectsLocationsNotebookRuntimes extends \Google\Service\Resource
    * @param GoogleCloudAiplatformV1StartNotebookRuntimeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function start($name, GoogleCloudAiplatformV1StartNotebookRuntimeRequest $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('start', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Stops a NotebookRuntime. (notebookRuntimes.stop)
+   *
+   * @param string $name Required. The name of the NotebookRuntime resource to be
+   * stopped. Instead of checking whether the name is in valid NotebookRuntime
+   * resource name format, directly throw NotFound exception if there is no such
+   * NotebookRuntime in spanner.
+   * @param GoogleCloudAiplatformV1StopNotebookRuntimeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function stop($name, GoogleCloudAiplatformV1StopNotebookRuntimeRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('stop', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Upgrades a NotebookRuntime. (notebookRuntimes.upgrade)
+   *
+   * @param string $name Required. The name of the NotebookRuntime resource to be
+   * upgrade. Instead of checking whether the name is in valid NotebookRuntime
+   * resource name format, directly throw NotFound exception if there is no such
+   * NotebookRuntime in spanner.
+   * @param GoogleCloudAiplatformV1UpgradeNotebookRuntimeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function upgrade($name, GoogleCloudAiplatformV1UpgradeNotebookRuntimeRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('upgrade', [$params], GoogleLongrunningOperation::class);
   }
 }
 

@@ -21,11 +21,15 @@ class GeneratedApksPerSigningKey extends \Google\Collection
 {
   protected $collection_key = 'generatedStandaloneApks';
   /**
+   * SHA256 hash of the APK signing public key certificate.
+   *
    * @var string
    */
   public $certificateSha256Hash;
   protected $generatedAssetPackSlicesType = GeneratedAssetPackSlice::class;
   protected $generatedAssetPackSlicesDataType = 'array';
+  protected $generatedRecoveryModulesType = GeneratedRecoveryApk::class;
+  protected $generatedRecoveryModulesDataType = 'array';
   protected $generatedSplitApksType = GeneratedSplitApk::class;
   protected $generatedSplitApksDataType = 'array';
   protected $generatedStandaloneApksType = GeneratedStandaloneApk::class;
@@ -36,7 +40,9 @@ class GeneratedApksPerSigningKey extends \Google\Collection
   protected $targetingInfoDataType = '';
 
   /**
-   * @param string
+   * SHA256 hash of the APK signing public key certificate.
+   *
+   * @param string $certificateSha256Hash
    */
   public function setCertificateSha256Hash($certificateSha256Hash)
   {
@@ -50,7 +56,10 @@ class GeneratedApksPerSigningKey extends \Google\Collection
     return $this->certificateSha256Hash;
   }
   /**
-   * @param GeneratedAssetPackSlice[]
+   * List of asset pack slices which will be served for this app bundle, signed
+   * with a key corresponding to certificate_sha256_hash.
+   *
+   * @param GeneratedAssetPackSlice[] $generatedAssetPackSlices
    */
   public function setGeneratedAssetPackSlices($generatedAssetPackSlices)
   {
@@ -64,7 +73,29 @@ class GeneratedApksPerSigningKey extends \Google\Collection
     return $this->generatedAssetPackSlices;
   }
   /**
-   * @param GeneratedSplitApk[]
+   * Generated recovery apks for recovery actions signed with a key
+   * corresponding to certificate_sha256_hash. This includes all generated
+   * recovery APKs, also those in draft or cancelled state. This field is not
+   * set if no recovery actions were created for this signing key.
+   *
+   * @param GeneratedRecoveryApk[] $generatedRecoveryModules
+   */
+  public function setGeneratedRecoveryModules($generatedRecoveryModules)
+  {
+    $this->generatedRecoveryModules = $generatedRecoveryModules;
+  }
+  /**
+   * @return GeneratedRecoveryApk[]
+   */
+  public function getGeneratedRecoveryModules()
+  {
+    return $this->generatedRecoveryModules;
+  }
+  /**
+   * List of generated split APKs, signed with a key corresponding to
+   * certificate_sha256_hash.
+   *
+   * @param GeneratedSplitApk[] $generatedSplitApks
    */
   public function setGeneratedSplitApks($generatedSplitApks)
   {
@@ -78,7 +109,10 @@ class GeneratedApksPerSigningKey extends \Google\Collection
     return $this->generatedSplitApks;
   }
   /**
-   * @param GeneratedStandaloneApk[]
+   * List of generated standalone APKs, signed with a key corresponding to
+   * certificate_sha256_hash.
+   *
+   * @param GeneratedStandaloneApk[] $generatedStandaloneApks
    */
   public function setGeneratedStandaloneApks($generatedStandaloneApks)
   {
@@ -92,7 +126,11 @@ class GeneratedApksPerSigningKey extends \Google\Collection
     return $this->generatedStandaloneApks;
   }
   /**
-   * @param GeneratedUniversalApk
+   * Generated universal APK, signed with a key corresponding to
+   * certificate_sha256_hash. This field is not set if no universal APK was
+   * generated for this signing key.
+   *
+   * @param GeneratedUniversalApk $generatedUniversalApk
    */
   public function setGeneratedUniversalApk(GeneratedUniversalApk $generatedUniversalApk)
   {
@@ -106,7 +144,9 @@ class GeneratedApksPerSigningKey extends \Google\Collection
     return $this->generatedUniversalApk;
   }
   /**
-   * @param TargetingInfo
+   * Contains targeting information about the generated apks.
+   *
+   * @param TargetingInfo $targetingInfo
    */
   public function setTargetingInfo(TargetingInfo $targetingInfo)
   {

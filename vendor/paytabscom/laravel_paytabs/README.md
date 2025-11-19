@@ -7,6 +7,7 @@ This Package provides integration with the PayTabs payment gateway.
 CONTENTS OF THIS FILE
 ---------------------
 * Introduction
+* what's new
 * Requirements
 * Installation
 * Configuration
@@ -15,7 +16,7 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 This Package integrates PayTabs online payments into
-the Laravel Framework starts from version 5.8 - 8.x.
+the Laravel Framework starts from version 5.8 - 10.x.
 
 REQUIREMENTS
 ------------
@@ -28,8 +29,11 @@ INSTALLATION
 CONFIGURATION
 -------------
 * composer dump-autoload
+* For Laravel 11 go to _bootstrap/providers.php_ and add
+  
+        Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
 
-* Go to _config/app.php_ and in the providers array add
+* For Laravel 10 and below go to _config/app.php_ and in the providers array add
 
         Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
 
@@ -60,7 +64,7 @@ Usage
         use Paytabscom\Laravel_paytabs\Facades\paypage;
 
         $pay= paypage::sendPaymentCode('all')
-               ->sendTransaction('sale')
+               ->sendTransaction('sale','ecom')
                 ->sendCart(10,1000,'test')
                ->sendCustomerDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
                ->sendShippingDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
@@ -85,7 +89,8 @@ Usage
 
 * if you want to pass the payment methods you can use
 
-        ::sendPaymentCode("['creditcard','fawry']")
+        ::sendPaymentCode("creditcard, valu, forsa")
+        - separate by space between payment methods.
 
 * if you want to pass the Tokenization option you can use
 
@@ -94,7 +99,7 @@ Usage
 * if you want to make a payment via token you can use
 
         ->sendTransaction('transaction_type','recurring')
-        ->sendToken('token returned from the first payment page created with Tokenization option','transRef returned to you in the same first payment page')
+        ->sendToken('transRef returned to you in the same first payment page','token returned from the first payment page created with Tokenization option')
 
 * if you want to make a payment with user defined you can use
 
@@ -111,7 +116,7 @@ Usage
 * Auth
 
         pay= Paypage::sendPaymentCode('all')
-               ->sendTransaction('Auth')
+               ->sendTransaction('Auth','ecom')
                 ->sendCart(10,1000,'test')
                ->sendCustomerDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
                ->sendShippingDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')

@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -92,7 +92,7 @@ class Random
      *
      * @return string Строка, состоящая из рандомных символов
      */
-    public static function str(int $length, mixed $maxLength = null, array|string $characters = null): string
+    public static function str(int $length, mixed $maxLength = null, array|string|null $characters = null): string
     {
         $result = '';
         if (null !== $maxLength) {
@@ -109,7 +109,7 @@ class Random
             }
         } else {
             for ($i = 0; $i < $length; $i++) {
-                $chr = $characters[self::int(0, strlen($characters) - 1)];
+                $chr = mb_substr($characters, self::int(0, mb_strlen($characters) - 1), 1);
                 $result .= $chr;
             }
         }

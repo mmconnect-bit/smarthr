@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,7 @@ abstract class AbstractRequestBuilder
      *
      * @return AbstractRequestInterface Инстанс собранного запроса
      */
-    public function build(array $options = null): AbstractRequestInterface
+    public function build(?array $options = null): AbstractRequestInterface
     {
         if (!empty($options)) {
             $this->setOptions($options);

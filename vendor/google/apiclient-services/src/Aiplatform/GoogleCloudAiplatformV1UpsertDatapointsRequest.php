@@ -22,9 +22,21 @@ class GoogleCloudAiplatformV1UpsertDatapointsRequest extends \Google\Collection
   protected $collection_key = 'datapoints';
   protected $datapointsType = GoogleCloudAiplatformV1IndexDatapoint::class;
   protected $datapointsDataType = 'array';
+  /**
+   * Optional. Update mask is used to specify the fields to be overwritten in
+   * the datapoints by the update. The fields specified in the update_mask are
+   * relative to each IndexDatapoint inside datapoints, not the full request.
+   * Updatable fields: * Use `all_restricts` to update both restricts and
+   * numeric_restricts.
+   *
+   * @var string
+   */
+  public $updateMask;
 
   /**
-   * @param GoogleCloudAiplatformV1IndexDatapoint[]
+   * A list of datapoints to be created/updated.
+   *
+   * @param GoogleCloudAiplatformV1IndexDatapoint[] $datapoints
    */
   public function setDatapoints($datapoints)
   {
@@ -36,6 +48,26 @@ class GoogleCloudAiplatformV1UpsertDatapointsRequest extends \Google\Collection
   public function getDatapoints()
   {
     return $this->datapoints;
+  }
+  /**
+   * Optional. Update mask is used to specify the fields to be overwritten in
+   * the datapoints by the update. The fields specified in the update_mask are
+   * relative to each IndexDatapoint inside datapoints, not the full request.
+   * Updatable fields: * Use `all_restricts` to update both restricts and
+   * numeric_restricts.
+   *
+   * @param string $updateMask
+   */
+  public function setUpdateMask($updateMask)
+  {
+    $this->updateMask = $updateMask;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateMask()
+  {
+    return $this->updateMask;
   }
 }
 

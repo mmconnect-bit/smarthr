@@ -21,9 +21,15 @@ class PrivacyPolicy extends \Google\Model
 {
   protected $aggregationThresholdPolicyType = AggregationThresholdPolicy::class;
   protected $aggregationThresholdPolicyDataType = '';
+  protected $differentialPrivacyPolicyType = DifferentialPrivacyPolicy::class;
+  protected $differentialPrivacyPolicyDataType = '';
+  protected $joinRestrictionPolicyType = JoinRestrictionPolicy::class;
+  protected $joinRestrictionPolicyDataType = '';
 
   /**
-   * @param AggregationThresholdPolicy
+   * Optional. Policy used for aggregation thresholds.
+   *
+   * @param AggregationThresholdPolicy $aggregationThresholdPolicy
    */
   public function setAggregationThresholdPolicy(AggregationThresholdPolicy $aggregationThresholdPolicy)
   {
@@ -35,6 +41,41 @@ class PrivacyPolicy extends \Google\Model
   public function getAggregationThresholdPolicy()
   {
     return $this->aggregationThresholdPolicy;
+  }
+  /**
+   * Optional. Policy used for differential privacy.
+   *
+   * @param DifferentialPrivacyPolicy $differentialPrivacyPolicy
+   */
+  public function setDifferentialPrivacyPolicy(DifferentialPrivacyPolicy $differentialPrivacyPolicy)
+  {
+    $this->differentialPrivacyPolicy = $differentialPrivacyPolicy;
+  }
+  /**
+   * @return DifferentialPrivacyPolicy
+   */
+  public function getDifferentialPrivacyPolicy()
+  {
+    return $this->differentialPrivacyPolicy;
+  }
+  /**
+   * Optional. Join restriction policy is outside of the one of policies, since
+   * this policy can be set along with other policies. This policy gives data
+   * providers the ability to enforce joins on the 'join_allowed_columns' when
+   * data is queried from a privacy protected view.
+   *
+   * @param JoinRestrictionPolicy $joinRestrictionPolicy
+   */
+  public function setJoinRestrictionPolicy(JoinRestrictionPolicy $joinRestrictionPolicy)
+  {
+    $this->joinRestrictionPolicy = $joinRestrictionPolicy;
+  }
+  /**
+   * @return JoinRestrictionPolicy
+   */
+  public function getJoinRestrictionPolicy()
+  {
+    return $this->joinRestrictionPolicy;
   }
 }
 

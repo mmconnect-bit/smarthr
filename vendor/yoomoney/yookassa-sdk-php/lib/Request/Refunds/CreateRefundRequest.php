@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,8 @@ use YooKassa\Model\Receipt\Receipt;
 use YooKassa\Model\Receipt\ReceiptInterface;
 use YooKassa\Model\Refund\Source;
 use YooKassa\Model\Refund\SourceInterface;
+use YooKassa\Request\Refunds\RefundMethodData\AbstractRefundMethodData;
+use YooKassa\Request\Refunds\RefundMethodData\RefundMethodDataFactory;
 use YooKassa\Validator\Constraints as Assert;
 
 /**
@@ -50,12 +52,15 @@ use YooKassa\Validator\Constraints as Assert;
  * @author   cms@yoomoney.ru
  * @link     https://yookassa.ru/developers/api
  *
- * @property string $paymentId Айди платежа для которого создаётся возврат
+ * @property string $payment_id Идентификатор платежа для которого создаётся возврат
+ * @property string $paymentId Идентификатор платежа для которого создаётся возврат
  * @property AmountInterface $amount Сумма возврата
  * @property string $description Комментарий к операции возврата, основание для возврата средств покупателю.
  * @property null|ReceiptInterface $receipt Инстанс чека или null
  * @property null|ListObjectInterface|SourceInterface[] $sources Информация о распределении денег — сколько и в какой магазин нужно перевести
  * @property null|RefundDealData $deal Информация о сделке
+ * @property null|AbstractRefundMethodData $refund_method_data Метод возврата
+ * @property null|AbstractRefundMethodData $refundMethodData Метод возврата
  */
 class CreateRefundRequest extends AbstractRequest implements CreateRefundRequestInterface
 {
@@ -94,9 +99,9 @@ class CreateRefundRequest extends AbstractRequest implements CreateRefundRequest
      * @var SourceInterface[]|ListObjectInterface|null Информация о распределении денег
      */
     #[Assert\Valid]
-    #[Assert\Type(ListObject::class)]
     #[Assert\AllType(Source::class)]
-    private ?ListObject $_sources = null;
+    #[Assert\Type(ListObject::class)]
+    private ?ListObjectInterface $_sources = null;
 
     /**
      * @var RefundDealData|null Данные о сделке, в составе которой проходит возврат
@@ -104,6 +109,13 @@ class CreateRefundRequest extends AbstractRequest implements CreateRefundRequest
     #[Assert\Valid]
     #[Assert\Type(RefundDealData::class)]
     private ?RefundDealData $_deal = null;
+
+    /**
+     * @var AbstractRefundMethodData|null
+     */
+    #[Assert\Type(AbstractRefundMethodData::class)]
+    private ?AbstractRefundMethodData $_refund_method_data = null;
+
     /**
      * Возвращает идентификатор платежа для которого создаётся возврат средств.
      *
@@ -308,6 +320,42 @@ class CreateRefundRequest extends AbstractRequest implements CreateRefundRequest
     public function setDeal(mixed $deal = null): self
     {
         $this->_deal = $this->validatePropertyValue('_deal', $deal);
+        return $this;
+    }
+
+    /**
+     * Возвращает метод возврата.
+     *
+     * @return AbstractRefundMethodData|null Метод возврата
+     */
+    public function getRefundMethodData(): ?AbstractRefundMethodData
+    {
+        return $this->_refund_method_data;
+    }
+
+    /**
+     * Проверяет установлен ли объект с методом возврата.
+     *
+     * @return bool True если объект метода возврата установлен, false если нет
+     */
+    public function hasRefundMethodData(): bool
+    {
+        return !empty($this->_refund_method_data);
+    }
+
+    /**
+     * Устанавливает метод возврата.
+     *
+     * @param AbstractRefundMethodData|array|null $refund_method_data Метод возврата
+     *
+     * @return self
+     */
+    public function setRefundMethodData(mixed $refund_method_data = null): self
+    {
+        if (is_array($refund_method_data)) {
+            $refund_method_data = (new RefundMethodDataFactory)->factoryFromArray($refund_method_data);
+        }
+        $this->_refund_method_data = $this->validatePropertyValue('_refund_method_data', $refund_method_data);
         return $this;
     }
 

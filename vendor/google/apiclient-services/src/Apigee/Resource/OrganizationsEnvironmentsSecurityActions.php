@@ -21,6 +21,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1DisableSecurityActionRequest;
 use Google\Service\Apigee\GoogleCloudApigeeV1EnableSecurityActionRequest;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListSecurityActionsResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1SecurityAction;
+use Google\Service\Apigee\GoogleProtobufEmpty;
 
 /**
  * The "securityActions" collection of methods.
@@ -45,12 +46,29 @@ class OrganizationsEnvironmentsSecurityActions extends \Google\Service\Resource
    * resource name. This value should be 0-61 characters, and valid format is
    * (^[a-z]([a-z0-9-]{​0,61}[a-z0-9])?$).
    * @return GoogleCloudApigeeV1SecurityAction
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1SecurityAction $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('create', [$params], GoogleCloudApigeeV1SecurityAction::class);
+  }
+  /**
+   * Delete a SecurityAction. (securityActions.delete)
+   *
+   * @param string $name Required. The name of the security monitoring condition
+   * to delete. Format:
+   * `organizations/{org}/environment/{env}/securityActions/{security_action}`
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
    * Disable a SecurityAction. The `state` of the SecurityAction after disabling
@@ -64,6 +82,7 @@ class OrganizationsEnvironmentsSecurityActions extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1DisableSecurityActionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityAction
+   * @throws \Google\Service\Exception
    */
   public function disable($name, GoogleCloudApigeeV1DisableSecurityActionRequest $postBody, $optParams = [])
   {
@@ -83,6 +102,7 @@ class OrganizationsEnvironmentsSecurityActions extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1EnableSecurityActionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityAction
+   * @throws \Google\Service\Exception
    */
   public function enable($name, GoogleCloudApigeeV1EnableSecurityActionRequest $postBody, $optParams = [])
   {
@@ -98,6 +118,7 @@ class OrganizationsEnvironmentsSecurityActions extends \Google\Service\Resource
    * organizations/{org}/environments/{env}/securityActions/{security_action}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityAction
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -125,12 +146,35 @@ class OrganizationsEnvironmentsSecurityActions extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListSecurityActions` must
    * match the call that provided the page token.
    * @return GoogleCloudApigeeV1ListSecurityActionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvironmentsSecurityActions($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudApigeeV1ListSecurityActionsResponse::class);
+  }
+  /**
+   * Update a SecurityAction. (securityActions.patch)
+   *
+   * @param string $name Immutable. This field is ignored during creation as per
+   * AIP-133. Please set the `security_action_id` field in the
+   * CreateSecurityActionRequest when creating a new SecurityAction. Format:
+   * organizations/{org}/environments/{env}/securityActions/{security_action}
+   * @param GoogleCloudApigeeV1SecurityAction $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Optional. The list of fields to update. Valid
+   * fields to update are `description`, `state`, `allow`, `deny`, and `flag`,
+   * `expire_time`, and `ttl`, `api_proxies`, and `condition_config`.
+   * @return GoogleCloudApigeeV1SecurityAction
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudApigeeV1SecurityAction $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudApigeeV1SecurityAction::class);
   }
 }
 

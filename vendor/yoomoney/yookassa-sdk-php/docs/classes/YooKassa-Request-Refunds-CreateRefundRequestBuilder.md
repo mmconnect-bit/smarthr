@@ -84,6 +84,7 @@ var_dump($response);
 | public | [setReceiptEmail()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setReceiptEmail) |  | Устанавливает адрес электронной почты получателя чека. |
 | public | [setReceiptItems()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setReceiptItems) |  | Устанавливает список товаров для создания чека. |
 | public | [setReceiptPhone()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setReceiptPhone) |  | Устанавливает телефон получателя чека. |
+| public | [setRefundMethodData()](../classes/YooKassa-Request-Refunds-CreateRefundRequestBuilder.md#method_setRefundMethodData) |  | Устанавливает метод возврата. |
 | public | [setSources()](../classes/YooKassa-Request-Refunds-CreateRefundRequestBuilder.md#method_setSources) |  | Устанавливает источники возврата. |
 | public | [setTaxSystemCode()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setTaxSystemCode) |  | Устанавливает код системы налогообложения. |
 | public | [setTransfers()](../classes/YooKassa-Request-Payments-AbstractPaymentRequestBuilder.md#method_setTransfers) |  | Устанавливает трансферы. |
@@ -551,6 +552,28 @@ public setReceiptPhone(string|null $value) : self
 **Returns:** self - Инстанс билдера запросов
 
 
+<a name="method_setRefundMethodData" class="anchor"></a>
+#### public setRefundMethodData() : self
+
+```php
+public setRefundMethodData(\YooKassa\Request\Refunds\RefundMethodData\AbstractRefundMethodData|array|null $value = null) : self
+```
+
+**Summary**
+
+Устанавливает метод возврата.
+
+**Details:**
+* Inherited From: [\YooKassa\Request\Refunds\CreateRefundRequestBuilder](../classes/YooKassa-Request-Refunds-CreateRefundRequestBuilder.md)
+
+##### Parameters:
+| Type | Name | Description |
+| ---- | ---- | ----------- |
+| <code lang="php">\YooKassa\Request\Refunds\RefundMethodData\AbstractRefundMethodData OR array OR null</code> | value  |  |
+
+**Returns:** self - 
+
+
 <a name="method_setSources" class="anchor"></a>
 #### public setSources() : self
 
@@ -646,10 +669,10 @@ protected initCurrentObject() : \YooKassa\Request\Refunds\CreateRefundRequest
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

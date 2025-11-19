@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,48 @@ use YooKassa\Validator\Constraints as Assert;
  *
  * @property string $type Код сценария подтверждения
  * @property string $locale Язык интерфейса, писем и смс, которые будет видеть или получать пользователь
+ * @property string|null $return_url Адрес страницы, на которую пользователь вернется после подтверждения или отмены платежа в приложении банка.  Например, если хотите вернуть пользователя на сайт, вы можете передать URL, если в мобильное приложение — диплинк. URI должен соответствовать стандарту [RFC-3986](https://www.ietf.org/rfc/rfc3986.txt). Не более 1024 символов.  Доступно только для платежей через [СБП](https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/sbp).
+ * @property string|null $returnUrl Адрес страницы, на которую пользователь вернется после подтверждения или отмены платежа в приложении банка.  Например, если хотите вернуть пользователя на сайт, вы можете передать URL, если в мобильное приложение — диплинк. URI должен соответствовать стандарту [RFC-3986](https://www.ietf.org/rfc/rfc3986.txt). Не более 1024 символов.  Доступно только для платежей через [СБП](https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/sbp).
  */
 class ConfirmationAttributesQr extends AbstractConfirmationAttributes
 {
+    /**
+     * Адрес страницы, на которую пользователь вернется после подтверждения или отмены платежа в приложении банка.
+     *
+     * Например, если хотите вернуть пользователя на сайт, вы можете передать URL, если в мобильное приложение — диплинк.
+     * URI должен соответствовать стандарту [RFC-3986](https://www.ietf.org/rfc/rfc3986.txt).
+     * Не более 1024 символов.
+     *
+     * Доступно только для платежей через [СБП](https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/sbp).
+     *
+     * @var string|null
+     */
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 1024)]
+    private ?string $_return_url = null;
+
     public function __construct(?array $data = [])
     {
         parent::__construct($data);
         $this->setType(ConfirmationType::QR);
+    }
+
+    /**
+     * @return string|null Адрес страницы, на которую пользователь вернется после подтверждения или отмены платежа в приложении банка.
+     */
+    public function getReturnUrl(): ?string
+    {
+        return $this->_return_url;
+    }
+
+    /**
+     * @param string|null $return_url Адрес страницы, на которую пользователь вернется после подтверждения или отмены платежа в приложении банка.
+     *
+     * @return self
+     */
+    public function setReturnUrl(?string $return_url = null): self
+    {
+        $this->_return_url = $this->validatePropertyValue('_return_url', $return_url);
+        return $this;
     }
 }

@@ -17,9 +17,11 @@
 
 namespace Google\Service\MigrationCenterAPI\Resource;
 
+use Google\Service\MigrationCenterAPI\GenerateReportArtifactLinkRequest;
 use Google\Service\MigrationCenterAPI\ListReportsResponse;
 use Google\Service\MigrationCenterAPI\Operation;
 use Google\Service\MigrationCenterAPI\Report;
+use Google\Service\MigrationCenterAPI\ReportArtifactLink;
 
 /**
  * The "reports" collection of methods.
@@ -31,6 +33,22 @@ use Google\Service\MigrationCenterAPI\Report;
  */
 class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
 {
+  /**
+   * Gets the link to the generated artifact of a given type for a Report.
+   * (reports.artifactLink)
+   *
+   * @param string $name Required. Name of the resource.
+   * @param GenerateReportArtifactLinkRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return ReportArtifactLink
+   * @throws \Google\Service\Exception
+   */
+  public function artifactLink($name, GenerateReportArtifactLinkRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('artifactLink', [$params], ReportArtifactLink::class);
+  }
   /**
    * Creates a report. (reports.create)
    *
@@ -55,6 +73,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Report $postBody, $optParams = [])
   {
@@ -80,6 +99,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -96,6 +116,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * @opt_param string view Determines what information to retrieve for the
    * Report.
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -121,6 +142,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * @opt_param string view Determines what information to retrieve for each
    * Report.
    * @return ListReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsReportConfigsReports($parent, $optParams = [])
   {

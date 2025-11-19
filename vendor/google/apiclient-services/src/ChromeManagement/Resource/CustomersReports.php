@@ -17,11 +17,15 @@
 
 namespace Google\Service\ChromeManagement\Resource;
 
+use Google\Service\ChromeManagement\GoogleChromeManagementV1CountActiveDevicesResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse;
+use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeCrashEventsResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeVersionsResponse;
+use Google\Service\ChromeManagement\GoogleChromeManagementV1CountDevicesPerBootTypeResponse;
+use Google\Service\ChromeManagement\GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountInstalledAppsResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountPrintJobsByPrinterResponse;
 use Google\Service\ChromeManagement\GoogleChromeManagementV1CountPrintJobsByUserResponse;
@@ -39,6 +43,30 @@ use Google\Service\ChromeManagement\GoogleChromeManagementV1FindInstalledAppDevi
 class CustomersReports extends \Google\Service\Resource
 {
   /**
+   * Get a count of active devices per set time frames.
+   * (reports.countActiveDevices)
+   *
+   * @param string $customer Required. Obfuscated customer ID prefixed with
+   * "customers/C" or "customers/my_customer".
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int date.day Day of a month. Must be from 1 to 31 and valid for
+   * the year and month, or 0 to specify a year by itself or a year and month
+   * where the day isn't significant.
+   * @opt_param int date.month Month of a year. Must be from 1 to 12, or 0 to
+   * specify a year without a month and day.
+   * @opt_param int date.year Year of the date. Must be from 1 to 9999, or 0 to
+   * specify a date without a year.
+   * @return GoogleChromeManagementV1CountActiveDevicesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function countActiveDevices($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('countActiveDevices', [$params], GoogleChromeManagementV1CountActiveDevicesResponse::class);
+  }
+  /**
    * Count of Chrome Browsers that have been recently enrolled, have new policy to
    * be synced, or have no recent activity.
    * (reports.countChromeBrowsersNeedingAttention)
@@ -50,12 +78,36 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string orgUnitId Optional. The ID of the organizational unit. If
    * omitted, all data will be returned.
    * @return GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeBrowsersNeedingAttention($customer, $optParams = [])
   {
     $params = ['customer' => $customer];
     $params = array_merge($params, $optParams);
     return $this->call('countChromeBrowsersNeedingAttention', [$params], GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse::class);
+  }
+  /**
+   * Get a count of Chrome crash events. (reports.countChromeCrashEvents)
+   *
+   * @param string $customer Customer ID.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Query string to filter results, AND-separated fields
+   * in EBNF syntax. Supported filter fields: * major_browser_version *
+   * minor_browser_version * browser_channel * device_platform * past_number_days
+   * Example: `major_browser_version = 'M115' AND past_number_days = '28'`.
+   * @opt_param string orderBy Field used to order results. Supported order by
+   * fields: * browser_version * count * date
+   * @opt_param string orgUnitId If specified, only count the number of crash
+   * events of the devices in this organizational unit.
+   * @return GoogleChromeManagementV1CountChromeCrashEventsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function countChromeCrashEvents($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('countChromeCrashEvents', [$params], GoogleChromeManagementV1CountChromeCrashEventsResponse::class);
   }
   /**
    * Generate report of the number of devices expiring in each month of the
@@ -79,6 +131,7 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string orgUnitId Optional. The organizational unit ID, if omitted,
    * will return data for all organizational units.
    * @return GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeDevicesReachingAutoExpirationDate($customer, $optParams = [])
   {
@@ -102,6 +155,7 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string readMask Required. Mask of the fields that should be
    * populated in the returned report.
    * @return GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeDevicesThatNeedAttention($customer, $optParams = [])
   {
@@ -123,6 +177,7 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string readMask Required. Mask of the fields that should be
    * populated in the returned report.
    * @return GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeHardwareFleetDevices($customer, $optParams = [])
   {
@@ -146,12 +201,59 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string pageToken Token to specify the page of the request to be
    * returned.
    * @return GoogleChromeManagementV1CountChromeVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeVersions($customer, $optParams = [])
   {
     $params = ['customer' => $customer];
     $params = array_merge($params, $optParams);
     return $this->call('countChromeVersions', [$params], GoogleChromeManagementV1CountChromeVersionsResponse::class);
+  }
+  /**
+   * Get a count of devices per boot type. (reports.countDevicesPerBootType)
+   *
+   * @param string $customer Required. Obfuscated customer ID prefixed with
+   * "customers/C" or "customers/my_customer".
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int date.day Day of a month. Must be from 1 to 31 and valid for
+   * the year and month, or 0 to specify a year by itself or a year and month
+   * where the day isn't significant.
+   * @opt_param int date.month Month of a year. Must be from 1 to 12, or 0 to
+   * specify a year without a month and day.
+   * @opt_param int date.year Year of the date. Must be from 1 to 9999, or 0 to
+   * specify a date without a year.
+   * @return GoogleChromeManagementV1CountDevicesPerBootTypeResponse
+   * @throws \Google\Service\Exception
+   */
+  public function countDevicesPerBootType($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('countDevicesPerBootType', [$params], GoogleChromeManagementV1CountDevicesPerBootTypeResponse::class);
+  }
+  /**
+   * Get a count of devices per channel. (reports.countDevicesPerReleaseChannel)
+   *
+   * @param string $customer Required. Obfuscated customer ID prefixed with
+   * "customers/C" or "customers/my_customer".
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int date.day Day of a month. Must be from 1 to 31 and valid for
+   * the year and month, or 0 to specify a year by itself or a year and month
+   * where the day isn't significant.
+   * @opt_param int date.month Month of a year. Must be from 1 to 12, or 0 to
+   * specify a year without a month and day.
+   * @opt_param int date.year Year of the date. Must be from 1 to 9999, or 0 to
+   * specify a date without a year.
+   * @return GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse
+   * @throws \Google\Service\Exception
+   */
+  public function countDevicesPerReleaseChannel($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('countDevicesPerReleaseChannel', [$params], GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse::class);
   }
   /**
    * Generate report of app installations. (reports.countInstalledApps)
@@ -164,16 +266,17 @@ class CustomersReports extends \Google\Service\Resource
    * in EBNF syntax. Note: OR operations are not supported in this filter.
    * Supported filter fields: * app_name * app_type * install_type *
    * number_of_permissions * total_install_count * latest_profile_active_date *
-   * permission_name * app_id
+   * permission_name * app_id * manifest_versions * risk_score
    * @opt_param string orderBy Field used to order results. Supported order by
    * fields: * app_name * app_type * install_type * number_of_permissions *
-   * total_install_count * app_id
+   * total_install_count * app_id * manifest_versions * risk_score
    * @opt_param string orgUnitId The ID of the organizational unit.
    * @opt_param int pageSize Maximum number of results to return. Maximum and
    * default are 100.
    * @opt_param string pageToken Token to specify the page of the request to be
    * returned.
    * @return GoogleChromeManagementV1CountInstalledAppsResponse
+   * @throws \Google\Service\Exception
    */
   public function countInstalledApps($customer, $optParams = [])
   {
@@ -206,6 +309,7 @@ class CustomersReports extends \Google\Service\Resource
    * organizational unit will be returned. If omitted, data for printers from all
    * organizational units will be returned.
    * @return GoogleChromeManagementV1CountPrintJobsByPrinterResponse
+   * @throws \Google\Service\Exception
    */
   public function countPrintJobsByPrinter($customer, $optParams = [])
   {
@@ -237,6 +341,7 @@ class CustomersReports extends \Google\Service\Resource
    * specified organizational unit will be counted. If omitted, all print jobs
    * will be counted.
    * @return GoogleChromeManagementV1CountPrintJobsByUserResponse
+   * @throws \Google\Service\Exception
    */
   public function countPrintJobsByUser($customer, $optParams = [])
   {
@@ -272,6 +377,7 @@ class CustomersReports extends \Google\Service\Resource
    * printers. If specified, only print jobs submitted to printers from the
    * specified organizational unit will be returned.
    * @return GoogleChromeManagementV1EnumeratePrintJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function enumeratePrintJobs($customer, $optParams = [])
   {
@@ -290,7 +396,8 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string appId Unique identifier of the app. For Chrome apps and
    * extensions, the 32-character id (e.g. ehoadneljpdggcbbknedodolkkjodefl). For
    * Android apps, the package name (e.g. com.evernote).
-   * @opt_param string appType Type of the app.
+   * @opt_param string appType Type of the app. Optional. If not provided, an app
+   * type will be inferred from the format of the app ID.
    * @opt_param string filter Query string to filter results, AND-separated fields
    * in EBNF syntax. Note: OR operations are not supported in this filter.
    * Supported filter fields: * last_active_date
@@ -302,6 +409,7 @@ class CustomersReports extends \Google\Service\Resource
    * @opt_param string pageToken Token to specify the page of the request to be
    * returned.
    * @return GoogleChromeManagementV1FindInstalledAppDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function findInstalledAppDevices($customer, $optParams = [])
   {

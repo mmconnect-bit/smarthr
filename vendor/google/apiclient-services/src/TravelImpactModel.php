@@ -37,6 +37,7 @@ class TravelImpactModel extends \Google\Service
 
 
   public $flights;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the TravelImpactModel service.
@@ -49,6 +50,7 @@ class TravelImpactModel extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://travelimpactmodel.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://travelimpactmodel.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -62,6 +64,14 @@ class TravelImpactModel extends \Google\Service
           'methods' => [
             'computeFlightEmissions' => [
               'path' => 'v1/flights:computeFlightEmissions',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'computeScope3FlightEmissions' => [
+              'path' => 'v1/flights:computeScope3FlightEmissions',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'computeTypicalFlightEmissions' => [
+              'path' => 'v1/flights:computeTypicalFlightEmissions',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],

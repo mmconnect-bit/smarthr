@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,14 @@ use YooKassa\Model\CancellationDetailsInterface;
 use YooKassa\Model\Deal\RefundDealInfo;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Payment\ReceiptRegistrationStatus;
+use YooKassa\Model\Refund\RefundMethod\AbstractRefundMethod;
+use YooKassa\Model\Refund\RefundMethod\RefundMethodFactory;
 use YooKassa\Validator\Constraints as Assert;
 
 /**
  * Класс, представляющий модель Refund.
  *
- * Данные о возврате платежа.
+ * Объект возврата (Refund) — актуальная информация о возврате платежа.
  *
  * @category Class
  * @package  YooKassa\Model
@@ -61,6 +63,10 @@ use YooKassa\Validator\Constraints as Assert;
  * @property string $description Комментарий, основание для возврата средств покупателю
  * @property ListObjectInterface|SourceInterface[] $sources Данные о том, с какого магазина и какую сумму нужно удержать для проведения возврата
  * @property RefundDealInfo $deal Данные о сделке, в составе которой проходит возврат
+ * @property AbstractRefundMethod|null $refundMethod Детали возврата. Зависят от способа оплаты, который использовался при проведении платежа
+ * @property AbstractRefundMethod|null $refund_method Детали возврата. Зависят от способа оплаты, который использовался при проведении платежа
+ * @property RefundAuthorizationDetails|null $refund_authorization_details Данные об авторизации возврата. Присутствуют только для возвратов платежей, совершенных этими способами оплаты: банковская карта, Mir Pay
+ * @property RefundAuthorizationDetails|null $refundAuthorizationDetails Данные об авторизации возврата. Присутствуют только для возвратов платежей, совершенных этими способами оплаты: банковская карта, Mir Pay
  */
 class Refund extends AbstractObject implements RefundInterface
 {
@@ -144,6 +150,19 @@ class Refund extends AbstractObject implements RefundInterface
     #[Assert\Valid]
     #[Assert\Type(RefundDealInfo::class)]
     protected ?RefundDealInfo $_deal = null;
+
+    /**
+     * @var AbstractRefundMethod|null Детали возврата. Зависят от способа оплаты, который использовался при проведении платежа.
+     */
+    #[Assert\Type(AbstractRefundMethod::class)]
+    protected ?AbstractRefundMethod $_refund_method = null;
+
+    /**
+     * @var RefundAuthorizationDetails|null Данные об авторизации возврата
+     */
+    #[Assert\Valid]
+    #[Assert\Type(RefundAuthorizationDetails::class)]
+    protected ?RefundAuthorizationDetails $_refund_authorization_details = null;
 
     /**
      * Возвращает идентификатор возврата платежа.
@@ -254,7 +273,7 @@ class Refund extends AbstractObject implements RefundInterface
      *
      * @return self
      */
-    public function setReceiptRegistration(mixed $receipt_registration = null): self
+    public function setReceiptRegistration(?string $receipt_registration = null): self
     {
         $this->_receipt_registration = $this->validatePropertyValue('_receipt_registration', $receipt_registration);
         return $this;
@@ -375,6 +394,55 @@ class Refund extends AbstractObject implements RefundInterface
     public function setDeal(mixed $deal = null): self
     {
         $this->_deal = $this->validatePropertyValue('_deal', $deal);
+        return $this;
+    }
+
+    /**
+     * Возвращает метод возврата.
+     *
+     * @return AbstractRefundMethod|null
+     */
+    public function getRefundMethod(): ?AbstractRefundMethod
+    {
+        return $this->_refund_method;
+    }
+
+    /**
+     * Устанавливает метод возврата.
+     *
+     * @param AbstractRefundMethod|array|null $refund_method
+     *
+     * @return self
+     */
+    public function setRefundMethod(mixed $refund_method = null): self
+    {
+        if (is_array($refund_method)) {
+            $refund_method = (new RefundMethodFactory)->factoryFromArray($refund_method);
+        }
+        $this->_refund_method = $this->validatePropertyValue('_refund_method', $refund_method);
+        return $this;
+    }
+
+    /**
+     * Возвращает refund_authorization_details.
+     *
+     * @return RefundAuthorizationDetails|null
+     */
+    public function getRefundAuthorizationDetails(): ?RefundAuthorizationDetails
+    {
+        return $this->_refund_authorization_details;
+    }
+
+    /**
+     * Устанавливает refund_authorization_details.
+     *
+     * @param RefundAuthorizationDetails|array|null $refund_authorization_details Данные об авторизации возврата
+     *
+     * @return self
+     */
+    public function setRefundAuthorizationDetails(mixed $refund_authorization_details = null): self
+    {
+        $this->_refund_authorization_details = $this->validatePropertyValue('_refund_authorization_details', $refund_authorization_details);
         return $this;
     }
 }

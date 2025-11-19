@@ -21,10 +21,15 @@ class TaskSpec extends \Google\Collection
 {
   protected $collection_key = 'workspaces';
   /**
+   * Description of the task.
+   *
    * @var string
    */
   public $description;
   /**
+   * Sidecars that run alongside the Task’s step containers that should be added
+   * to this Task.
+   *
    * @var string[]
    */
   public $managedSidecars;
@@ -34,6 +39,8 @@ class TaskSpec extends \Google\Collection
   protected $resultsDataType = 'array';
   protected $sidecarsType = Sidecar::class;
   protected $sidecarsDataType = 'array';
+  protected $stepTemplateType = StepTemplate::class;
+  protected $stepTemplateDataType = '';
   protected $stepsType = Step::class;
   protected $stepsDataType = 'array';
   protected $volumesType = VolumeSource::class;
@@ -42,7 +49,9 @@ class TaskSpec extends \Google\Collection
   protected $workspacesDataType = 'array';
 
   /**
-   * @param string
+   * Description of the task.
+   *
+   * @param string $description
    */
   public function setDescription($description)
   {
@@ -56,7 +65,10 @@ class TaskSpec extends \Google\Collection
     return $this->description;
   }
   /**
-   * @param string[]
+   * Sidecars that run alongside the Task’s step containers that should be added
+   * to this Task.
+   *
+   * @param string[] $managedSidecars
    */
   public function setManagedSidecars($managedSidecars)
   {
@@ -70,7 +82,9 @@ class TaskSpec extends \Google\Collection
     return $this->managedSidecars;
   }
   /**
-   * @param ParamSpec[]
+   * List of parameters.
+   *
+   * @param ParamSpec[] $params
    */
   public function setParams($params)
   {
@@ -84,7 +98,9 @@ class TaskSpec extends \Google\Collection
     return $this->params;
   }
   /**
-   * @param TaskResult[]
+   * Values that this Task can output.
+   *
+   * @param TaskResult[] $results
    */
   public function setResults($results)
   {
@@ -98,7 +114,9 @@ class TaskSpec extends \Google\Collection
     return $this->results;
   }
   /**
-   * @param Sidecar[]
+   * Sidecars that run alongside the Task's step containers.
+   *
+   * @param Sidecar[] $sidecars
    */
   public function setSidecars($sidecars)
   {
@@ -112,7 +130,26 @@ class TaskSpec extends \Google\Collection
     return $this->sidecars;
   }
   /**
-   * @param Step[]
+   * Optional. StepTemplate can be used as the basis for all step containers
+   * within the Task, so that the steps inherit settings on the base container.
+   *
+   * @param StepTemplate $stepTemplate
+   */
+  public function setStepTemplate(StepTemplate $stepTemplate)
+  {
+    $this->stepTemplate = $stepTemplate;
+  }
+  /**
+   * @return StepTemplate
+   */
+  public function getStepTemplate()
+  {
+    return $this->stepTemplate;
+  }
+  /**
+   * Steps of the task.
+   *
+   * @param Step[] $steps
    */
   public function setSteps($steps)
   {
@@ -126,7 +163,9 @@ class TaskSpec extends \Google\Collection
     return $this->steps;
   }
   /**
-   * @param VolumeSource[]
+   * A collection of volumes that are available to mount into steps.
+   *
+   * @param VolumeSource[] $volumes
    */
   public function setVolumes($volumes)
   {
@@ -140,7 +179,9 @@ class TaskSpec extends \Google\Collection
     return $this->volumes;
   }
   /**
-   * @param WorkspaceDeclaration[]
+   * The volumes that this Task requires.
+   *
+   * @param WorkspaceDeclaration[] $workspaces
    */
   public function setWorkspaces($workspaces)
   {

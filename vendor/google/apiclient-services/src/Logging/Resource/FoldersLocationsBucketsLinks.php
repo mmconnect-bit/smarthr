@@ -39,9 +39,6 @@ class FoldersLocationsBucketsLinks extends \Google\Service\Resource
    * @param string $parent Required. The full resource name of the bucket to
    * create a link for.
    * "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
-   * "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
-   * "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET
-   * _ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
    * @param Link $postBody
    * @param array $optParams Optional parameters.
    *
@@ -49,6 +46,7 @@ class FoldersLocationsBucketsLinks extends \Google\Service\Resource
    * can have up to 100 characters. A valid link_id must only have alphanumeric
    * characters and underscores within it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Link $postBody, $optParams = [])
   {
@@ -68,6 +66,7 @@ class FoldersLocationsBucketsLinks extends \Google\Service\Resource
    * LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]"
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -86,6 +85,7 @@ class FoldersLocationsBucketsLinks extends \Google\Service\Resource
    * ckets/[BUCKET_ID]/links/[LINK_ID]"
    * @param array $optParams Optional parameters.
    * @return Link
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -109,6 +109,7 @@ class FoldersLocationsBucketsLinks extends \Google\Service\Resource
    * batch of results from the preceding call to this method. pageToken must be
    * the value of nextPageToken from the previous response.
    * @return ListLinksResponse
+   * @throws \Google\Service\Exception
    */
   public function listFoldersLocationsBucketsLinks($parent, $optParams = [])
   {

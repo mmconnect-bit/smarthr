@@ -17,31 +17,50 @@
 
 namespace Google\Service\MigrationCenterAPI;
 
-class GuestInstalledApplication extends \Google\Model
+class GuestInstalledApplication extends \Google\Collection
 {
+  protected $collection_key = 'licenses';
   /**
+   * Installed application name.
+   *
    * @var string
    */
   public $applicationName;
   /**
+   * The time when the application was installed.
+   *
    * @var string
    */
   public $installTime;
   /**
+   * License strings associated with the installed application.
+   *
+   * @var string[]
+   */
+  public $licenses;
+  /**
+   * Source path.
+   *
    * @var string
    */
   public $path;
   /**
+   * Installed application vendor.
+   *
    * @var string
    */
   public $vendor;
   /**
+   * Installed application version.
+   *
    * @var string
    */
   public $version;
 
   /**
-   * @param string
+   * Installed application name.
+   *
+   * @param string $applicationName
    */
   public function setApplicationName($applicationName)
   {
@@ -55,7 +74,9 @@ class GuestInstalledApplication extends \Google\Model
     return $this->applicationName;
   }
   /**
-   * @param string
+   * The time when the application was installed.
+   *
+   * @param string $installTime
    */
   public function setInstallTime($installTime)
   {
@@ -69,7 +90,25 @@ class GuestInstalledApplication extends \Google\Model
     return $this->installTime;
   }
   /**
-   * @param string
+   * License strings associated with the installed application.
+   *
+   * @param string[] $licenses
+   */
+  public function setLicenses($licenses)
+  {
+    $this->licenses = $licenses;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLicenses()
+  {
+    return $this->licenses;
+  }
+  /**
+   * Source path.
+   *
+   * @param string $path
    */
   public function setPath($path)
   {
@@ -83,7 +122,9 @@ class GuestInstalledApplication extends \Google\Model
     return $this->path;
   }
   /**
-   * @param string
+   * Installed application vendor.
+   *
+   * @param string $vendor
    */
   public function setVendor($vendor)
   {
@@ -97,7 +138,9 @@ class GuestInstalledApplication extends \Google\Model
     return $this->vendor;
   }
   /**
-   * @param string
+   * Installed application version.
+   *
+   * @param string $version
    */
   public function setVersion($version)
   {

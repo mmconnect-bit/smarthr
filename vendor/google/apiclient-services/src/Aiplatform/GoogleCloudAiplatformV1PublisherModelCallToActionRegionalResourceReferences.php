@@ -19,15 +19,67 @@ namespace Google\Service\Aiplatform;
 
 class GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences extends \Google\Model
 {
+  /**
+   * Optional. For notebook resource. When set to true, the Colab Enterprise
+   * link will be disabled in the "open notebook" dialog in UI.
+   *
+   * @var bool
+   */
+  public $colabNotebookDisabled;
   protected $referencesType = GoogleCloudAiplatformV1PublisherModelResourceReference::class;
   protected $referencesDataType = 'map';
   /**
+   * Optional. Description of the resource.
+   *
+   * @var string
+   */
+  public $resourceDescription;
+  /**
+   * Optional. Title of the resource.
+   *
+   * @var string
+   */
+  public $resourceTitle;
+  /**
+   * Optional. Use case (CUJ) of the resource.
+   *
+   * @var string
+   */
+  public $resourceUseCase;
+  /**
+   * Optional. For notebook resource, whether the notebook supports Workbench.
+   *
+   * @var bool
+   */
+  public $supportsWorkbench;
+  /**
+   * Required.
+   *
    * @var string
    */
   public $title;
 
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelResourceReference[]
+   * Optional. For notebook resource. When set to true, the Colab Enterprise
+   * link will be disabled in the "open notebook" dialog in UI.
+   *
+   * @param bool $colabNotebookDisabled
+   */
+  public function setColabNotebookDisabled($colabNotebookDisabled)
+  {
+    $this->colabNotebookDisabled = $colabNotebookDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getColabNotebookDisabled()
+  {
+    return $this->colabNotebookDisabled;
+  }
+  /**
+   * Required.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelResourceReference[] $references
    */
   public function setReferences($references)
   {
@@ -41,7 +93,73 @@ class GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReference
     return $this->references;
   }
   /**
-   * @param string
+   * Optional. Description of the resource.
+   *
+   * @param string $resourceDescription
+   */
+  public function setResourceDescription($resourceDescription)
+  {
+    $this->resourceDescription = $resourceDescription;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceDescription()
+  {
+    return $this->resourceDescription;
+  }
+  /**
+   * Optional. Title of the resource.
+   *
+   * @param string $resourceTitle
+   */
+  public function setResourceTitle($resourceTitle)
+  {
+    $this->resourceTitle = $resourceTitle;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceTitle()
+  {
+    return $this->resourceTitle;
+  }
+  /**
+   * Optional. Use case (CUJ) of the resource.
+   *
+   * @param string $resourceUseCase
+   */
+  public function setResourceUseCase($resourceUseCase)
+  {
+    $this->resourceUseCase = $resourceUseCase;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceUseCase()
+  {
+    return $this->resourceUseCase;
+  }
+  /**
+   * Optional. For notebook resource, whether the notebook supports Workbench.
+   *
+   * @param bool $supportsWorkbench
+   */
+  public function setSupportsWorkbench($supportsWorkbench)
+  {
+    $this->supportsWorkbench = $supportsWorkbench;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsWorkbench()
+  {
+    return $this->supportsWorkbench;
+  }
+  /**
+   * Required.
+   *
+   * @param string $title
    */
   public function setTitle($title)
   {

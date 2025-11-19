@@ -46,6 +46,7 @@ class Deployments extends \Google\Service\Resource
    * @param DeploymentsCancelPreviewRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function cancelPreview($project, $deployment, DeploymentsCancelPreviewRequest $postBody, $optParams = [])
   {
@@ -62,7 +63,9 @@ class Deployments extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string deletePolicy Sets the policy to use for deleting resources.
+   * @opt_param bool header.bypassBillingFilter
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($project, $deployment, $optParams = [])
   {
@@ -76,7 +79,10 @@ class Deployments extends \Google\Service\Resource
    * @param string $project The project ID for this request.
    * @param string $deployment The name of the deployment for this request.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool header.bypassBillingFilter
    * @return Deployment
+   * @throws \Google\Service\Exception
    */
   public function get($project, $deployment, $optParams = [])
   {
@@ -92,8 +98,10 @@ class Deployments extends \Google\Service\Resource
    * @param string $resource Name or id of the resource for this request.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool header.bypassBillingFilter
    * @opt_param int optionsRequestedPolicyVersion Requested IAM Policy version.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($project, $resource, $optParams = [])
   {
@@ -111,6 +119,7 @@ class Deployments extends \Google\Service\Resource
    *
    * @opt_param string createPolicy Sets the policy to use for creating new
    * resources.
+   * @opt_param bool header.bypassBillingFilter
    * @opt_param bool preview If set to true, creates a deployment and creates
    * "shell" resources but does not actually instantiate these resources. This
    * allows you to preview what your deployment looks like. After previewing a
@@ -120,6 +129,7 @@ class Deployments extends \Google\Service\Resource
    * cancel the preview and you must separately delete this deployment if you want
    * to remove it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function insert($project, Deployment $postBody, $optParams = [])
   {
@@ -182,6 +192,7 @@ class Deployments extends \Google\Service\Resource
    * the `nextPageToken` returned by a previous list request to get the next page
    * of results.
    * @return DeploymentsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDeployments($project, $optParams = [])
   {
@@ -201,6 +212,7 @@ class Deployments extends \Google\Service\Resource
    * @opt_param string createPolicy Sets the policy to use for creating new
    * resources.
    * @opt_param string deletePolicy Sets the policy to use for deleting resources.
+   * @opt_param bool header.bypassBillingFilter
    * @opt_param bool preview If set to true, updates the deployment and creates
    * and updates the "shell" resources but does not actually alter or instantiate
    * these resources. This allows you to preview what your deployment will look
@@ -212,6 +224,7 @@ class Deployments extends \Google\Service\Resource
    * after you cancel the preview and you must separately delete this deployment
    * if you want to remove it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($project, $deployment, Deployment $postBody, $optParams = [])
   {
@@ -228,6 +241,7 @@ class Deployments extends \Google\Service\Resource
    * @param GlobalSetPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($project, $resource, GlobalSetPolicyRequest $postBody, $optParams = [])
   {
@@ -245,6 +259,7 @@ class Deployments extends \Google\Service\Resource
    * @param DeploymentsStopRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function stop($project, $deployment, DeploymentsStopRequest $postBody, $optParams = [])
   {
@@ -260,7 +275,10 @@ class Deployments extends \Google\Service\Resource
    * @param string $resource Name or id of the resource for this request.
    * @param TestPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool header.bypassBillingFilter
    * @return TestPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($project, $resource, TestPermissionsRequest $postBody, $optParams = [])
   {
@@ -280,6 +298,7 @@ class Deployments extends \Google\Service\Resource
    * @opt_param string createPolicy Sets the policy to use for creating new
    * resources.
    * @opt_param string deletePolicy Sets the policy to use for deleting resources.
+   * @opt_param bool header.bypassBillingFilter
    * @opt_param bool preview If set to true, updates the deployment and creates
    * and updates the "shell" resources but does not actually alter or instantiate
    * these resources. This allows you to preview what your deployment will look
@@ -291,6 +310,7 @@ class Deployments extends \Google\Service\Resource
    * after you cancel the preview and you must separately delete this deployment
    * if you want to remove it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function update($project, $deployment, Deployment $postBody, $optParams = [])
   {

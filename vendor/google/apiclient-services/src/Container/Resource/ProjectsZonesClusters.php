@@ -18,6 +18,7 @@
 namespace Google\Service\Container\Resource;
 
 use Google\Service\Container\Cluster;
+use Google\Service\Container\ClusterUpgradeInfo;
 use Google\Service\Container\CompleteIPRotationRequest;
 use Google\Service\Container\CreateClusterRequest;
 use Google\Service\Container\ListClustersResponse;
@@ -61,6 +62,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetAddonsConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addons($projectId, $zone, $clusterId, SetAddonsConfigRequest $postBody, $optParams = [])
   {
@@ -84,6 +86,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param CompleteIPRotationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function completeIpRotation($projectId, $zone, $clusterId, CompleteIPRotationRequest $postBody, $optParams = [])
   {
@@ -96,7 +99,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Compute Engine instances. By default, the cluster is created in the project's
    * [default network](https://cloud.google.com/compute/docs/networks-and-
    * firewalls#networks). One firewall is added for the cluster. After cluster
-   * creation, the Kubelet creates routes for each node to allow the containers on
+   * creation, the kubelet creates routes for each node to allow the containers on
    * that node to communicate with all other instances in the cluster. Finally, an
    * entry is added to the project's global metadata indicating which CIDR range
    * the cluster is using. (clusters.create)
@@ -112,6 +115,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param CreateClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, $zone, CreateClusterRequest $postBody, $optParams = [])
   {
@@ -141,12 +145,32 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @opt_param string name The name (project, location, cluster) of the cluster
    * to delete. Specified in the format `projects/locations/clusters`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($projectId, $zone, $clusterId, $optParams = [])
   {
     $params = ['projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Fetch upgrade information of a specific cluster.
+   * (clusters.fetchClusterUpgradeInfo)
+   *
+   * @param string $name Required. The name (project, location, cluster) of the
+   * cluster to get. Specified in the format `projects/locations/clusters` or
+   * `projects/zones/clusters`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string version API request version that initiates this operation.
+   * @return ClusterUpgradeInfo
+   * @throws \Google\Service\Exception
+   */
+  public function fetchClusterUpgradeInfo($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('fetchClusterUpgradeInfo', [$params], ClusterUpgradeInfo::class);
   }
   /**
    * Gets the details of a specific cluster. (clusters.get)
@@ -166,6 +190,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @opt_param string name The name (project, location, cluster) of the cluster
    * to retrieve. Specified in the format `projects/locations/clusters`.
    * @return Cluster
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $zone, $clusterId, $optParams = [])
   {
@@ -190,6 +215,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLegacyAbacRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function legacyAbac($projectId, $zone, $clusterId, SetLegacyAbacRequest $postBody, $optParams = [])
   {
@@ -215,6 +241,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * will be listed. Specified in the format `projects/locations`. Location "-"
    * matches all zones and all regions.
    * @return ListClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsZonesClusters($projectId, $zone, $optParams = [])
   {
@@ -241,6 +268,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLocationsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function locations($projectId, $zone, $clusterId, SetLocationsRequest $postBody, $optParams = [])
   {
@@ -264,6 +292,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLoggingServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function logging($projectId, $zone, $clusterId, SetLoggingServiceRequest $postBody, $optParams = [])
   {
@@ -287,6 +316,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param UpdateMasterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function master($projectId, $zone, $clusterId, UpdateMasterRequest $postBody, $optParams = [])
   {
@@ -310,6 +340,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMonitoringServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function monitoring($projectId, $zone, $clusterId, SetMonitoringServiceRequest $postBody, $optParams = [])
   {
@@ -333,6 +364,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLabelsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function resourceLabels($projectId, $zone, $clusterId, SetLabelsRequest $postBody, $optParams = [])
   {
@@ -353,6 +385,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMaintenancePolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setMaintenancePolicy($projectId, $zone, $clusterId, SetMaintenancePolicyRequest $postBody, $optParams = [])
   {
@@ -378,6 +411,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMasterAuthRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setMasterAuth($projectId, $zone, $clusterId, SetMasterAuthRequest $postBody, $optParams = [])
   {
@@ -401,6 +435,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetNetworkPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setNetworkPolicy($projectId, $zone, $clusterId, SetNetworkPolicyRequest $postBody, $optParams = [])
   {
@@ -424,6 +459,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param StartIPRotationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function startIpRotation($projectId, $zone, $clusterId, StartIPRotationRequest $postBody, $optParams = [])
   {
@@ -447,6 +483,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param UpdateClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function update($projectId, $zone, $clusterId, UpdateClusterRequest $postBody, $optParams = [])
   {

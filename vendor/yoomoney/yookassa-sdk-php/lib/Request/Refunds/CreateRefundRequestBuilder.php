@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ use YooKassa\Common\ListObjectInterface;
 use YooKassa\Model\Deal\RefundDealData;
 use YooKassa\Model\Refund\SourceInterface;
 use YooKassa\Request\Payments\AbstractPaymentRequestBuilder;
+use YooKassa\Request\Refunds\RefundMethodData\AbstractRefundMethodData;
 
 /**
  * Класс, представляющий модель CreateRefundRequestBuilder.
@@ -136,13 +137,27 @@ class CreateRefundRequestBuilder extends AbstractPaymentRequestBuilder
     }
 
     /**
+     * Устанавливает метод возврата.
+     *
+     * @param AbstractRefundMethodData|array|null $value
+     *
+     * @return self
+     */
+    public function setRefundMethodData(mixed $value = null): self
+    {
+        $this->currentObject->setRefundMethodData($value);
+
+        return $this;
+    }
+
+    /**
      * Строит объект запроса к API.
      *
      * @param null|array $options Устанавливаемые параметры запроса
      *
      * @return CreateRefundRequest|AbstractRequestInterface Инстанс сгенерированного объекта запроса к API
      */
-    public function build(array $options = null): AbstractRequestInterface
+    public function build(?array $options = null): AbstractRequestInterface
     {
         if (!empty($options)) {
             $this->setOptions($options);

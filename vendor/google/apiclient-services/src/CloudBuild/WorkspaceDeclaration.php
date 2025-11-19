@@ -20,24 +20,42 @@ namespace Google\Service\CloudBuild;
 class WorkspaceDeclaration extends \Google\Model
 {
   /**
+   * Description is a human readable description of this volume.
+   *
    * @var string
    */
   public $description;
   /**
+   * MountPath overrides the directory that the volume will be made available
+   * at.
+   *
    * @var string
    */
   public $mountPath;
   /**
+   * Name is the name by which you can bind the volume at runtime.
+   *
    * @var string
    */
   public $name;
   /**
+   * Optional. Optional marks a Workspace as not being required in TaskRuns. By
+   * default this field is false and so declared workspaces are required.
+   *
+   * @var bool
+   */
+  public $optional;
+  /**
+   * ReadOnly dictates whether a mounted volume is writable.
+   *
    * @var bool
    */
   public $readOnly;
 
   /**
-   * @param string
+   * Description is a human readable description of this volume.
+   *
+   * @param string $description
    */
   public function setDescription($description)
   {
@@ -51,7 +69,10 @@ class WorkspaceDeclaration extends \Google\Model
     return $this->description;
   }
   /**
-   * @param string
+   * MountPath overrides the directory that the volume will be made available
+   * at.
+   *
+   * @param string $mountPath
    */
   public function setMountPath($mountPath)
   {
@@ -65,7 +86,9 @@ class WorkspaceDeclaration extends \Google\Model
     return $this->mountPath;
   }
   /**
-   * @param string
+   * Name is the name by which you can bind the volume at runtime.
+   *
+   * @param string $name
    */
   public function setName($name)
   {
@@ -79,7 +102,26 @@ class WorkspaceDeclaration extends \Google\Model
     return $this->name;
   }
   /**
-   * @param bool
+   * Optional. Optional marks a Workspace as not being required in TaskRuns. By
+   * default this field is false and so declared workspaces are required.
+   *
+   * @param bool $optional
+   */
+  public function setOptional($optional)
+  {
+    $this->optional = $optional;
+  }
+  /**
+   * @return bool
+   */
+  public function getOptional()
+  {
+    return $this->optional;
+  }
+  /**
+   * ReadOnly dictates whether a mounted volume is writable.
+   *
+   * @param bool $readOnly
    */
   public function setReadOnly($readOnly)
   {

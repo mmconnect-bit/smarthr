@@ -1,5 +1,29 @@
 <?php
 
+/*
+* The MIT License
+*
+* Copyright (c) 2025 "YooMoney", NBСO LLC
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+*/
+
 namespace Tests\YooKassa\Request\Payments;
 
 use DateTime;
@@ -40,7 +64,11 @@ use YooKassa\Request\Payments\PaymentData\PaymentDataSbp;
 use YooKassa\Request\Payments\PaymentData\PaymentDataYooMoney;
 
 /**
- * @internal
+ * CreatePaymentRequestSerializerTest
+ *
+ * @category    ClassTest
+ * @author      cms@yoomoney.ru
+ * @link        https://yookassa.ru/developers/api
  */
 class CreatePaymentRequestSerializerTest extends TestCase
 {
@@ -56,7 +84,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
      *
      * @param mixed $options
      */
-    public function testSerialize($options): void
+    public function testSerialize(mixed $options): void
     {
         $serializer = new CreatePaymentRequestSerializer();
         $instance = CreatePaymentRequest::builder()->build($options);
@@ -75,7 +103,6 @@ class CreatePaymentRequestSerializerTest extends TestCase
         }
         if (!empty($options['accountId']) && !empty($options['gatewayId'])) {
             $expected['recipient'] = [
-                'account_id' => $options['accountId'],
                 'gateway_id' => $options['gatewayId'],
             ];
         }
@@ -171,6 +198,9 @@ class CreatePaymentRequestSerializerTest extends TestCase
             }
             if (!empty($options['receipt']['tax_system_code'])) {
                 $expected['receipt']['tax_system_code'] = $options['receipt']['tax_system_code'];
+            }
+            if (!empty($options['receipt']['send'])) {
+                $expected['receipt']['send'] = $options['receipt']['send'];
             }
         }
 
@@ -295,6 +325,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
                             'email' => 'johndoe@yoomoney.ru',
                         ],
                         'tax_system_code' => Random::int(1, 6),
+                        'send' => true,
                     ],
                     'description' => Random::str(10),
                     'capture' => true,
@@ -422,6 +453,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
                         'phone' => Random::str(12, '0123456789'),
                     ],
                     'tax_system_code' => Random::int(1, 6),
+                    'send' => true,
                 ],
                 'airline' => $airline->toArray(),
                 'deal' => [

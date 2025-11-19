@@ -17,6 +17,7 @@
 
 namespace Google\Service\VMwareEngine\Resource;
 
+use Google\Service\VMwareEngine\DnsBindPermission;
 use Google\Service\VMwareEngine\ListLocationsResponse;
 use Google\Service\VMwareEngine\Location;
 
@@ -36,12 +37,35 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Location::class);
+  }
+  /**
+   * Gets all the principals having bind permission on the intranet VPC associated
+   * with the consumer project granted by the Grant API. DnsBindPermission is a
+   * global resource and location can only be global.
+   * (locations.getDnsBindPermission)
+   *
+   * @param string $name Required. The name of the resource which stores the
+   * users/service accounts having the permission to bind to the corresponding
+   * intranet VPC of the consumer project. DnsBindPermission is a global resource.
+   * Resource names are schemeless URIs that follow the conventions in
+   * https://cloud.google.com/apis/design/resource_names. For example:
+   * `projects/my-project/locations/global/dnsBindPermission`
+   * @param array $optParams Optional parameters.
+   * @return DnsBindPermission
+   * @throws \Google\Service\Exception
+   */
+  public function getDnsBindPermission($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getDnsBindPermission', [$params], DnsBindPermission::class);
   }
   /**
    * Lists information about the supported locations for this service.
@@ -51,6 +75,9 @@ class ProjectsLocations extends \Google\Service\Resource
    * applicable.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string extraLocationTypes Optional. Unless explicitly documented
+   * otherwise, don't use this unsupported field which is primarily intended for
+   * internal usage.
    * @opt_param string filter A filter to narrow down results to a preferred
    * subset. The filtering language accepts strings like `"displayName=tokyo"`,
    * and is documented in more detail in [AIP-160](https://google.aip.dev/160).
@@ -59,6 +86,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {

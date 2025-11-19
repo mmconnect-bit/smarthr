@@ -43,6 +43,7 @@ class CloudWorkstations extends \Google\Service
   public $projects_locations_workstationClusters;
   public $projects_locations_workstationClusters_workstationConfigs;
   public $projects_locations_workstationClusters_workstationConfigs_workstations;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the CloudWorkstations service.
@@ -55,6 +56,7 @@ class CloudWorkstations extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://workstations.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://workstations.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -84,6 +86,11 @@ class CloudWorkstations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'extraLocationTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
                 ],
                 'filter' => [
                   'location' => 'query',
@@ -159,6 +166,10 @@ class CloudWorkstations extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'returnPartialSuccess' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],
           ]
@@ -228,6 +239,10 @@ class CloudWorkstations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'pageSize' => [
                   'location' => 'query',
@@ -342,6 +357,10 @@ class CloudWorkstations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'pageSize' => [
                   'location' => 'query',
@@ -500,6 +519,10 @@ class CloudWorkstations extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'pageSize' => [
                   'location' => 'query',

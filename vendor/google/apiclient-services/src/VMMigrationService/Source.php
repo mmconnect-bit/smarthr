@@ -24,22 +24,34 @@ class Source extends \Google\Model
   protected $azureType = AzureSourceDetails::class;
   protected $azureDataType = '';
   /**
+   * Output only. The create time timestamp.
+   *
    * @var string
    */
   public $createTime;
   /**
+   * User-provided description of the source.
+   *
    * @var string
    */
   public $description;
+  protected $encryptionType = Encryption::class;
+  protected $encryptionDataType = '';
   /**
+   * The labels of the source.
+   *
    * @var string[]
    */
   public $labels;
   /**
+   * Output only. The Source name.
+   *
    * @var string
    */
   public $name;
   /**
+   * Output only. The update time timestamp.
+   *
    * @var string
    */
   public $updateTime;
@@ -47,7 +59,9 @@ class Source extends \Google\Model
   protected $vmwareDataType = '';
 
   /**
-   * @param AwsSourceDetails
+   * AWS type source details.
+   *
+   * @param AwsSourceDetails $aws
    */
   public function setAws(AwsSourceDetails $aws)
   {
@@ -61,7 +75,9 @@ class Source extends \Google\Model
     return $this->aws;
   }
   /**
-   * @param AzureSourceDetails
+   * Azure type source details.
+   *
+   * @param AzureSourceDetails $azure
    */
   public function setAzure(AzureSourceDetails $azure)
   {
@@ -75,7 +91,9 @@ class Source extends \Google\Model
     return $this->azure;
   }
   /**
-   * @param string
+   * Output only. The create time timestamp.
+   *
+   * @param string $createTime
    */
   public function setCreateTime($createTime)
   {
@@ -89,7 +107,9 @@ class Source extends \Google\Model
     return $this->createTime;
   }
   /**
-   * @param string
+   * User-provided description of the source.
+   *
+   * @param string $description
    */
   public function setDescription($description)
   {
@@ -103,7 +123,26 @@ class Source extends \Google\Model
     return $this->description;
   }
   /**
-   * @param string[]
+   * Optional. Immutable. The encryption details of the source data stored by
+   * the service.
+   *
+   * @param Encryption $encryption
+   */
+  public function setEncryption(Encryption $encryption)
+  {
+    $this->encryption = $encryption;
+  }
+  /**
+   * @return Encryption
+   */
+  public function getEncryption()
+  {
+    return $this->encryption;
+  }
+  /**
+   * The labels of the source.
+   *
+   * @param string[] $labels
    */
   public function setLabels($labels)
   {
@@ -117,7 +156,9 @@ class Source extends \Google\Model
     return $this->labels;
   }
   /**
-   * @param string
+   * Output only. The Source name.
+   *
+   * @param string $name
    */
   public function setName($name)
   {
@@ -131,7 +172,9 @@ class Source extends \Google\Model
     return $this->name;
   }
   /**
-   * @param string
+   * Output only. The update time timestamp.
+   *
+   * @param string $updateTime
    */
   public function setUpdateTime($updateTime)
   {
@@ -145,7 +188,9 @@ class Source extends \Google\Model
     return $this->updateTime;
   }
   /**
-   * @param VmwareSourceDetails
+   * Vmware type source details.
+   *
+   * @param VmwareSourceDetails $vmware
    */
   public function setVmware(VmwareSourceDetails $vmware)
   {

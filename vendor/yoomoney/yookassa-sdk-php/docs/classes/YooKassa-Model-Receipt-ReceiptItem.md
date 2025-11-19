@@ -5,7 +5,7 @@
 ---
 **Summary:**
 
-Информация о товарной позиции в заказе, позиция фискального чека.
+Информация о товарной позиции в заказе. Используется для формирования чека.
 
 
 ---
@@ -30,6 +30,7 @@
 | public | [$customsDeclarationNumber](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_customsDeclarationNumber) |  | Номер таможенной декларации (от 1 до 32 символов). Тег в 54 ФЗ — 1231 |
 | public | [$description](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_description) |  | Наименование товара (тег в 54 ФЗ — 1030) |
 | public | [$excise](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_excise) |  | Сумма акциза товара с учетом копеек (тег в 54 ФЗ — 1229) |
+| public | [$is_shipping](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_is_shipping) |  | Флаг доставки |
 | public | [$isShipping](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_isShipping) |  | Флаг доставки |
 | public | [$mark_code_info](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_mark_code_info) |  | Код товара (тег в 54 ФЗ — 1163) |
 | public | [$mark_mode](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_mark_mode) |  | Режим обработки кода маркировки (тег в 54 ФЗ — 2102) |
@@ -44,13 +45,15 @@
 | public | [$paymentMode](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_paymentMode) |  | Признак способа расчета (тег в 54 ФЗ — 1214) |
 | public | [$paymentSubject](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_paymentSubject) |  | Признак предмета расчета (тег в 54 ФЗ — 1212) |
 | public | [$paymentSubjectIndustryDetails](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_paymentSubjectIndustryDetails) |  | Отраслевой реквизит предмета расчета (тег в 54 ФЗ — 1260) |
+| public | [$planned_status](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_planned_status) |  | Планируемый статус товара. Тег в 54 ФЗ — 2003 |
+| public | [$plannedStatus](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_plannedStatus) |  | Планируемый статус товара. Тег в 54 ФЗ — 2003 |
 | public | [$price](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_price) |  | Цена товара (тег в 54 ФЗ — 1079) |
 | public | [$product_code](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_product_code) |  | Код товара (тег в 54 ФЗ — 1162) |
 | public | [$productCode](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_productCode) |  | Код товара (тег в 54 ФЗ — 1162) |
 | public | [$quantity](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_quantity) |  | Количество (тег в 54 ФЗ — 1023) |
 | public | [$supplier](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_supplier) |  | Информация о поставщике товара или услуги (тег в 54 ФЗ — 1224) |
-| public | [$vat_code](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_vat_code) |  | Ставка НДС (тег в 54 ФЗ — 1199), число 1-6 |
-| public | [$vatCode](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_vatCode) |  | Ставка НДС (тег в 54 ФЗ — 1199), число 1-6 |
+| public | [$vat_code](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_vat_code) |  | Ставка НДС (тег в 54 ФЗ — 1199), число 1-10 |
+| public | [$vatCode](../classes/YooKassa-Model-Receipt-ReceiptItem.md#property_vatCode) |  | Ставка НДС (тег в 54 ФЗ — 1199), число 1-10 |
 
 ---
 ### Methods
@@ -78,6 +81,7 @@
 | public | [getPaymentMode()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getPaymentMode) |  | Возвращает признак способа расчета. |
 | public | [getPaymentSubject()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getPaymentSubject) |  | Возвращает признак предмета расчета. |
 | public | [getPaymentSubjectIndustryDetails()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getPaymentSubjectIndustryDetails) |  | Возвращает отраслевой реквизит чека. |
+| public | [getPlannedStatus()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getPlannedStatus) |  | Возвращает планируемый статус товара. |
 | public | [getPrice()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getPrice) |  | Возвращает цену товара. |
 | public | [getProductCode()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getProductCode) |  | Возвращает код товара — уникальный номер, который присваивается экземпляру товара при маркировке. |
 | public | [getQuantity()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_getQuantity) |  | Возвращает количество товара. |
@@ -105,6 +109,7 @@
 | public | [setPaymentMode()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setPaymentMode) |  | Устанавливает признак способа расчета. |
 | public | [setPaymentSubject()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setPaymentSubject) |  | Устанавливает признак предмета расчета. |
 | public | [setPaymentSubjectIndustryDetails()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setPaymentSubjectIndustryDetails) |  | Устанавливает отраслевой реквизит чека. |
+| public | [setPlannedStatus()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setPlannedStatus) |  | Устанавливает планируемый статус товара. |
 | public | [setPrice()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setPrice) |  | Устанавливает цену товара. |
 | public | [setProductCode()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setProductCode) |  | Устанавливает код товара — уникальный номер, который присваивается экземпляру товара при маркировке. |
 | public | [setQuantity()](../classes/YooKassa-Model-Receipt-ReceiptItem.md#method_setQuantity) |  | Устанавливает количество покупаемого товара. |
@@ -285,6 +290,18 @@ ADD_PROPS_MAX_LENGTH = 64 : int
 **Details:**
 
 
+<a name="property_is_shipping"></a>
+#### public $is_shipping : bool
+---
+***Description***
+
+Флаг доставки
+
+**Type:** <a href="../bool"><abbr title="bool">bool</abbr></a>
+
+**Details:**
+
+
 <a name="property_isShipping"></a>
 #### public $isShipping : bool
 ---
@@ -453,6 +470,30 @@ ADD_PROPS_MAX_LENGTH = 64 : int
 **Details:**
 
 
+<a name="property_planned_status"></a>
+#### public $planned_status : int
+---
+***Description***
+
+Планируемый статус товара. Тег в 54 ФЗ — 2003
+
+**Type:** <a href="../int"><abbr title="int">int</abbr></a>
+
+**Details:**
+
+
+<a name="property_plannedStatus"></a>
+#### public $plannedStatus : int
+---
+***Description***
+
+Планируемый статус товара. Тег в 54 ФЗ — 2003
+
+**Type:** <a href="../int"><abbr title="int">int</abbr></a>
+
+**Details:**
+
+
 <a name="property_price"></a>
 #### public $price : \YooKassa\Model\AmountInterface
 ---
@@ -518,7 +559,7 @@ ADD_PROPS_MAX_LENGTH = 64 : int
 ---
 ***Description***
 
-Ставка НДС (тег в 54 ФЗ — 1199), число 1-6
+Ставка НДС (тег в 54 ФЗ — 1199), число 1-10
 
 **Type:** <a href="../int"><abbr title="int">int</abbr></a>
 
@@ -530,7 +571,7 @@ ADD_PROPS_MAX_LENGTH = 64 : int
 ---
 ***Description***
 
-Ставка НДС (тег в 54 ФЗ — 1199), число 1-6
+Ставка НДС (тег в 54 ФЗ — 1199), число 1-10
 
 **Type:** <a href="../int"><abbr title="int">int</abbr></a>
 
@@ -962,6 +1003,23 @@ public getPaymentSubjectIndustryDetails() : \YooKassa\Model\Receipt\IndustryDeta
 **Returns:** \YooKassa\Model\Receipt\IndustryDetails[]|\YooKassa\Common\ListObjectInterface - Отраслевой реквизит чека
 
 
+<a name="method_getPlannedStatus" class="anchor"></a>
+#### public getPlannedStatus() : int|null
+
+```php
+public getPlannedStatus() : int|null
+```
+
+**Summary**
+
+Возвращает планируемый статус товара.
+
+**Details:**
+* Inherited From: [\YooKassa\Model\Receipt\ReceiptItem](../classes/YooKassa-Model-Receipt-ReceiptItem.md)
+
+**Returns:** int|null - Планируемый статус товара
+
+
 <a name="method_getPrice" class="anchor"></a>
 #### public getPrice() : \YooKassa\Model\AmountInterface
 
@@ -1057,7 +1115,7 @@ public getVatCode() : null|int
 **Details:**
 * Inherited From: [\YooKassa\Model\Receipt\ReceiptItem](../classes/YooKassa-Model-Receipt-ReceiptItem.md)
 
-**Returns:** null|int - Ставка НДС, число 1-6, или null, если ставка не задана
+**Returns:** null|int - Ставка НДС, число 1-10, или null, если ставка не задана
 
 
 <a name="method_increasePrice" class="anchor"></a>
@@ -1513,6 +1571,28 @@ public setPaymentSubjectIndustryDetails(array|\YooKassa\Common\ListObjectInterfa
 **Returns:** self - 
 
 
+<a name="method_setPlannedStatus" class="anchor"></a>
+#### public setPlannedStatus() : self
+
+```php
+public setPlannedStatus(int|null $planned_status = null) : self
+```
+
+**Summary**
+
+Устанавливает планируемый статус товара.
+
+**Details:**
+* Inherited From: [\YooKassa\Model\Receipt\ReceiptItem](../classes/YooKassa-Model-Receipt-ReceiptItem.md)
+
+##### Parameters:
+| Type | Name | Description |
+| ---- | ---- | ----------- |
+| <code lang="php">int OR null</code> | planned_status  | Планируемый статус товара |
+
+**Returns:** self - 
+
+
 <a name="method_setPrice" class="anchor"></a>
 #### public setPrice() : self
 
@@ -1689,10 +1769,10 @@ protected validatePropertyValue(string $propertyName, mixed $propertyValue) : mi
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

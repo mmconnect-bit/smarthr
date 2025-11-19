@@ -32,7 +32,8 @@ class CustomBiddingAlgorithmsRules extends \Google\Service\Resource
 {
   /**
    * Creates a new rules resource. Returns the newly created rules resource if
-   * successful. (rules.create)
+   * successful. Requests creating a custom bidding rules resource under an
+   * algorithm assigned to a line item will return an error. (rules.create)
    *
    * @param string $customBiddingAlgorithmId Required. The ID of the custom
    * bidding algorithm that owns the rules resource.
@@ -45,6 +46,7 @@ class CustomBiddingAlgorithmsRules extends \Google\Service\Resource
    * bidding algorithm. Only this partner will have write access to this rules
    * resource.
    * @return CustomBiddingAlgorithmRules
+   * @throws \Google\Service\Exception
    */
   public function create($customBiddingAlgorithmId, CustomBiddingAlgorithmRules $postBody, $optParams = [])
   {
@@ -66,6 +68,7 @@ class CustomBiddingAlgorithmsRules extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that owns the parent custom
    * bidding algorithm.
    * @return CustomBiddingAlgorithmRules
+   * @throws \Google\Service\Exception
    */
   public function get($customBiddingAlgorithmId, $customBiddingAlgorithmRulesId, $optParams = [])
   {
@@ -97,6 +100,7 @@ class CustomBiddingAlgorithmsRules extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that owns the parent custom
    * bidding algorithm.
    * @return ListCustomBiddingAlgorithmRulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomBiddingAlgorithmsRules($customBiddingAlgorithmId, $optParams = [])
   {

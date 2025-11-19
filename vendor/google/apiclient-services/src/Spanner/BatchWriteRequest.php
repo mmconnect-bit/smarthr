@@ -20,13 +20,41 @@ namespace Google\Service\Spanner;
 class BatchWriteRequest extends \Google\Collection
 {
   protected $collection_key = 'mutationGroups';
+  /**
+   * Optional. If you don't set the `exclude_txn_from_change_streams` option or
+   * if it's set to `false`, then any change streams monitoring columns modified
+   * by transactions will capture the updates made within that transaction.
+   *
+   * @var bool
+   */
+  public $excludeTxnFromChangeStreams;
   protected $mutationGroupsType = MutationGroup::class;
   protected $mutationGroupsDataType = 'array';
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
 
   /**
-   * @param MutationGroup[]
+   * Optional. If you don't set the `exclude_txn_from_change_streams` option or
+   * if it's set to `false`, then any change streams monitoring columns modified
+   * by transactions will capture the updates made within that transaction.
+   *
+   * @param bool $excludeTxnFromChangeStreams
+   */
+  public function setExcludeTxnFromChangeStreams($excludeTxnFromChangeStreams)
+  {
+    $this->excludeTxnFromChangeStreams = $excludeTxnFromChangeStreams;
+  }
+  /**
+   * @return bool
+   */
+  public function getExcludeTxnFromChangeStreams()
+  {
+    return $this->excludeTxnFromChangeStreams;
+  }
+  /**
+   * Required. The groups of mutations to be applied.
+   *
+   * @param MutationGroup[] $mutationGroups
    */
   public function setMutationGroups($mutationGroups)
   {
@@ -40,7 +68,9 @@ class BatchWriteRequest extends \Google\Collection
     return $this->mutationGroups;
   }
   /**
-   * @param RequestOptions
+   * Common options for this request.
+   *
+   * @param RequestOptions $requestOptions
    */
   public function setRequestOptions(RequestOptions $requestOptions)
   {

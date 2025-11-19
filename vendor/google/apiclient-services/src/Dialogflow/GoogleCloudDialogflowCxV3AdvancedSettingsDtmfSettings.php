@@ -20,20 +20,50 @@ namespace Google\Service\Dialogflow;
 class GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings extends \Google\Model
 {
   /**
+   * If true, incoming audio is processed for DTMF (dual tone multi frequency)
+   * events. For example, if the caller presses a button on their telephone
+   * keypad and DTMF processing is enabled, Dialogflow will detect the event
+   * (e.g. a "3" was pressed) in the incoming audio and pass the event to the
+   * bot to drive business logic (e.g. when 3 is pressed, return the account
+   * balance).
+   *
    * @var bool
    */
   public $enabled;
   /**
+   * Endpoint timeout setting for matching dtmf input to regex.
+   *
+   * @var string
+   */
+  public $endpointingTimeoutDuration;
+  /**
+   * The digit that terminates a DTMF digit sequence.
+   *
    * @var string
    */
   public $finishDigit;
   /**
+   * Interdigit timeout setting for matching dtmf input to regex.
+   *
+   * @var string
+   */
+  public $interdigitTimeoutDuration;
+  /**
+   * Max length of DTMF digits.
+   *
    * @var int
    */
   public $maxDigits;
 
   /**
-   * @param bool
+   * If true, incoming audio is processed for DTMF (dual tone multi frequency)
+   * events. For example, if the caller presses a button on their telephone
+   * keypad and DTMF processing is enabled, Dialogflow will detect the event
+   * (e.g. a "3" was pressed) in the incoming audio and pass the event to the
+   * bot to drive business logic (e.g. when 3 is pressed, return the account
+   * balance).
+   *
+   * @param bool $enabled
    */
   public function setEnabled($enabled)
   {
@@ -47,7 +77,25 @@ class GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings extends \Google\Mode
     return $this->enabled;
   }
   /**
-   * @param string
+   * Endpoint timeout setting for matching dtmf input to regex.
+   *
+   * @param string $endpointingTimeoutDuration
+   */
+  public function setEndpointingTimeoutDuration($endpointingTimeoutDuration)
+  {
+    $this->endpointingTimeoutDuration = $endpointingTimeoutDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getEndpointingTimeoutDuration()
+  {
+    return $this->endpointingTimeoutDuration;
+  }
+  /**
+   * The digit that terminates a DTMF digit sequence.
+   *
+   * @param string $finishDigit
    */
   public function setFinishDigit($finishDigit)
   {
@@ -61,7 +109,25 @@ class GoogleCloudDialogflowCxV3AdvancedSettingsDtmfSettings extends \Google\Mode
     return $this->finishDigit;
   }
   /**
-   * @param int
+   * Interdigit timeout setting for matching dtmf input to regex.
+   *
+   * @param string $interdigitTimeoutDuration
+   */
+  public function setInterdigitTimeoutDuration($interdigitTimeoutDuration)
+  {
+    $this->interdigitTimeoutDuration = $interdigitTimeoutDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getInterdigitTimeoutDuration()
+  {
+    return $this->interdigitTimeoutDuration;
+  }
+  /**
+   * Max length of DTMF digits.
+   *
+   * @param int $maxDigits
    */
   public function setMaxDigits($maxDigits)
   {

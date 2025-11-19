@@ -53,7 +53,10 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * (_), and hyphens (-). The maximum length is 40 characters.
    * @opt_param bool skipValidation Optional. If set to true, will skip
    * validations.
+   * @opt_param bool validateOnly Optional. For PSC Interface only - get the
+   * tenant project before creating the resource.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, PrivateConnection $postBody, $optParams = [])
   {
@@ -74,6 +77,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores
    * (_), and hyphens (-). The maximum length is 40 characters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -87,6 +91,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * @param string $name Required. The name of the private connection to get.
    * @param array $optParams Optional parameters.
    * @return PrivateConnection
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -118,6 +123,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -148,6 +154,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListPrivateConnections`
    * must match the call that provided the page token.
    * @return ListPrivateConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsPrivateConnections($parent, $optParams = [])
   {
@@ -167,6 +174,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -189,6 +197,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

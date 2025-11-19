@@ -23,16 +23,24 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
   protected $createApplicationDataType = '';
   protected $deployType = GoogleCloudAiplatformV1PublisherModelCallToActionDeploy::class;
   protected $deployDataType = '';
+  protected $deployGkeType = GoogleCloudAiplatformV1PublisherModelCallToActionDeployGke::class;
+  protected $deployGkeDataType = '';
+  protected $multiDeployVertexType = GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex::class;
+  protected $multiDeployVertexDataType = '';
   protected $openEvaluationPipelineType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openEvaluationPipelineDataType = '';
   protected $openFineTuningPipelineType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openFineTuningPipelineDataType = '';
+  protected $openFineTuningPipelinesType = GoogleCloudAiplatformV1PublisherModelCallToActionOpenFineTuningPipelines::class;
+  protected $openFineTuningPipelinesDataType = '';
   protected $openGenerationAiStudioType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openGenerationAiStudioDataType = '';
   protected $openGenieType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openGenieDataType = '';
   protected $openNotebookType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openNotebookDataType = '';
+  protected $openNotebooksType = GoogleCloudAiplatformV1PublisherModelCallToActionOpenNotebooks::class;
+  protected $openNotebooksDataType = '';
   protected $openPromptTuningPipelineType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
   protected $openPromptTuningPipelineDataType = '';
   protected $requestAccessType = GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences::class;
@@ -41,7 +49,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
   protected $viewRestApiDataType = '';
 
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Create application using the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $createApplication
    */
   public function setCreateApplication(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $createApplication)
   {
@@ -55,7 +65,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->createApplication;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionDeploy
+   * Optional. Deploy the PublisherModel to Vertex Endpoint.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionDeploy $deploy
    */
   public function setDeploy(GoogleCloudAiplatformV1PublisherModelCallToActionDeploy $deploy)
   {
@@ -69,7 +81,41 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->deploy;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Deploy PublisherModel to Google Kubernetes Engine.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionDeployGke $deployGke
+   */
+  public function setDeployGke(GoogleCloudAiplatformV1PublisherModelCallToActionDeployGke $deployGke)
+  {
+    $this->deployGke = $deployGke;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PublisherModelCallToActionDeployGke
+   */
+  public function getDeployGke()
+  {
+    return $this->deployGke;
+  }
+  /**
+   * Optional. Multiple setups to deploy the PublisherModel to Vertex Endpoint.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex $multiDeployVertex
+   */
+  public function setMultiDeployVertex(GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex $multiDeployVertex)
+  {
+    $this->multiDeployVertex = $multiDeployVertex;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PublisherModelCallToActionDeployVertex
+   */
+  public function getMultiDeployVertex()
+  {
+    return $this->multiDeployVertex;
+  }
+  /**
+   * Optional. Open evaluation pipeline of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openEvaluationPipeline
    */
   public function setOpenEvaluationPipeline(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openEvaluationPipeline)
   {
@@ -83,7 +129,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openEvaluationPipeline;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Open fine-tuning pipeline of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openFineTuningPipeline
    */
   public function setOpenFineTuningPipeline(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openFineTuningPipeline)
   {
@@ -97,7 +145,25 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openFineTuningPipeline;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Open fine-tuning pipelines of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionOpenFineTuningPipelines $openFineTuningPipelines
+   */
+  public function setOpenFineTuningPipelines(GoogleCloudAiplatformV1PublisherModelCallToActionOpenFineTuningPipelines $openFineTuningPipelines)
+  {
+    $this->openFineTuningPipelines = $openFineTuningPipelines;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PublisherModelCallToActionOpenFineTuningPipelines
+   */
+  public function getOpenFineTuningPipelines()
+  {
+    return $this->openFineTuningPipelines;
+  }
+  /**
+   * Optional. Open in Generation AI Studio.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openGenerationAiStudio
    */
   public function setOpenGenerationAiStudio(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openGenerationAiStudio)
   {
@@ -111,7 +177,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openGenerationAiStudio;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Open Genie / Playground.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openGenie
    */
   public function setOpenGenie(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openGenie)
   {
@@ -125,7 +193,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openGenie;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Open notebook of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openNotebook
    */
   public function setOpenNotebook(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openNotebook)
   {
@@ -139,7 +209,25 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openNotebook;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Open notebooks of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionOpenNotebooks $openNotebooks
+   */
+  public function setOpenNotebooks(GoogleCloudAiplatformV1PublisherModelCallToActionOpenNotebooks $openNotebooks)
+  {
+    $this->openNotebooks = $openNotebooks;
+  }
+  /**
+   * @return GoogleCloudAiplatformV1PublisherModelCallToActionOpenNotebooks
+   */
+  public function getOpenNotebooks()
+  {
+    return $this->openNotebooks;
+  }
+  /**
+   * Optional. Open prompt-tuning pipeline of the PublisherModel.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openPromptTuningPipeline
    */
   public function setOpenPromptTuningPipeline(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $openPromptTuningPipeline)
   {
@@ -153,7 +241,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->openPromptTuningPipeline;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences
+   * Optional. Request for access.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $requestAccess
    */
   public function setRequestAccess(GoogleCloudAiplatformV1PublisherModelCallToActionRegionalResourceReferences $requestAccess)
   {
@@ -167,7 +257,9 @@ class GoogleCloudAiplatformV1PublisherModelCallToAction extends \Google\Model
     return $this->requestAccess;
   }
   /**
-   * @param GoogleCloudAiplatformV1PublisherModelCallToActionViewRestApi
+   * Optional. To view Rest API docs.
+   *
+   * @param GoogleCloudAiplatformV1PublisherModelCallToActionViewRestApi $viewRestApi
    */
   public function setViewRestApi(GoogleCloudAiplatformV1PublisherModelCallToActionViewRestApi $viewRestApi)
   {

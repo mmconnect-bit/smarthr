@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ use YooKassa\Common\ListObject;
 use YooKassa\Common\ListObjectInterface;
 use YooKassa\Model\Receipt\PaymentMode;
 use YooKassa\Model\Receipt\PaymentSubject;
+use YooKassa\Model\Receipt\ReceiptItemAmount;
 use YooKassa\Validator\Constraints as Assert;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Model\AmountInterface;
@@ -55,8 +56,8 @@ use YooKassa\Model\Receipt\SupplierInterface;
  * @property float $quantity Количество (тег в 54 ФЗ — 1023)
  * @property float $amount Суммарная стоимость покупаемого товара в копейках/центах
  * @property AmountInterface $price Цена товара (тег в 54 ФЗ — 1079)
- * @property int $vatCode Ставка НДС, число 1-6 (тег в 54 ФЗ — 1199)
- * @property int $vat_code Ставка НДС, число 1-6 (тег в 54 ФЗ — 1199)
+ * @property int $vatCode Ставка НДС, число 1-10 (тег в 54 ФЗ — 1199)
+ * @property int $vat_code Ставка НДС, число 1-10 (тег в 54 ФЗ — 1199)
  * @property string $paymentSubject Признак предмета расчета (тег в 54 ФЗ — 1212)
  * @property string $payment_subject Признак предмета расчета (тег в 54 ФЗ — 1212)
  * @property string $paymentMode Признак способа расчета (тег в 54 ФЗ — 1214)
@@ -74,6 +75,8 @@ use YooKassa\Model\Receipt\SupplierInterface;
  * @property string $measure Мера количества предмета расчета (тег в 54 ФЗ — 2108)
  * @property string $productCode Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
  * @property string $product_code Код товара — уникальный номер, который присваивается экземпляру товара при маркировке (тег в 54 ФЗ — 1162)
+ * @property int $plannedStatus Планируемый статус товара. Тег в 54 ФЗ — 2003
+ * @property int $planned_status Планируемый статус товара. Тег в 54 ФЗ — 2003
  * @property string $markMode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property string $mark_mode Режим обработки кода маркировки (тег в 54 ФЗ — 2102)
  * @property MarkQuantity $markQuantity Дробное количество маркированного товара (тег в 54 ФЗ — 1291)
@@ -110,15 +113,18 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
     /**
      * @var AmountInterface|null Цена товара (тег в 54 ФЗ — 1079)
      */
+    #[Assert\NotBlank]
+    #[Assert\Valid]
+    #[Assert\Type(MonetaryAmount::class)]
     private ?AmountInterface $_amount = null;
 
     /**
-     * @var int|null Ставка НДС, число 1-6 (тег в 54 ФЗ — 1199)
+     * @var int|null Ставка НДС, число 1-10 (тег в 54 ФЗ — 1199)
      */
     #[Assert\NotBlank]
     #[Assert\Type('int')]
     #[Assert\GreaterThanOrEqual(1)]
-    #[Assert\LessThanOrEqual(6)]
+    #[Assert\LessThanOrEqual(10)]
     private ?int $_vat_code = null;
 
     /**
@@ -185,14 +191,15 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      *             Обязателен при использовании ФФД 1.2.
      */
     #[Assert\Choice(callback: [ReceiptItemMeasure::class, 'getEnabledValues'])]
+    #[Assert\Type('string')]
     private ?string $_measure = null;
 
     /**
      * @var IndustryDetails[]|ListObjectInterface|null Отраслевой реквизит чека (тег в 54 ФЗ — 1260)
      */
-    #[Assert\Type(ListObject::class)]
-    #[Assert\AllType(IndustryDetails::class)]
     #[Assert\Valid]
+    #[Assert\AllType(IndustryDetails::class)]
+    #[Assert\Type(ListObject::class)]
     private ?ListObject $_payment_subject_industry_details = null;
 
     /**
@@ -202,6 +209,14 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
     #[Assert\Length(max: 96)]
     #[Assert\Regex(pattern: '/^[0-9A-F ]{2,96}$/')]
     private ?string $_product_code = null;
+
+    /**
+     * @var int|null Планируемый статус товара. Тег в 54 ФЗ — 2003. Указывается только для товаров, которые подлежат обязательной маркировке
+     */
+    #[Assert\Type('int')]
+    #[Assert\GreaterThanOrEqual(1)]
+    #[Assert\LessThanOrEqual(6)]
+    private ?int $_planned_status = null;
 
     /**
      * @var string|null Режим обработки кода маркировки (тег в 54 ФЗ — 2102). Должен принимать значение равное «0».
@@ -283,7 +298,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      */
     public function getAmount(): ?int
     {
-        return (int) round($this->_amount->getIntegerValue() * $this->_quantity);
+        return (int) round($this->_amount?->getIntegerValue() * $this->_quantity);
     }
 
     /**
@@ -313,7 +328,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
     /**
      * Возвращает ставку НДС
      *
-     * @return null|int Ставка НДС, число 1-6, или null, если ставка не задана
+     * @return null|int Ставка НДС, число 1-10, или null, если ставка не задана
      */
     public function getVatCode(): ?int
     {
@@ -323,7 +338,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
     /**
      * Устанавливает ставку НДС
      *
-     * @param int|null $vat_code Ставка НДС, число 1-6
+     * @param int|null $vat_code Ставка НДС, число 1-10
      *
      * @return self
      */
@@ -351,7 +366,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      * @return self
      *
      */
-    public function setPaymentSubject(mixed $payment_subject = null): self
+    public function setPaymentSubject(?string $payment_subject = null): self
     {
         $this->_payment_subject = $this->validatePropertyValue('_payment_subject', $payment_subject);
         return $this;
@@ -374,7 +389,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      *
      * @return self
      */
-    public function setPaymentMode(mixed $payment_mode = null): self
+    public function setPaymentMode(?string $payment_mode = null): self
     {
         $this->_payment_mode = $this->validatePropertyValue('_payment_mode', $payment_mode);
         return $this;
@@ -479,6 +494,29 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
         }
 
         $this->_product_code = $this->validatePropertyValue('_product_code', $product_code);
+        return $this;
+    }
+
+    /**
+     * Возвращает планируемый статус товара.
+     *
+     * @return int|null Планируемый статус товара
+     */
+    public function getPlannedStatus(): ?int
+    {
+        return $this->_planned_status;
+    }
+
+    /**
+     * Устанавливает планируемый статус товара.
+     *
+     * @param int|null $planned_status Планируемый статус товара
+     *
+     * @return self
+     */
+    public function setPlannedStatus(?int $planned_status = null): self
+    {
+        $this->_planned_status = $this->validatePropertyValue('_planned_status', $planned_status);
         return $this;
     }
 
@@ -592,7 +630,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      *
      * @return self
      */
-    public function setPaymentSubjectIndustryDetails(array|null $payment_subject_industry_details = null): self
+    public function setPaymentSubjectIndustryDetails(mixed $payment_subject_industry_details = null): self
     {
         $this->_payment_subject_industry_details = $this->validatePropertyValue('_payment_subject_industry_details', $payment_subject_industry_details);
         return $this;
@@ -637,7 +675,7 @@ class ReceiptResponseItem extends AbstractObject implements ReceiptResponseItemI
      *
      * @return self
      */
-    public function setAgentType(mixed $agent_type = null): self
+    public function setAgentType(?string $agent_type = null): self
     {
         $this->_agent_type = $this->validatePropertyValue('_agent_type', $agent_type);
         return $this;

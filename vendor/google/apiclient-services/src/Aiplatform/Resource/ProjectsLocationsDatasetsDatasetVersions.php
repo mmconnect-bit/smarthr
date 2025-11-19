@@ -39,6 +39,7 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
    * @param GoogleCloudAiplatformV1DatasetVersion $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudAiplatformV1DatasetVersion $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
    * atasetVersions/{dataset_version}`
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
    *
    * @opt_param string readMask Mask specifying which fields to read.
    * @return GoogleCloudAiplatformV1DatasetVersion
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,12 +97,34 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The standard list page token.
    * @opt_param string readMask Optional. Mask specifying which fields to read.
    * @return GoogleCloudAiplatformV1ListDatasetVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDatasetsDatasetVersions($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListDatasetVersionsResponse::class);
+  }
+  /**
+   * Updates a DatasetVersion. (datasetVersions.patch)
+   *
+   * @param string $name Output only. Identifier. The resource name of the
+   * DatasetVersion. Format: `projects/{project}/locations/{location}/datasets/{da
+   * taset}/datasetVersions/{dataset_version}`
+   * @param GoogleCloudAiplatformV1DatasetVersion $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see google.protobuf.FieldMask.
+   * Updatable fields: * `display_name`
+   * @return GoogleCloudAiplatformV1DatasetVersion
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudAiplatformV1DatasetVersion $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudAiplatformV1DatasetVersion::class);
   }
   /**
    * Restores a dataset version. (datasetVersions.restore)
@@ -109,6 +134,7 @@ class ProjectsLocationsDatasetsDatasetVersions extends \Google\Service\Resource
    * rsions/{dataset_version}`
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function restore($name, $optParams = [])
   {

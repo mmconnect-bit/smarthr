@@ -45,6 +45,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * project ID.
    * @param array $optParams Optional parameters.
    * @return SqlInstancesGetDiskShrinkConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function getDiskShrinkConfig($project, $instance, $optParams = [])
   {
@@ -60,7 +61,12 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param string $instance Cloud SQL instance ID. This does not include the
    * project ID.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string sourceInstanceDeletionTime The timestamp used to identify
+   * the time when the source instance is deleted. If this instance is deleted,
+   * then you must set the timestamp.
    * @return SqlInstancesGetLatestRecoveryTimeResponse
+   * @throws \Google\Service\Exception
    */
   public function getLatestRecoveryTime($project, $instance, $optParams = [])
   {
@@ -77,6 +83,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param PerformDiskShrinkContext $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function performDiskShrink($project, $instance, PerformDiskShrinkContext $postBody, $optParams = [])
   {
@@ -94,6 +101,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesRescheduleMaintenanceRequestBody $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function rescheduleMaintenance($project, $instance, SqlInstancesRescheduleMaintenanceRequestBody $postBody, $optParams = [])
   {
@@ -110,6 +118,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesResetReplicaSizeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function resetReplicaSize($project, $instance, SqlInstancesResetReplicaSizeRequest $postBody, $optParams = [])
   {
@@ -126,6 +135,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesStartExternalSyncRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function startExternalSync($project, $instance, SqlInstancesStartExternalSyncRequest $postBody, $optParams = [])
   {
@@ -143,6 +153,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesVerifyExternalSyncSettingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SqlInstancesVerifyExternalSyncSettingsResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyExternalSyncSettings($project, $instance, SqlInstancesVerifyExternalSyncSettingsRequest $postBody, $optParams = [])
   {

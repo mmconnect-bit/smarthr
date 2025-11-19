@@ -22,15 +22,30 @@ class AgentTaskSpec extends \Google\Collection
   protected $collection_key = 'runnables';
   protected $environmentType = AgentEnvironment::class;
   protected $environmentDataType = '';
+  protected $loggingOptionType = AgentTaskLoggingOption::class;
+  protected $loggingOptionDataType = '';
   /**
+   * Maximum duration the task should run before being automatically retried (if
+   * enabled) or automatically failed. Format the value of this field as a time
+   * limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field
+   * accepts any value between 0 and the maximum listed for the `Duration` field
+   * type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration;
+   * however, the actual maximum run time for a job will be limited to the
+   * maximum run time for a job listed at
+   * https://cloud.google.com/batch/quotas#max-job-duration.
+   *
    * @var string
    */
   public $maxRunDuration;
   protected $runnablesType = AgentTaskRunnable::class;
   protected $runnablesDataType = 'array';
+  protected $userAccountType = AgentTaskUserAccount::class;
+  protected $userAccountDataType = '';
 
   /**
-   * @param AgentEnvironment
+   * Environment variables to set before running the Task.
+   *
+   * @param AgentEnvironment $environment
    */
   public function setEnvironment(AgentEnvironment $environment)
   {
@@ -44,7 +59,32 @@ class AgentTaskSpec extends \Google\Collection
     return $this->environment;
   }
   /**
-   * @param string
+   * Logging option for the task.
+   *
+   * @param AgentTaskLoggingOption $loggingOption
+   */
+  public function setLoggingOption(AgentTaskLoggingOption $loggingOption)
+  {
+    $this->loggingOption = $loggingOption;
+  }
+  /**
+   * @return AgentTaskLoggingOption
+   */
+  public function getLoggingOption()
+  {
+    return $this->loggingOption;
+  }
+  /**
+   * Maximum duration the task should run before being automatically retried (if
+   * enabled) or automatically failed. Format the value of this field as a time
+   * limit in seconds followed by `s`—for example, `3600s` for 1 hour. The field
+   * accepts any value between 0 and the maximum listed for the `Duration` field
+   * type at https://protobuf.dev/reference/protobuf/google.protobuf/#duration;
+   * however, the actual maximum run time for a job will be limited to the
+   * maximum run time for a job listed at
+   * https://cloud.google.com/batch/quotas#max-job-duration.
+   *
+   * @param string $maxRunDuration
    */
   public function setMaxRunDuration($maxRunDuration)
   {
@@ -58,7 +98,9 @@ class AgentTaskSpec extends \Google\Collection
     return $this->maxRunDuration;
   }
   /**
-   * @param AgentTaskRunnable[]
+   * AgentTaskRunnable is runanbles that will be executed on the agent.
+   *
+   * @param AgentTaskRunnable[] $runnables
    */
   public function setRunnables($runnables)
   {
@@ -70,6 +112,23 @@ class AgentTaskSpec extends \Google\Collection
   public function getRunnables()
   {
     return $this->runnables;
+  }
+  /**
+   * User account on the VM to run the runnables in the agentTaskSpec. If not
+   * set, the runnable will be run under root user.
+   *
+   * @param AgentTaskUserAccount $userAccount
+   */
+  public function setUserAccount(AgentTaskUserAccount $userAccount)
+  {
+    $this->userAccount = $userAccount;
+  }
+  /**
+   * @return AgentTaskUserAccount
+   */
+  public function getUserAccount()
+  {
+    return $this->userAccount;
   }
 }
 

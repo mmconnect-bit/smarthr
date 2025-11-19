@@ -31,17 +31,18 @@ use Google\Service\SecurityCommandCenter\ValidateEventThreatDetectionCustomModul
 class ProjectsEventThreatDetectionSettings extends \Google\Service\Resource
 {
   /**
-   * Validates the given Event Threat Detection Custom Module.
+   * Validates the given Event Threat Detection custom module.
    * (eventThreatDetectionSettings.validateCustomModule)
    *
    * @param string $parent Required. Resource name of the parent to validate the
    * Custom Module under. Its format is: *
-   * "organizations/{organization}/eventThreatDetectionSettings". *
-   * "folders/{folder}/eventThreatDetectionSettings". *
-   * "projects/{project}/eventThreatDetectionSettings".
+   * `organizations/{organization}/eventThreatDetectionSettings`. *
+   * `folders/{folder}/eventThreatDetectionSettings`. *
+   * `projects/{project}/eventThreatDetectionSettings`.
    * @param ValidateEventThreatDetectionCustomModuleRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ValidateEventThreatDetectionCustomModuleResponse
+   * @throws \Google\Service\Exception
    */
   public function validateCustomModule($parent, ValidateEventThreatDetectionCustomModuleRequest $postBody, $optParams = [])
   {

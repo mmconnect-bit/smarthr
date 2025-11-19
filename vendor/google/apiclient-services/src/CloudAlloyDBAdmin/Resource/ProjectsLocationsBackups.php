@@ -41,18 +41,19 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * @opt_param string backupId Required. ID of the requesting object.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Backup $postBody, $optParams = [])
   {
@@ -72,18 +73,19 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * be blocked and an ABORTED error will be returned.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes after the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -96,7 +98,10 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    *
    * @param string $name Required. Name of the resource
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view Optional. The view of the backup to return.
    * @return Backup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -117,7 +122,9 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * than requested. If unspecified, server will pick an appropriate default.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return.
+   * @opt_param string view Optional. The view of the backup to return.
    * @return ListBackupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsBackups($parent, $optParams = [])
   {
@@ -144,14 +151,14 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * `update_mask` is ignored.
    * @opt_param string requestId Optional. An optional request ID to identify
    * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
+   * the server ignores the request if it has already been completed. The server
+   * guarantees that for at least 60 minutes since the first request. For example,
+   * consider a situation where you make an initial request and the request times
+   * out. If you make the request again with the same request ID, the server can
+   * check if the original operation with the same request ID was received, and if
+   * so, ignores the second request. This prevents clients from accidentally
+   * creating duplicate commitments. The request ID must be a valid UUID with the
+   * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string updateMask Optional. Field mask is used to specify the
    * fields to be overwritten in the Backup resource by the update. The fields
@@ -161,6 +168,7 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. If set, the backend validates the
    * request, but doesn't actually execute it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Backup $postBody, $optParams = [])
   {

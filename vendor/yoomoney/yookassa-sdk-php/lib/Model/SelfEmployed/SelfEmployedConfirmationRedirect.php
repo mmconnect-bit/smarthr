@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,6 @@ class SelfEmployedConfirmationRedirect extends SelfEmployedConfirmation
      * @var string|null
      */
     #[Assert\NotBlank]
-    #[Assert\Url]
     #[Assert\Type('string')]
     private ?string $_confirmation_url = null;
 

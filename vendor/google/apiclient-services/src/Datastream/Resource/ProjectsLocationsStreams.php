@@ -56,6 +56,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the stream, but don't
    * create any resources. The default is false.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Stream $postBody, $optParams = [])
   {
@@ -81,6 +82,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -94,6 +96,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
    * @param string $name Required. The name of the stream resource to get.
    * @param array $optParams Optional parameters.
    * @return Stream
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -119,6 +122,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
    * other parameters provided to `ListStreams` must match the call that provided
    * the page token.
    * @return ListStreamsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsStreams($parent, $optParams = [])
   {
@@ -129,14 +133,10 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
   /**
    * Use this method to update the configuration of a stream. (streams.patch)
    *
-   * @param string $name Output only. The stream's name.
+   * @param string $name Output only. Identifier. The stream's name.
    * @param Stream $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string cdcStrategy.specificStartPosition.mysqlLogPosition.logFile
-   * Required. The binary log file name.
-   * @opt_param int cdcStrategy.specificStartPosition.mysqlLogPosition.logPosition
-   * Optional. The position within the binary log file. Default is head of file.
    * @opt_param bool force Optional. Update the stream without validating it.
    * @opt_param string requestId Optional. A request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
@@ -157,6 +157,7 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the stream with the
    * changes, without actually updating it. The default is false.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Stream $postBody, $optParams = [])
   {
@@ -166,13 +167,14 @@ class ProjectsLocationsStreams extends \Google\Service\Resource
   }
   /**
    * Use this method to start, resume or recover a stream with a non default CDC
-   * strategy. NOTE: This feature is currently experimental. (streams.run)
+   * strategy. (streams.run)
    *
    * @param string $name Required. Name of the stream resource to start, in the
    * format: projects/{project_id}/locations/{location}/streams/{stream_name}
    * @param RunStreamRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function run($name, RunStreamRequest $postBody, $optParams = [])
   {

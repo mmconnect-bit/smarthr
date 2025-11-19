@@ -41,6 +41,7 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1AppGroup $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1AppGroup
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1AppGroup $postBody, $optParams = [])
   {
@@ -52,14 +53,15 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * Deletes an AppGroup. All app and API keys associations with the AppGroup are
    * also removed. **Warning**: This API will permanently delete the AppGroup and
    * related artifacts. **Note**: The delete operation is asynchronous. The
-   * AppGroup app is deleted immediately, but its associated resources, such as
-   * apps and API keys, may take anywhere from a few seconds to a few minutes to
-   * be deleted. (appgroups.delete)
+   * AppGroup is deleted immediately, but its associated resources, such as apps
+   * and API keys, may take anywhere from a few seconds to a few minutes to be
+   * deleted. (appgroups.delete)
    *
    * @param string $name Required. Name of the AppGroup. Use the following
    * structure in your request: `organizations/{org}/appgroups/{app_group_name}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1AppGroup
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * structure in your request: `organizations/{org}/appgroups/{app_group_name}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1AppGroup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -101,6 +104,7 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * @opt_param string pageToken The starting index record for listing the
    * AppGroups.
    * @return GoogleCloudApigeeV1ListAppGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsAppgroups($parent, $optParams = [])
   {
@@ -124,6 +128,7 @@ class OrganizationsAppgroups extends \Google\Service\Resource
    * action as `active` or `inactive`. The `Content-Type` header must be set to
    * `application/octet-stream`, with empty body.
    * @return GoogleCloudApigeeV1AppGroup
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudApigeeV1AppGroup $postBody, $optParams = [])
   {

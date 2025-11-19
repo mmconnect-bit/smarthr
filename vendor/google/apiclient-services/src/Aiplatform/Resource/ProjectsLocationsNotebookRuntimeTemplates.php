@@ -46,6 +46,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * @opt_param string notebookRuntimeTemplateId Optional. User specified ID for
    * the notebook runtime template.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudAiplatformV1NotebookRuntimeTemplate $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * bookRuntimeTemplates/{notebook_runtime_template}`
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -76,6 +78,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * plates/{notebook_runtime_template}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1NotebookRuntimeTemplate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -107,6 +110,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -131,10 +135,12 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * `labels` supports general map functions that is: * `labels.key=value` -
    * key:value equality * `labels.key:* or labels:key - key existence * A key
    * including a space must be quoted. `labels."a key"`. * `notebookRuntimeType`
-   * supports = and !=. notebookRuntimeType enum: [USER_DEFINED, ONE_CLICK]. Some
+   * supports = and !=. notebookRuntimeType enum: [USER_DEFINED, ONE_CLICK]. *
+   * `machineType` supports = and !=. * `acceleratorType` supports = and !=. Some
    * examples: * `notebookRuntimeTemplate=notebookRuntimeTemplate123` *
    * `displayName="myDisplayName"` * `labels.myKey="myValue"` *
-   * `notebookRuntimeType=USER_DEFINED`
+   * `notebookRuntimeType=USER_DEFINED` * `machineType=e2-standard-4` *
+   * `acceleratorType=NVIDIA_TESLA_T4`
    * @opt_param string orderBy Optional. A comma-separated list of fields to order
    * by, sorted in ascending order. Use "desc" after a field name for descending.
    * Supported fields: * `display_name` * `create_time` * `update_time` Example:
@@ -145,12 +151,33 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * previous NotebookService.ListNotebookRuntimeTemplates call.
    * @opt_param string readMask Optional. Mask specifying which fields to read.
    * @return GoogleCloudAiplatformV1ListNotebookRuntimeTemplatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsNotebookRuntimeTemplates($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudAiplatformV1ListNotebookRuntimeTemplatesResponse::class);
+  }
+  /**
+   * Updates a NotebookRuntimeTemplate. (notebookRuntimeTemplates.patch)
+   *
+   * @param string $name The resource name of the NotebookRuntimeTemplate.
+   * @param GoogleCloudAiplatformV1NotebookRuntimeTemplate $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see google.protobuf.FieldMask.
+   * Input format: `{paths: "${updated_filed}"}` Updatable fields: *
+   * `encryption_spec.kms_key_name`
+   * @return GoogleCloudAiplatformV1NotebookRuntimeTemplate
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudAiplatformV1NotebookRuntimeTemplate $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudAiplatformV1NotebookRuntimeTemplate::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any
@@ -164,6 +191,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * @param GoogleIamV1SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, GoogleIamV1SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -190,6 +218,7 @@ class ProjectsLocationsNotebookRuntimeTemplates extends \Google\Service\Resource
    * allowed. For more information see [IAM
    * Overview](https://cloud.google.com/iam/docs/overview#permissions).
    * @return GoogleIamV1TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, $optParams = [])
   {

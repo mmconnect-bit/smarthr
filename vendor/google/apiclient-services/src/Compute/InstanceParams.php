@@ -19,13 +19,42 @@ namespace Google\Service\Compute;
 
 class InstanceParams extends \Google\Model
 {
+  protected $requestValidForDurationType = Duration::class;
+  protected $requestValidForDurationDataType = '';
   /**
+   * Resource manager tags to be bound to the instance. Tag keys and values have
+   * the same definition as resource manager tags. Keys must be in the format
+   * `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The
+   * field is ignored (both PUT & PATCH) when empty.
+   *
    * @var string[]
    */
   public $resourceManagerTags;
 
   /**
-   * @param string[]
+   * Relative deadline for waiting for capacity. Relevant only for
+   * Instances.Insert API.
+   *
+   * @param Duration $requestValidForDuration
+   */
+  public function setRequestValidForDuration(Duration $requestValidForDuration)
+  {
+    $this->requestValidForDuration = $requestValidForDuration;
+  }
+  /**
+   * @return Duration
+   */
+  public function getRequestValidForDuration()
+  {
+    return $this->requestValidForDuration;
+  }
+  /**
+   * Resource manager tags to be bound to the instance. Tag keys and values have
+   * the same definition as resource manager tags. Keys must be in the format
+   * `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. The
+   * field is ignored (both PUT & PATCH) when empty.
+   *
+   * @param string[] $resourceManagerTags
    */
   public function setResourceManagerTags($resourceManagerTags)
   {

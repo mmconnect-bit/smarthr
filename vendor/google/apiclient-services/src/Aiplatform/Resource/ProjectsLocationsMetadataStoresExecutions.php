@@ -47,6 +47,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * @param GoogleCloudAiplatformV1AddExecutionEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1AddExecutionEventsResponse
+   * @throws \Google\Service\Exception
    */
   public function addExecutionEvents($execution, GoogleCloudAiplatformV1AddExecutionEventsRequest $postBody, $optParams = [])
   {
@@ -71,6 +72,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * MetadataStore. (Otherwise the request will fail with ALREADY_EXISTS, or
    * PERMISSION_DENIED if the caller can't view the preexisting Execution.)
    * @return GoogleCloudAiplatformV1Execution
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudAiplatformV1Execution $postBody, $optParams = [])
   {
@@ -90,6 +92,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * is provided, it must match the server's etag. Otherwise, the request will
    * fail with a FAILED_PRECONDITION.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -105,6 +108,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * e}/executions/{execution}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1Execution
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -147,14 +151,14 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * character, such as foo.bar. see https://google.aip.dev/132#ordering for more
    * details.
    * @opt_param int pageSize The maximum number of Executions to return. The
-   * service may return fewer. Must be in range 1-1000, inclusive. Defaults to
-   * 100.
+   * service may return fewer. Must be in range 1-100, inclusive. Defaults to 100.
    * @opt_param string pageToken A page token, received from a previous
    * MetadataService.ListExecutions call. Provide this to retrieve the subsequent
    * page. When paginating, all other provided parameters must match the call that
    * provided the page token. (Otherwise the request will fail with an
    * INVALID_ARGUMENT error.)
    * @return GoogleCloudAiplatformV1ListExecutionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsMetadataStoresExecutions($parent, $optParams = [])
   {
@@ -174,6 +178,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * @opt_param string updateMask Optional. A FieldMask indicating which fields
    * should be updated.
    * @return GoogleCloudAiplatformV1Execution
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudAiplatformV1Execution $postBody, $optParams = [])
   {
@@ -190,6 +195,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * @param GoogleCloudAiplatformV1PurgeExecutionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function purge($parent, GoogleCloudAiplatformV1PurgeExecutionsRequest $postBody, $optParams = [])
   {
@@ -208,6 +214,7 @@ class ProjectsLocationsMetadataStoresExecutions extends \Google\Service\Resource
    * tions/{execution}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1LineageSubgraph
+   * @throws \Google\Service\Exception
    */
   public function queryExecutionInputsAndOutputs($execution, $optParams = [])
   {

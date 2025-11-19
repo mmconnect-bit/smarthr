@@ -35,10 +35,11 @@ class OrganizationsSimulations extends \Google\Service\Resource
    *
    * @param string $name Required. The organization name or simulation name of
    * this simulation Valid format:
-   * "organizations/{organization}/simulations/latest"
-   * "organizations/{organization}/simulations/{simulation}"
+   * `organizations/{organization}/simulations/latest`
+   * `organizations/{organization}/simulations/{simulation}`
    * @param array $optParams Optional parameters.
    * @return Simulation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

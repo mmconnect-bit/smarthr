@@ -9,11 +9,13 @@
 
 **Description:**
 
-Язык интерфейса, писем и смс, которые будет видеть или получать пользователь.
+Язык интерфейса, писем и смс, которые будет видеть или получать пользователь. Формат соответствует [ISO/IEC 15897](https://en.wikipedia.org/wiki/Locale_(computer_software)).
 
 Возможные значения:
 - `ru_RU` - Русский
 - `en_US` - English
+
+Регистр важен.
 
 ---
 ### Constants
@@ -156,10 +158,10 @@ Static public valueExists(mixed $value) : bool
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

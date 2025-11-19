@@ -50,6 +50,20 @@ class TollfreeVerificationContext extends InstanceContext
     }
 
     /**
+     * Delete the TollfreeVerificationInstance
+     *
+     * @return bool True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
+     */
+    public function delete(): bool
+    {
+
+        $headers = Values::of(['Content-Type' => 'application/x-www-form-urlencoded' ]);
+        return $this->version->delete('DELETE', $this->uri, [], [], $headers);
+    }
+
+
+    /**
      * Fetch the TollfreeVerificationInstance
      *
      * @return TollfreeVerificationInstance Fetched TollfreeVerificationInstance
@@ -58,7 +72,8 @@ class TollfreeVerificationContext extends InstanceContext
     public function fetch(): TollfreeVerificationInstance
     {
 
-        $payload = $this->version->fetch('GET', $this->uri);
+        $headers = Values::of(['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json' ]);
+        $payload = $this->version->fetch('GET', $this->uri, [], [], $headers);
 
         return new TollfreeVerificationInstance(
             $this->version,
@@ -121,9 +136,36 @@ class TollfreeVerificationContext extends InstanceContext
                 $options['businessContactEmail'],
             'BusinessContactPhone' =>
                 $options['businessContactPhone'],
+            'EditReason' =>
+                $options['editReason'],
+            'BusinessRegistrationNumber' =>
+                $options['businessRegistrationNumber'],
+            'BusinessRegistrationAuthority' =>
+                $options['businessRegistrationAuthority'],
+            'BusinessRegistrationCountry' =>
+                $options['businessRegistrationCountry'],
+            'BusinessType' =>
+                $options['businessType'],
+            'BusinessRegistrationPhoneNumber' =>
+                $options['businessRegistrationPhoneNumber'],
+            'DoingBusinessAs' =>
+                $options['doingBusinessAs'],
+            'OptInConfirmationMessage' =>
+                $options['optInConfirmationMessage'],
+            'HelpMessageSample' =>
+                $options['helpMessageSample'],
+            'PrivacyPolicyUrl' =>
+                $options['privacyPolicyUrl'],
+            'TermsAndConditionsUrl' =>
+                $options['termsAndConditionsUrl'],
+            'AgeGatedContent' =>
+                Serialize::booleanToString($options['ageGatedContent']),
+            'OptInKeywords' =>
+                Serialize::map($options['optInKeywords'], function ($e) { return $e; }),
         ]);
 
-        $payload = $this->version->update('POST', $this->uri, [], $data);
+        $headers = Values::of(['Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json' ]);
+        $payload = $this->version->update('POST', $this->uri, [], $data, $headers);
 
         return new TollfreeVerificationInstance(
             $this->version,

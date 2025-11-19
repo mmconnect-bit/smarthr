@@ -20,12 +20,34 @@ namespace Google\Service\MapsPlaces;
 class GoogleMapsPlacesV1PlaceAccessibilityOptions extends \Google\Model
 {
   /**
+   * Places has wheelchair accessible entrance.
+   *
    * @var bool
    */
   public $wheelchairAccessibleEntrance;
+  /**
+   * Place offers wheelchair accessible parking.
+   *
+   * @var bool
+   */
+  public $wheelchairAccessibleParking;
+  /**
+   * Place has wheelchair accessible restroom.
+   *
+   * @var bool
+   */
+  public $wheelchairAccessibleRestroom;
+  /**
+   * Place has wheelchair accessible seating.
+   *
+   * @var bool
+   */
+  public $wheelchairAccessibleSeating;
 
   /**
-   * @param bool
+   * Places has wheelchair accessible entrance.
+   *
+   * @param bool $wheelchairAccessibleEntrance
    */
   public function setWheelchairAccessibleEntrance($wheelchairAccessibleEntrance)
   {
@@ -37,6 +59,54 @@ class GoogleMapsPlacesV1PlaceAccessibilityOptions extends \Google\Model
   public function getWheelchairAccessibleEntrance()
   {
     return $this->wheelchairAccessibleEntrance;
+  }
+  /**
+   * Place offers wheelchair accessible parking.
+   *
+   * @param bool $wheelchairAccessibleParking
+   */
+  public function setWheelchairAccessibleParking($wheelchairAccessibleParking)
+  {
+    $this->wheelchairAccessibleParking = $wheelchairAccessibleParking;
+  }
+  /**
+   * @return bool
+   */
+  public function getWheelchairAccessibleParking()
+  {
+    return $this->wheelchairAccessibleParking;
+  }
+  /**
+   * Place has wheelchair accessible restroom.
+   *
+   * @param bool $wheelchairAccessibleRestroom
+   */
+  public function setWheelchairAccessibleRestroom($wheelchairAccessibleRestroom)
+  {
+    $this->wheelchairAccessibleRestroom = $wheelchairAccessibleRestroom;
+  }
+  /**
+   * @return bool
+   */
+  public function getWheelchairAccessibleRestroom()
+  {
+    return $this->wheelchairAccessibleRestroom;
+  }
+  /**
+   * Place has wheelchair accessible seating.
+   *
+   * @param bool $wheelchairAccessibleSeating
+   */
+  public function setWheelchairAccessibleSeating($wheelchairAccessibleSeating)
+  {
+    $this->wheelchairAccessibleSeating = $wheelchairAccessibleSeating;
+  }
+  /**
+   * @return bool
+   */
+  public function getWheelchairAccessibleSeating()
+  {
+    return $this->wheelchairAccessibleSeating;
   }
 }
 

@@ -39,6 +39,8 @@ class MyBusinessVerifications extends \Google\Service
 
   public $locations;
   public $locations_verifications;
+  public $verificationTokens;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the MyBusinessVerifications
@@ -52,6 +54,7 @@ class MyBusinessVerifications extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://mybusinessverifications.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://mybusinessverifications.UNIVERSE_DOMAIN/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
     $this->version = 'v1';
@@ -131,6 +134,20 @@ class MyBusinessVerifications extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],
+          ]
+        ]
+    );
+    $this->verificationTokens = new MyBusinessVerifications\Resource\VerificationTokens(
+        $this,
+        $this->serviceName,
+        'verificationTokens',
+        [
+          'methods' => [
+            'generate' => [
+              'path' => 'v1/verificationTokens:generate',
+              'httpMethod' => 'POST',
+              'parameters' => [],
             ],
           ]
         ]

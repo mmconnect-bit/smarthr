@@ -114,3 +114,13 @@ $client->setAuth('shopId', 'secretKey');
 
 #### [Working with the list of Fast Payment Service participants](docs/examples/09-sbp-banks.md)
 * [Get a list of Fast Payment Service participants](docs/examples/09-sbp-banks.md#Получить-список-участников-СБП)
+
+#### [Working with invoices](docs/examples/10-invoices.md)
+* [Request to create an invoice](docs/examples/10-invoices.md#Запрос-на-создание-счета)
+* [Request to create an invoice via the builder](docs/examples/10-invoices.md#Запрос-на-создание-счета-через-билдер)
+* [Get information about the invoice](docs/examples/10-invoices.md#Получить-информацию-о-счете)
+
+#### [Working with payment methods](docs/examples/11-payment-methods.md)
+* [Request to create payment method](docs/examples/11-payment-methods.md#Запрос-на-создание-способа-оплаты)
+* [Request to create payment method via the builder](docs/examples/11-payment-methods.md#Запрос-на-создание-способа-оплаты-через-билдер)
+* [Get information about the payment method](docs/examples/11-payment-methods.md#Получить-информацию-о-способе-оплаты)

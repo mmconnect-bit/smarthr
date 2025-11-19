@@ -4,6 +4,10 @@
 
 ## Parent: [\YooKassa\Model](../namespaces/yookassa-model.md)
 
+### Namespaces
+
+* [\YooKassa\Model\Refund\RefundMethod](../namespaces/yookassa-model-refund-refundmethod.md)
+
 ### Interfaces
 
 | Name | Summary |
@@ -16,9 +20,11 @@
 | Name | Summary |
 | ---- | ------- |
 | [\YooKassa\Model\Refund\Refund](../classes/YooKassa-Model-Refund-Refund.md) | Класс, представляющий модель Refund. |
+| [\YooKassa\Model\Refund\RefundAuthorizationDetails](../classes/YooKassa-Model-Refund-RefundAuthorizationDetails.md) | Класс, представляющий модель RefundAuthorizationDetails. |
 | [\YooKassa\Model\Refund\RefundCancellationDetails](../classes/YooKassa-Model-Refund-RefundCancellationDetails.md) | Класс, представляющий модель RefundCancellationDetails. |
 | [\YooKassa\Model\Refund\RefundCancellationDetailsPartyCode](../classes/YooKassa-Model-Refund-RefundCancellationDetailsPartyCode.md) | Класс, представляющий модель CancellationDetailsPartyCode. |
 | [\YooKassa\Model\Refund\RefundCancellationDetailsReasonCode](../classes/YooKassa-Model-Refund-RefundCancellationDetailsReasonCode.md) | Класс, представляющий модель RefundCancellationDetailsReasonCode. |
+| [\YooKassa\Model\Refund\RefundMethodType](../classes/YooKassa-Model-Refund-RefundMethodType.md) | Класс, представляющий модель PaymentMethodType. |
 | [\YooKassa\Model\Refund\RefundStatus](../classes/YooKassa-Model-Refund-RefundStatus.md) | Класс, представляющий модель RefundStatus. |
 | [\YooKassa\Model\Refund\Source](../classes/YooKassa-Model-Refund-Source.md) | Класс, представляющий модель RefundSourcesData. |
 
@@ -33,10 +39,10 @@
 ### Reports
 * [Errors - 0](../reports/errors.md)
 * [Markers - 0](../reports/markers.md)
-* [Deprecated - 15](../reports/deprecated.md)
+* [Deprecated - 40](../reports/deprecated.md)
 
 ---
 
-This document was automatically generated from source code comments on 2023-10-17 using [phpDocumentor](http://www.phpdoc.org/)
+This document was automatically generated from source code comments on 2025-10-31 using [phpDocumentor](http://www.phpdoc.org/)
 
-&copy; 2023 YooMoney
+&copy; 2025 YooMoney

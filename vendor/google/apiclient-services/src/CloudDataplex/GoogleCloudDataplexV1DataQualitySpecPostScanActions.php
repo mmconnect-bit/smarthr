@@ -21,9 +21,13 @@ class GoogleCloudDataplexV1DataQualitySpecPostScanActions extends \Google\Model
 {
   protected $bigqueryExportType = GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport::class;
   protected $bigqueryExportDataType = '';
+  protected $notificationReportType = GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport::class;
+  protected $notificationReportDataType = '';
 
   /**
-   * @param GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport
+   * Optional. If set, results will be exported to the provided BigQuery table.
+   *
+   * @param GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport $bigqueryExport
    */
   public function setBigqueryExport(GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport $bigqueryExport)
   {
@@ -35,6 +39,23 @@ class GoogleCloudDataplexV1DataQualitySpecPostScanActions extends \Google\Model
   public function getBigqueryExport()
   {
     return $this->bigqueryExport;
+  }
+  /**
+   * Optional. If set, results will be sent to the provided notification
+   * receipts upon triggers.
+   *
+   * @param GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport $notificationReport
+   */
+  public function setNotificationReport(GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport $notificationReport)
+  {
+    $this->notificationReport = $notificationReport;
+  }
+  /**
+   * @return GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport
+   */
+  public function getNotificationReport()
+  {
+    return $this->notificationReport;
   }
 }
 

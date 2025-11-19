@@ -43,6 +43,7 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * @opt_param string advertiserId Required. The ID of the advertiser under whom
    * the FirstAndThirdPartyAudience will be created.
    * @return FirstAndThirdPartyAudience
+   * @throws \Google\Service\Exception
    */
   public function create(FirstAndThirdPartyAudience $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * @param EditCustomerMatchMembersRequest $postBody
    * @param array $optParams Optional parameters.
    * @return EditCustomerMatchMembersResponse
+   * @throws \Google\Service\Exception
    */
   public function editCustomerMatchMembers($firstAndThirdPartyAudienceId, EditCustomerMatchMembersRequest $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that has access to the
    * fetched first and third party audience.
    * @return FirstAndThirdPartyAudience
+   * @throws \Google\Service\Exception
    */
   public function get($firstAndThirdPartyAudienceId, $optParams = [])
   {
@@ -108,9 +111,9 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * are: * `firstAndThirdPartyAudienceId` (default) * `displayName` The default
    * sorting order is ascending. To specify descending order for a field, a suffix
    * "desc" should be added to the field name. Example: `displayName desc`.
-   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
-   * If unspecified will default to `100`. Returns error code `INVALID_ARGUMENT`
-   * if an invalid value is specified.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `5000`.
+   * If unspecified, this value defaults to `100`. Returns error code
+   * `INVALID_ARGUMENT` if an invalid value is specified.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return. Typically, this is the value of next_page_token returned from
    * the previous call to `ListFirstAndThirdPartyAudiences` method. If not
@@ -118,6 +121,7 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that has access to the
    * fetched first and third party audiences.
    * @return ListFirstAndThirdPartyAudiencesResponse
+   * @throws \Google\Service\Exception
    */
   public function listFirstAndThirdPartyAudiences($optParams = [])
   {
@@ -141,6 +145,7 @@ class FirstAndThirdPartyAudiences extends \Google\Service\Resource
    * update. Updates are only supported for the following fields: * `displayName`
    * * `description` * `membershipDurationDays`
    * @return FirstAndThirdPartyAudience
+   * @throws \Google\Service\Exception
    */
   public function patch($firstAndThirdPartyAudienceId, FirstAndThirdPartyAudience $postBody, $optParams = [])
   {

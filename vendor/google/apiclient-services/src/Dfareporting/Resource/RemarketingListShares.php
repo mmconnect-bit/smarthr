@@ -37,6 +37,7 @@ class RemarketingListShares extends \Google\Service\Resource
    * @param string $remarketingListId Remarketing list ID.
    * @param array $optParams Optional parameters.
    * @return RemarketingListShare
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $remarketingListId, $optParams = [])
   {
@@ -45,7 +46,7 @@ class RemarketingListShares extends \Google\Service\Resource
     return $this->call('get', [$params], RemarketingListShare::class);
   }
   /**
-   * Updates an existing RemarketingListShare. This method supports patch
+   * Updates an existing remarketing list share. This method supports patch
    * semantics. (remarketingListShares.patch)
    *
    * @param string $profileId User profile ID associated with this request.
@@ -53,6 +54,7 @@ class RemarketingListShares extends \Google\Service\Resource
    * @param RemarketingListShare $postBody
    * @param array $optParams Optional parameters.
    * @return RemarketingListShare
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, RemarketingListShare $postBody, $optParams = [])
   {
@@ -67,6 +69,7 @@ class RemarketingListShares extends \Google\Service\Resource
    * @param RemarketingListShare $postBody
    * @param array $optParams Optional parameters.
    * @return RemarketingListShare
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, RemarketingListShare $postBody, $optParams = [])
   {

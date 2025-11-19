@@ -20,22 +20,39 @@ namespace Google\Service\CloudDataplex;
 class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
 {
   /**
+   * Optional. The unnested column which this rule is evaluated against.
+   *
    * @var string
    */
   public $column;
   /**
+   * Optional. Description of the rule. The maximum length is 1,024 characters.
+   *
    * @var string
    */
   public $description;
   /**
+   * Required. The dimension a rule belongs to. Results are also aggregated at
+   * the dimension level. Custom dimension name is supported with all uppercase
+   * letters and maximum length of 30 characters.
+   *
    * @var string
    */
   public $dimension;
   /**
+   * Optional. Rows with null values will automatically fail a rule, unless
+   * ignore_null is true. In that case, such null rows are trivially considered
+   * passing.This field is only valid for the following type of rules:
+   * RangeExpectation RegexExpectation SetExpectation UniquenessExpectation
+   *
    * @var bool
    */
   public $ignoreNull;
   /**
+   * Optional. A mutable name for the rule. The name must contain only letters
+   * (a-z, A-Z), numbers (0-9), or hyphens (-). The maximum length is 63
+   * characters. Must start with a letter. Must end with a number or a letter.
+   *
    * @var string
    */
   public $name;
@@ -49,16 +66,33 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   protected $rowConditionExpectationDataType = '';
   protected $setExpectationType = GoogleCloudDataplexV1DataQualityRuleSetExpectation::class;
   protected $setExpectationDataType = '';
+  protected $sqlAssertionType = GoogleCloudDataplexV1DataQualityRuleSqlAssertion::class;
+  protected $sqlAssertionDataType = '';
   protected $statisticRangeExpectationType = GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation::class;
   protected $statisticRangeExpectationDataType = '';
+  /**
+   * Optional. Whether the Rule is active or suspended. Default is false.
+   *
+   * @var bool
+   */
+  public $suspended;
   protected $tableConditionExpectationType = GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation::class;
   protected $tableConditionExpectationDataType = '';
+  /**
+   * Optional. The minimum ratio of passing_rows / total_rows required to pass
+   * this rule, with a range of 0.0, 1.0.0 indicates default value (i.e.
+   * 1.0).This field is only valid for row-level type rules.
+   *
+   * @var 
+   */
   public $threshold;
   protected $uniquenessExpectationType = GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation::class;
   protected $uniquenessExpectationDataType = '';
 
   /**
-   * @param string
+   * Optional. The unnested column which this rule is evaluated against.
+   *
+   * @param string $column
    */
   public function setColumn($column)
   {
@@ -72,7 +106,9 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->column;
   }
   /**
-   * @param string
+   * Optional. Description of the rule. The maximum length is 1,024 characters.
+   *
+   * @param string $description
    */
   public function setDescription($description)
   {
@@ -86,7 +122,11 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->description;
   }
   /**
-   * @param string
+   * Required. The dimension a rule belongs to. Results are also aggregated at
+   * the dimension level. Custom dimension name is supported with all uppercase
+   * letters and maximum length of 30 characters.
+   *
+   * @param string $dimension
    */
   public function setDimension($dimension)
   {
@@ -100,7 +140,12 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->dimension;
   }
   /**
-   * @param bool
+   * Optional. Rows with null values will automatically fail a rule, unless
+   * ignore_null is true. In that case, such null rows are trivially considered
+   * passing.This field is only valid for the following type of rules:
+   * RangeExpectation RegexExpectation SetExpectation UniquenessExpectation
+   *
+   * @param bool $ignoreNull
    */
   public function setIgnoreNull($ignoreNull)
   {
@@ -114,7 +159,11 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->ignoreNull;
   }
   /**
-   * @param string
+   * Optional. A mutable name for the rule. The name must contain only letters
+   * (a-z, A-Z), numbers (0-9), or hyphens (-). The maximum length is 63
+   * characters. Must start with a letter. Must end with a number or a letter.
+   *
+   * @param string $name
    */
   public function setName($name)
   {
@@ -128,7 +177,9 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->name;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleNonNullExpectation
+   * Row-level rule which evaluates whether each column value is null.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleNonNullExpectation $nonNullExpectation
    */
   public function setNonNullExpectation(GoogleCloudDataplexV1DataQualityRuleNonNullExpectation $nonNullExpectation)
   {
@@ -142,7 +193,10 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->nonNullExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleRangeExpectation
+   * Row-level rule which evaluates whether each column value lies between a
+   * specified range.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleRangeExpectation $rangeExpectation
    */
   public function setRangeExpectation(GoogleCloudDataplexV1DataQualityRuleRangeExpectation $rangeExpectation)
   {
@@ -156,7 +210,10 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->rangeExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleRegexExpectation
+   * Row-level rule which evaluates whether each column value matches a
+   * specified regex.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleRegexExpectation $regexExpectation
    */
   public function setRegexExpectation(GoogleCloudDataplexV1DataQualityRuleRegexExpectation $regexExpectation)
   {
@@ -170,7 +227,10 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->regexExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation
+   * Row-level rule which evaluates whether each row in a table passes the
+   * specified condition.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation $rowConditionExpectation
    */
   public function setRowConditionExpectation(GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation $rowConditionExpectation)
   {
@@ -184,7 +244,10 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->rowConditionExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleSetExpectation
+   * Row-level rule which evaluates whether each column value is contained by a
+   * specified set.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleSetExpectation $setExpectation
    */
   public function setSetExpectation(GoogleCloudDataplexV1DataQualityRuleSetExpectation $setExpectation)
   {
@@ -198,7 +261,27 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->setExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation
+   * Aggregate rule which evaluates the number of rows returned for the provided
+   * statement. If any rows are returned, this rule fails.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleSqlAssertion $sqlAssertion
+   */
+  public function setSqlAssertion(GoogleCloudDataplexV1DataQualityRuleSqlAssertion $sqlAssertion)
+  {
+    $this->sqlAssertion = $sqlAssertion;
+  }
+  /**
+   * @return GoogleCloudDataplexV1DataQualityRuleSqlAssertion
+   */
+  public function getSqlAssertion()
+  {
+    return $this->sqlAssertion;
+  }
+  /**
+   * Aggregate rule which evaluates whether the column aggregate statistic lies
+   * between a specified range.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation $statisticRangeExpectation
    */
   public function setStatisticRangeExpectation(GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation $statisticRangeExpectation)
   {
@@ -212,7 +295,26 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->statisticRangeExpectation;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation
+   * Optional. Whether the Rule is active or suspended. Default is false.
+   *
+   * @param bool $suspended
+   */
+  public function setSuspended($suspended)
+  {
+    $this->suspended = $suspended;
+  }
+  /**
+   * @return bool
+   */
+  public function getSuspended()
+  {
+    return $this->suspended;
+  }
+  /**
+   * Aggregate rule which evaluates whether the provided expression is true for
+   * a table.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation $tableConditionExpectation
    */
   public function setTableConditionExpectation(GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation $tableConditionExpectation)
   {
@@ -234,7 +336,9 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
     return $this->threshold;
   }
   /**
-   * @param GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation
+   * Row-level rule which evaluates whether each column value is unique.
+   *
+   * @param GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation $uniquenessExpectation
    */
   public function setUniquenessExpectation(GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation $uniquenessExpectation)
   {

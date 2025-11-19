@@ -17,14 +17,21 @@
 
 namespace Google\Service\AIPlatformNotebooks\Resource;
 
+use Google\Service\AIPlatformNotebooks\CheckAuthorizationRequest;
+use Google\Service\AIPlatformNotebooks\CheckAuthorizationResponse;
 use Google\Service\AIPlatformNotebooks\CheckInstanceUpgradabilityResponse;
+use Google\Service\AIPlatformNotebooks\Config;
 use Google\Service\AIPlatformNotebooks\DiagnoseInstanceRequest;
+use Google\Service\AIPlatformNotebooks\GenerateAccessTokenRequest;
+use Google\Service\AIPlatformNotebooks\GenerateAccessTokenResponse;
 use Google\Service\AIPlatformNotebooks\Instance;
 use Google\Service\AIPlatformNotebooks\ListInstancesResponse;
 use Google\Service\AIPlatformNotebooks\Operation;
 use Google\Service\AIPlatformNotebooks\Policy;
 use Google\Service\AIPlatformNotebooks\ReportInstanceInfoSystemRequest;
 use Google\Service\AIPlatformNotebooks\ResetInstanceRequest;
+use Google\Service\AIPlatformNotebooks\ResizeDiskRequest;
+use Google\Service\AIPlatformNotebooks\RestoreInstanceRequest;
 use Google\Service\AIPlatformNotebooks\RollbackInstanceRequest;
 use Google\Service\AIPlatformNotebooks\SetIamPolicyRequest;
 use Google\Service\AIPlatformNotebooks\StartInstanceRequest;
@@ -45,6 +52,24 @@ use Google\Service\AIPlatformNotebooks\UpgradeInstanceSystemRequest;
 class ProjectsLocationsInstances extends \Google\Service\Resource
 {
   /**
+   * Initiated by Cloud Console for Oauth consent flow for Workbench Instances. Do
+   * not use this method directly. Design doc: go/wbi-euc:auth-dd
+   * (instances.checkAuthorization)
+   *
+   * @param string $name Required. The name of the Notebook Instance resource.
+   * Format: `projects/{project}/locations/{location}/instances/{instance}`
+   * @param CheckAuthorizationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return CheckAuthorizationResponse
+   * @throws \Google\Service\Exception
+   */
+  public function checkAuthorization($name, CheckAuthorizationRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('checkAuthorization', [$params], CheckAuthorizationResponse::class);
+  }
+  /**
    * Checks whether a notebook instance is upgradable.
    * (instances.checkUpgradability)
    *
@@ -52,6 +77,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location}/instances/{instance_id}`
    * @param array $optParams Optional parameters.
    * @return CheckInstanceUpgradabilityResponse
+   * @throws \Google\Service\Exception
    */
   public function checkUpgradability($notebookInstance, $optParams = [])
   {
@@ -71,6 +97,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * instance.
    * @opt_param string requestId Optional. Idempotent request UUID.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Instance $postBody, $optParams = [])
   {
@@ -87,6 +114,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    *
    * @opt_param string requestId Optional. Idempotent request UUID.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -103,6 +131,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param DiagnoseInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function diagnose($name, DiagnoseInstanceRequest $postBody, $optParams = [])
   {
@@ -111,18 +140,51 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     return $this->call('diagnose', [$params], Operation::class);
   }
   /**
+   * Called by VM to return an EUC for the instance owner. Do not use this method
+   * directly. Design doc: go/wbi-euc:dd (instances.generateAccessToken)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project}/locations/{location}/instances/{instance_id}`
+   * @param GenerateAccessTokenRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GenerateAccessTokenResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateAccessToken($name, GenerateAccessTokenRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateAccessToken', [$params], GenerateAccessTokenResponse::class);
+  }
+  /**
    * Gets details of a single Instance. (instances.get)
    *
    * @param string $name Required. Format:
    * `projects/{project_id}/locations/{location}/instances/{instance_id}`
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Instance::class);
+  }
+  /**
+   * Returns various configuration parameters. (instances.getConfig)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}`
+   * @param array $optParams Optional parameters.
+   * @return Config
+   * @throws \Google\Service\Exception
+   */
+  public function getConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getConfig', [$params], Config::class);
   }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
@@ -147,6 +209,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -169,6 +232,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A previous returned page token that can
    * be used to continue listing from the last result.
    * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstances($parent, $optParams = [])
   {
@@ -179,14 +243,33 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
   /**
    * UpdateInstance updates an Instance. (instances.patch)
    *
-   * @param string $name Output only. The name of this notebook instance. Format:
+   * @param string $name Output only. Identifier. The name of this notebook
+   * instance. Format:
    * `projects/{project_id}/locations/{location}/instances/{instance_id}`
    * @param Instance $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. Idempotent request UUID.
-   * @opt_param string updateMask Required. Mask used to update an instance
+   * @opt_param string updateMask Required. Mask used to update an instance.
+   * Updatable fields: * `labels` * `gce_setup.min_cpu_platform` *
+   * `gce_setup.metadata` * `gce_setup.machine_type` *
+   * `gce_setup.accelerator_configs` * `gce_setup.accelerator_configs.type` *
+   * `gce_setup.accelerator_configs.core_count` * `gce_setup.gpu_driver_config` *
+   * `gce_setup.gpu_driver_config.enable_gpu_driver` *
+   * `gce_setup.gpu_driver_config.custom_gpu_driver_path` *
+   * `gce_setup.shielded_instance_config` *
+   * `gce_setup.shielded_instance_config.enable_secure_boot` *
+   * `gce_setup.shielded_instance_config.enable_vtpm` *
+   * `gce_setup.shielded_instance_config.enable_integrity_monitoring` *
+   * `gce_setup.reservation_affinity` *
+   * `gce_setup.reservation_affinity.consume_reservation_type` *
+   * `gce_setup.reservation_affinity.key` *
+   * `gce_setup.reservation_affinity.values` * `gce_setup.tags` *
+   * `gce_setup.container_image` * `gce_setup.container_image.repository` *
+   * `gce_setup.container_image.tag` * `gce_setup.disable_public_ip` *
+   * `disable_proxy_access`
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Instance $postBody, $optParams = [])
   {
@@ -205,6 +288,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param ReportInstanceInfoSystemRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function reportInfoSystem($name, ReportInstanceInfoSystemRequest $postBody, $optParams = [])
   {
@@ -220,12 +304,45 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param ResetInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function reset($name, ResetInstanceRequest $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('reset', [$params], Operation::class);
+  }
+  /**
+   * Resize a notebook instance disk to a higher capacity. (instances.resizeDisk)
+   *
+   * @param string $notebookInstance Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param ResizeDiskRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function resizeDisk($notebookInstance, ResizeDiskRequest $postBody, $optParams = [])
+  {
+    $params = ['notebookInstance' => $notebookInstance, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('resizeDisk', [$params], Operation::class);
+  }
+  /**
+   * RestoreInstance restores an Instance from a BackupSource. (instances.restore)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param RestoreInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function restore($name, RestoreInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('restore', [$params], Operation::class);
   }
   /**
    * Rollbacks a notebook instance to the previous version. (instances.rollback)
@@ -235,6 +352,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param RollbackInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function rollback($name, RollbackInstanceRequest $postBody, $optParams = [])
   {
@@ -254,6 +372,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -269,6 +388,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param StartInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function start($name, StartInstanceRequest $postBody, $optParams = [])
   {
@@ -284,6 +404,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param StopInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function stop($name, StopInstanceRequest $postBody, $optParams = [])
   {
@@ -306,6 +427,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -321,6 +443,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param UpgradeInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function upgrade($name, UpgradeInstanceRequest $postBody, $optParams = [])
   {
@@ -337,6 +460,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param UpgradeInstanceSystemRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function upgradeSystem($name, UpgradeInstanceSystemRequest $postBody, $optParams = [])
   {

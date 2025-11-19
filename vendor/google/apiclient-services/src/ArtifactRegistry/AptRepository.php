@@ -19,11 +19,32 @@ namespace Google\Service\ArtifactRegistry;
 
 class AptRepository extends \Google\Model
 {
+  protected $customRepositoryType = GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryCustomRepository::class;
+  protected $customRepositoryDataType = '';
   protected $publicRepositoryType = GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepository::class;
   protected $publicRepositoryDataType = '';
 
   /**
-   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepository
+   * Customer-specified remote repository.
+   *
+   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryCustomRepository $customRepository
+   */
+  public function setCustomRepository(GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryCustomRepository $customRepository)
+  {
+    $this->customRepository = $customRepository;
+  }
+  /**
+   * @return GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryCustomRepository
+   */
+  public function getCustomRepository()
+  {
+    return $this->customRepository;
+  }
+  /**
+   * One of the publicly available Apt repositories supported by Artifact
+   * Registry.
+   *
+   * @param GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepository $publicRepository
    */
   public function setPublicRepository(GoogleDevtoolsArtifactregistryV1RemoteRepositoryConfigAptRepositoryPublicRepository $publicRepository)
   {

@@ -37,9 +37,15 @@ class ReportRow extends \Google\Model
   protected $productViewDataType = '';
   protected $segmentsType = Segments::class;
   protected $segmentsDataType = '';
+  protected $topicTrendsType = TopicTrends::class;
+  protected $topicTrendsDataType = '';
 
   /**
-   * @param BestSellers
+   * Best sellers fields requested by the merchant in the query. Field values
+   * are only set if the merchant queries `BestSellersProductClusterView` or
+   * `BestSellersBrandView`.
+   *
+   * @param BestSellers $bestSellers
    */
   public function setBestSellers(BestSellers $bestSellers)
   {
@@ -53,7 +59,10 @@ class ReportRow extends \Google\Model
     return $this->bestSellers;
   }
   /**
-   * @param Brand
+   * Brand fields requested by the merchant in the query. Field values are only
+   * set if the merchant queries `BestSellersBrandView`.
+   *
+   * @param Brand $brand
    */
   public function setBrand(Brand $brand)
   {
@@ -67,7 +76,13 @@ class ReportRow extends \Google\Model
     return $this->brand;
   }
   /**
-   * @param CompetitiveVisibility
+   * Competitive visibility fields requested by the merchant in the query. Field
+   * values are only set if the merchant queries
+   * `CompetitiveVisibilityTopMerchantView`,
+   * `CompetitiveVisibilityBenchmarkView` or
+   * `CompetitiveVisibilityCompetitorView`.
+   *
+   * @param CompetitiveVisibility $competitiveVisibility
    */
   public function setCompetitiveVisibility(CompetitiveVisibility $competitiveVisibility)
   {
@@ -81,7 +96,10 @@ class ReportRow extends \Google\Model
     return $this->competitiveVisibility;
   }
   /**
-   * @param Metrics
+   * Metrics requested by the merchant in the query. Metric values are only set
+   * for metrics requested explicitly in the query.
+   *
+   * @param Metrics $metrics
    */
   public function setMetrics(Metrics $metrics)
   {
@@ -95,7 +113,11 @@ class ReportRow extends \Google\Model
     return $this->metrics;
   }
   /**
-   * @param PriceCompetitiveness
+   * Price competitiveness fields requested by the merchant in the query. Field
+   * values are only set if the merchant queries
+   * `PriceCompetitivenessProductView`.
+   *
+   * @param PriceCompetitiveness $priceCompetitiveness
    */
   public function setPriceCompetitiveness(PriceCompetitiveness $priceCompetitiveness)
   {
@@ -109,7 +131,10 @@ class ReportRow extends \Google\Model
     return $this->priceCompetitiveness;
   }
   /**
-   * @param PriceInsights
+   * Price insights fields requested by the merchant in the query. Field values
+   * are only set if the merchant queries `PriceInsightsProductView`.
+   *
+   * @param PriceInsights $priceInsights
    */
   public function setPriceInsights(PriceInsights $priceInsights)
   {
@@ -123,7 +148,10 @@ class ReportRow extends \Google\Model
     return $this->priceInsights;
   }
   /**
-   * @param ProductCluster
+   * Product cluster fields requested by the merchant in the query. Field values
+   * are only set if the merchant queries `BestSellersProductClusterView`.
+   *
+   * @param ProductCluster $productCluster
    */
   public function setProductCluster(ProductCluster $productCluster)
   {
@@ -137,7 +165,10 @@ class ReportRow extends \Google\Model
     return $this->productCluster;
   }
   /**
-   * @param ProductView
+   * Product fields requested by the merchant in the query. Field values are
+   * only set if the merchant queries `ProductView`.
+   *
+   * @param ProductView $productView
    */
   public function setProductView(ProductView $productView)
   {
@@ -151,7 +182,10 @@ class ReportRow extends \Google\Model
     return $this->productView;
   }
   /**
-   * @param Segments
+   * Segmentation dimensions requested by the merchant in the query. Dimension
+   * values are only set for dimensions requested explicitly in the query.
+   *
+   * @param Segments $segments
    */
   public function setSegments(Segments $segments)
   {
@@ -163,6 +197,24 @@ class ReportRow extends \Google\Model
   public function getSegments()
   {
     return $this->segments;
+  }
+  /**
+   * [Topic trends](https://support.google.com/merchants/answer/13542370) fields
+   * requested by the merchant in the query. Field values are only set if the
+   * merchant queries `TopicTrendsView`.
+   *
+   * @param TopicTrends $topicTrends
+   */
+  public function setTopicTrends(TopicTrends $topicTrends)
+  {
+    $this->topicTrends = $topicTrends;
+  }
+  /**
+   * @return TopicTrends
+   */
+  public function getTopicTrends()
+  {
+    return $this->topicTrends;
   }
 }
 

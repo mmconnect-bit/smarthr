@@ -50,6 +50,7 @@ class ProjectsLocationsMetadataStores extends \Google\Service\Resource
    * request will fail with ALREADY_EXISTS, or PERMISSION_DENIED if the caller
    * can't view the preexisting MetadataStore.)
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudAiplatformV1MetadataStore $postBody, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ProjectsLocationsMetadataStores extends \Google\Service\Resource
    *
    * @opt_param bool force Deprecated: Field is no longer supported.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +85,7 @@ class ProjectsLocationsMetadataStores extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/metadataStores/{metadatastore}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAiplatformV1MetadataStore
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,14 +102,14 @@ class ProjectsLocationsMetadataStores extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of Metadata Stores to return. The
-   * service may return fewer. Must be in range 1-1000, inclusive. Defaults to
-   * 100.
+   * service may return fewer. Must be in range 1-100, inclusive. Defaults to 100.
    * @opt_param string pageToken A page token, received from a previous
    * MetadataService.ListMetadataStores call. Provide this to retrieve the
    * subsequent page. When paginating, all other provided parameters must match
    * the call that provided the page token. (Otherwise the request will fail with
    * INVALID_ARGUMENT error.)
    * @return GoogleCloudAiplatformV1ListMetadataStoresResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsMetadataStores($parent, $optParams = [])
   {

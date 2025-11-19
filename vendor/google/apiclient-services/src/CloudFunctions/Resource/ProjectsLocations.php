@@ -37,6 +37,9 @@ class ProjectsLocations extends \Google\Service\Resource
    * applicable.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string extraLocationTypes Optional. Do not use this field. It is
+   * unsupported and is ignored unless explicitly documented otherwise. This is
+   * primarily for internal usage.
    * @opt_param string filter A filter to narrow down results to a preferred
    * subset. The filtering language accepts strings like `"displayName=tokyo"`,
    * and is documented in more detail in [AIP-160](https://google.aip.dev/160).
@@ -45,6 +48,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {

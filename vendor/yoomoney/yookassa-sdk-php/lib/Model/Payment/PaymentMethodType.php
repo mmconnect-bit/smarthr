@@ -1,9 +1,9 @@
 <?php
 
-/**
- * The MIT License.
+/*
+ * The MIT License
  *
- * Copyright (c) 2023 "YooMoney", NBСO LLC
+ * Copyright (c) 2025 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ use YooKassa\Common\AbstractEnum;
 /**
  * Класс, представляющий модель PaymentMethodType.
  *
- * Тип источника средств для проведения платежа.
+ * Код способа оплаты — тип платежного средства, которое используется для оплаты. [Подробнее о способах оплаты](https://yookassa.ru/developers/payment-acceptance/getting-started/payment-methods)
  *
  * Возможные значения:
  * - `yoo_money` - Платеж из кошелька ЮMoney
@@ -45,11 +45,11 @@ use YooKassa\Common\AbstractEnum;
  * - `webmoney` - Платеж из кошелька Webmoney
  * - `alfabank` - Платеж через Альфа-Клик
  * - `b2b_sberbank` - Сбербанк Бизнес Онлайн
- * - `tinkoff_bank` - Интернет-банк Тинькофф
+ * - `tinkoff_bank` - T-Pay
  * - `psb` - ПромсвязьБанк
  * - `installments` - Заплатить по частям
  * - `wechat` - Платеж через WeChat
- * - `sbp` - Платеж через через сервис быстрых платежей
+ * - `sbp` - Платеж через сервис быстрых платежей
  *
  * @category Class
  * @package  YooKassa\Model
@@ -73,13 +73,17 @@ class PaymentMethodType extends AbstractEnum
     /** Платеж с баланса мобильного телефона */
     public const MOBILE_BALANCE = 'mobile_balance';
 
-    /** латеж ApplePay */
+    /** Платеж ApplePay */
     public const APPLE_PAY = 'apple_pay';
 
     /** Платеж Google Pay */
     public const GOOGLE_PAY = 'google_pay';
 
-    /** Платеж из кошелька Qiwi */
+    /**
+     * Платеж из кошелька Qiwi
+     *
+     * @deprecated Больше недоступен
+     */
     public const QIWI = 'qiwi';
 
     /**
@@ -99,7 +103,7 @@ class PaymentMethodType extends AbstractEnum
     /** Сбербанк Бизнес Онлайн */
     public const B2B_SBERBANK = 'b2b_sberbank';
 
-    /** Интернет-банк Тинькофф */
+    /** Платеж через T-Pay */
     public const TINKOFF_BANK = 'tinkoff_bank';
 
     /**
@@ -109,7 +113,11 @@ class PaymentMethodType extends AbstractEnum
      */
     public const PSB = 'psb';
 
-    /** Заплатить по частям */
+    /**
+     * Заплатить по частям
+     *
+     * @deprecated Больше недоступен
+     */
     public const INSTALLMENTS = 'installments';
 
     /**
@@ -124,6 +132,12 @@ class PaymentMethodType extends AbstractEnum
 
     /** Прием оплаты с использованием Кредита от СберБанка */
     public const SBER_LOAN = 'sber_loan';
+
+    /** Прием платежей по электронному сертификату, привязанному к карте «Мир» */
+    public const ELECTRONIC_CERTIFICATE = 'electronic_certificate';
+
+    /** Оплата через сервис «Плати частями» */
+    public const SBER_BNPL = 'sber_bnpl';
 
     /**
      * Для неизвестных методов оплаты
@@ -140,16 +154,18 @@ class PaymentMethodType extends AbstractEnum
         self::MOBILE_BALANCE => true,
         self::APPLE_PAY => false,
         self::GOOGLE_PAY => false,
-        self::QIWI => true,
+        self::QIWI => false,
         self::WEBMONEY => false,
         self::ALFABANK => false,
         self::TINKOFF_BANK => true,
-        self::INSTALLMENTS => true,
+        self::INSTALLMENTS => false,
         self::B2B_SBERBANK => true,
         self::PSB => false,
         self::WECHAT => false,
         self::SBP => true,
         self::SBER_LOAN => true,
+        self::ELECTRONIC_CERTIFICATE => true,
+        self::SBER_BNPL => true,
         self::UNKNOWN => false,
     ];
 }
