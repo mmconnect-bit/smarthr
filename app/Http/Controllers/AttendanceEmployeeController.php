@@ -773,7 +773,6 @@ class AttendanceEmployeeController extends Controller
                             $employeeAttendance->employee_id = $employee;
                             $employeeAttendance->created_by  = \Auth::user()->creatorId();
                         }
-
                         $employeeAttendance->date          = $request->date;
                         $employeeAttendance->status        = 'Present';
                         $employeeAttendance->clock_in      = $in;
@@ -946,4 +945,95 @@ class AttendanceEmployeeController extends Controller
             }
         }
     }
+
+
+
+public function importFromApi(Request $request)
+{
+    // Validate input
+    $validator = \Validator::make($request->all(), [
+        'file' => 'required|mimes:csv,txt,xlsx'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $validator->errors()->first()
+        ], 422);
+    }
+
+    try {
+        $attendance = (new AttendanceImport())->toArray($request->file('file'))[0];
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Invalid file format'
+        ], 400);
+    }
+
+    $startTime = Utility::getValByName('company_start_time');
+    $endTime   = Utility::getValByName('company_end_time');
+
+    $errorEmails = [];
+    $processed = 0;
+    $failed = 0;
+
+    foreach ($attendance as $key => $row) {
+
+        if ($key === 0) continue; // Skip header
+
+        $email = $row[0];
+        $date = $row[1];
+        $clockIn = $row[2];
+        $clockOut = $row[3];
+
+        $employee = Employee::where('email', $email)->first();
+
+        if (!$employee) {
+            $errorEmails[] = $email;
+            $failed++;
+            continue;
+        }
+
+        // Calculate
+        $status = $clockIn ? 'present' : 'leave';
+
+        $lateSeconds = strtotime($clockIn) - strtotime($startTime);
+        $late = gmdate("H:i:s", max($lateSeconds, 0));
+
+        $earlyLeavingSeconds = strtotime($endTime) - strtotime($clockOut);
+        $earlyLeaving = gmdate("H:i:s", max($earlyLeavingSeconds, 0));
+
+        $overtimeSeconds = strtotime($clockOut) - strtotime($endTime);
+        $overtime = gmdate("H:i:s", max($overtimeSeconds, 0));
+
+        AttendanceEmployee::updateOrCreate(
+            [
+                'employee_id' => $employee->id,
+                'date' => $date
+            ],
+            [
+                'clock_in' => $clockIn,
+                'clock_out' => $clockOut,
+                'status' => $status,
+                'late' => $late,
+                'early_leaving' => $earlyLeaving,
+                'overtime' => $overtime,
+                'created_by' => 1  // Change if needed
+            ]
+        );
+
+        $processed++;
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'processed' => $processed,
+        'failed' => $failed,
+        'missing_emails' => $errorEmails,
+        'message' => 'Attendance import completed'
+    ]);
+}
+
+
 }

@@ -8,68 +8,87 @@ use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-
+ use GuzzleHttp\Client;
 class BiometricAttendanceController extends Controller
 {
-    public function index(Request $request)
-    {
-        if (Auth::user()->can('Manage Biometric Attendance')) {
 
-            $company_setting = Utility::settings();
-            $api_urls = !empty($company_setting['zkteco_api_url']) ? $company_setting['zkteco_api_url'] : '';
-            $token = !empty($company_setting['auth_token']) ? $company_setting['auth_token'] : '';
-
-            if (!empty($request->start_date) && !empty($request->end_date)) {
-                $start_date = date('Y-m-d:H:i:s', strtotime($request->start_date));
-                $end_date = date('Y-m-d:H:i:s', strtotime($request->end_date) + 86400 - 1);
-            } else {
-                $start_date = date('Y-m-d', strtotime('-7 days'));
-                $end_date = date('Y-m-d');
-            }
-            $api_url = rtrim($api_urls, '/');
-
-            // Dynamic Api URL Call
-            $url = $api_url . '/iclock/api/transactions/?' . http_build_query([
-                'start_time' => $start_date,
-                'end_time' => $end_date,
-                'page_size' => 10000,
-            ]);
-            $curl = curl_init();
-            if (!empty($token)) {
-                try {
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => $url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'GET',
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Token ' . $token
-                        ),
-                    ));
-
-                    $response = curl_exec($curl);
-
-                    curl_close($curl);
-
-                    $json_attendance = json_decode($response, true);
-                    $attendances = $json_attendance['data'];
-                } catch (\Throwable $th) {
-                    return redirect()->back()->with('error', __('Something went wrong please try again.'));
-                }
-            } else {
-                $attendances = [];
-            }
-
-            return view('biometricattendance.index', compact('attendances', 'token'));
-        } else {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+public function index(Request $request)
+{
+    if (!Auth::user()->can('Manage Biometric Attendance')) {
+        return redirect()->back()->with('error', __('Permission denied.'));
     }
+
+    $settings = Utility::settings();
+
+    $apiUrl = $settings['zkteco_api_url'] ?? '';
+    $token  = $settings['auth_token'] ?? '';
+
+    // Validate settings
+    if (empty($apiUrl) || empty($token)) {
+        return redirect()->back()->with('error', __('Biometric settings are not configured.'));
+    }
+
+    // Ensure URL starts with http or https
+    if (!str_starts_with($apiUrl, 'http://') && !str_starts_with($apiUrl, 'https://')) {
+        $apiUrl = 'http://' . $apiUrl;
+    }
+
+    $apiUrl = rtrim($apiUrl, '/');
+
+    // Build date range
+    if (!empty($request->start_date) && !empty($request->end_date)) {
+
+        $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        $end_date   = date('Y-m-d H:i:s', strtotime($request->end_date . ' 23:59:59'));
+
+    } else {
+        $start_date = date('Y-m-d H:i:s', strtotime('-7 days'));
+        $end_date   = date('Y-m-d H:i:s');
+    }
+
+    // Prepare API endpoint
+    $endpoint = $apiUrl . '/iclock/api/transactions/';
+
+    // Prepare query parameters
+    $queryParams = [
+        'start_time' => $start_date,
+        'end_time'   => $end_date,
+        'page_size'  => 10000,
+    ];
+
+    $client = new Client([
+        'timeout' => 20,
+        'http_errors' => false
+    ]);
+
+    try {
+        // Send request
+        $response = $client->get($endpoint, [
+            'query' => $queryParams,
+            'headers' => [
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Token ' . $token,
+            ]
+        ]);
+
+        $body = json_decode($response->getBody()->getContents(), true);
+
+        // Handle invalid response
+        if (!isset($body['data'])) {
+            $attendances = [];
+        } else {
+            $attendances = $body['data'];
+        }
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', "API Error: " . $e->getMessage());
+    }
+
+    return view('biometricattendance.index', compact('attendances', 'token'));
+}
+
+
 
     public function update(Request $request)
     {

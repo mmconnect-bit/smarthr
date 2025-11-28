@@ -148,5 +148,14 @@
         </a>
         @endcan
 
+          <a href="{{ route('mainActivities.index') }}"
+            class="list-group-item list-group-item-action border-0 {{ request()->is('mainActivities*') ? 'active' : '' }}">{{ __('Main Activities') }}
+            <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+        </a>
+        <a href="{{ route('activities.index') }}"
+            class="list-group-item list-group-item-action border-0 {{ request()->is('activities*') ? 'active' : '' }}">{{ __('Activities') }}
+            <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+        </a>
+
     </div>
 </div>

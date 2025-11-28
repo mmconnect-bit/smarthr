@@ -38,7 +38,7 @@
                         <table class="table" id="pc-dt-simple">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Employee ID') }}</th>
+                                    <th>{{ __('Employee Code') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Branch') }}</th>
@@ -56,7 +56,7 @@
                                         <td>
                                             @can('Show Employee')
                                                 <a class="btn btn-outline-primary"
-                                                    href="{{ route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
+                                                    href="{{ route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ $employee->biometric_emp_id }}</a>
                                             @else
                                                 <a href="#"
                                                     class="btn btn-outline-primary">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>

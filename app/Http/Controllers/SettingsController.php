@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail as Mailer;
-
+ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\EmailTemplate;
 use App\Models\GenerateOfferLetter;
@@ -1922,77 +1922,96 @@ Mail::to($request->email)->send(new TestMail());
         }
     }
 
-    public function BiometricSetting(Request $request)
-    {
-        $validator = \Validator::make(
-            $request->all(),
-            [
-                'zkteco_api_url' => 'required',
-                'username' => 'required',
-                'user_password' => 'required',
-            ]
-        );
-        if ($validator->fails()) {
-            $messages = $validator->getMessageBag();
-            return redirect()->back()->with('error', $messages->first());
-        }
 
-        $user = \Auth::user();
 
-        if (!empty($request->zkteco_api_url) && !empty($request->username) && !empty($request->user_password)) {
-            try {
+public function BiometricSetting(Request $request)
+{
+    // Validation
+    $validator = \Validator::make(
+        $request->all(),
+        [
+            'zkteco_api_url' => 'required',
+            'username' => 'required',
+            'user_password' => 'required',
+        ]
+    );
 
-                $url = "$request->zkteco_api_url" . '/api-token-auth/';
-                $headers = array(
-                    "Content-Type: application/json"
-                );
-                $data = array(
-                    "username" => $request->username,
-                    "password" => $request->user_password
-                );
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                $response = curl_exec($ch);
-                curl_close($ch);
-                $auth_token = json_decode($response, true);
-
-                if (isset($auth_token['token'])) {
-
-                    $post = $request->all();
-                    $post['zkteco_api_url'] = $request->zkteco_api_url;
-                    $post['username'] = $request->username;
-                    $post['user_password'] = $request->user_password;
-                    $post['auth_token'] = $auth_token['token'];
-
-                    unset($post['_token']);
-                    foreach ($post as $key => $data) {
-                        $settings = Utility::settings();
-                        if (in_array($key, array_keys($settings))) {
-                            \DB::insert(
-                                'insert into settings (`value`, `name`,`created_by`, `created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
-                                [
-                                    $data,
-                                    $key,
-                                    $user->creatorId(),
-                                    date('Y-m-d H:i:s'),
-                                    date('Y-m-d H:i:s'),
-                                ]
-                            );
-                        }
-                    }
-                } else {
-                    return redirect()->back()->with('error', isset($auth_token['non_field_errors']) ? $auth_token['non_field_errors'][0] : __("something went wrong please try again"));
-                }
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', $e->getMessage());
-            }
-            return redirect()->back()->with('success', __('Biometric setting successfully saved.'));
-        }
+    if ($validator->fails()) {
+        return redirect()->back()->with('error', $validator->errors()->first());
     }
+
+    $user = \Auth::user();
+
+    try {
+        // --- Ensure URL starts with http:// or https:// ----
+        $baseUrl = $request->zkteco_api_url;
+        if (!str_starts_with($baseUrl, 'http://') && !str_starts_with($baseUrl, 'https://')) {
+            $baseUrl = 'http://' . $baseUrl;
+        }
+
+        $baseUrl = rtrim($baseUrl, '/');
+        $url = $baseUrl . '/jwt-api-token-auth/';
+
+        // --- Guzzle client ---
+        $client = new Client([
+            'timeout' => 15,
+            'http_errors' => false // don't throw default errors
+        ]);
+
+        // --- API Request ---
+        $response = $client->post($url, [
+            'json' => [
+                'email' => $request->username,
+                'password' => $request->user_password,
+                'company'=>'smarthr'
+            ],
+            'headers' => [
+                'Accept' => 'application/json',
+            ]
+        ]);
+
+        $body = json_decode($response->getBody()->getContents(), true);
+
+        // --- Token validation ---
+        if (!isset($body['token'])) {
+            return redirect()->back()->with(
+                'error',
+                $body['non_field_errors'][0] ?? 'Failed to authenticate with BioTime API'
+            );
+        }
+
+        // Save settings
+        $saveData = [
+            'zkteco_api_url' => $baseUrl,
+            'username' => $request->username,
+            'user_password' => $request->user_password,
+            'auth_token' => $body['token'],
+        ];
+
+        $settings = Utility::settings();
+
+        foreach ($saveData as $key => $value) {
+            if (array_key_exists($key, $settings)) {
+                \DB::insert(
+                    'INSERT INTO settings (`value`, `name`, `created_by`, `created_at`, `updated_at`)
+                     VALUES (?, ?, ?, ?, ?)
+                     ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        $user->creatorId(),
+                        now(),
+                        now(),
+                    ]
+                );
+            }
+        }
+
+        return redirect()->back()->with('success', 'Biometric setting successfully saved.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', $e->getMessage());
+    }
+}
+
 }

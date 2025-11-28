@@ -95,7 +95,6 @@ class EnvironmentManager
         $results = trans('installer_messages.environment.success');
 
         $envFileData =
-        "\n".
         'APP_NAME=\''.$request->app_name."'\n".
         'APP_ENV='.$request->environment."\n".
         'APP_KEY='.'base64:'.base64_encode(Str::random(32))."\n".
@@ -123,7 +122,7 @@ class EnvironmentManager
         'MAIL_ENCRYPTION='.$request->mail_encryption."\n\n".
         'PUSHER_APP_ID='.$request->pusher_app_id."\n".
         'PUSHER_APP_KEY='.$request->pusher_app_key."\n".
-        'PUSHER_APP_SECRET='.$request->pusher_app_secret."\n";
+        'PUSHER_APP_SECRET='.$request->pusher_app_secret;
 
         try {
             file_put_contents($this->envPath, $envFileData);

@@ -9,7 +9,7 @@ use App\Models\TimeSheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-
+ use GuzzleHttp\Client;
 class TimeSheetController extends Controller
 {
     public function index(Request $request)
@@ -26,8 +26,7 @@ class TimeSheetController extends Controller
                 $timesheets = TimeSheet::where('created_by', \Auth::user()->creatorId());
                 if(!empty($request->start_date) && !empty($request->end_date))
                 {
-                    $timesheets->where('date', '>=', $request->start_date);
-                    $timesheets->where('date', '<=', $request->end_date);
+                    $timesheets->whereBetween('date', [$request->start_date, $request->end_date]);
                 }
 
                 if(!empty($employeesList->user_id))
@@ -39,15 +38,15 @@ class TimeSheetController extends Controller
             }
             else
             {
-                $employeesList = Employee::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'user_id');
+                $employeesList = Employee::get()->pluck('name', 'user_id');
                 $employeesList->prepend('All', '');
 
-                $timesheets = TimeSheet::where('created_by', \Auth::user()->creatorId());
+                $timesheets = TimeSheet::query();
 
                 if(!empty($request->start_date) && !empty($request->end_date))
                 {
-                    $timesheets->where('date', '>=', $request->start_date);
-                    $timesheets->where('date', '<=', $request->end_date);
+               $timesheets->whereBetween('date', [$request->start_date, $request->end_date]);
+;
                 }
 
                 if(!empty($request->employee))
@@ -190,7 +189,7 @@ class TimeSheetController extends Controller
     public function export(Request $request)
     {
         $name = 'Timesheet_' . date('Y-m-d i:h:s');
-        $data = \Excel::download(new TimesheetExport(), $name . '.xlsx'); 
+        $data = \Excel::download(new TimesheetExport(), $name . '.xlsx');
 
         return $data;
     }
@@ -198,7 +197,7 @@ class TimeSheetController extends Controller
     public function exportTimeshhetReport(Request $request)
     {
         $name = 'Timesheet_' . date('Y-m-d i:h:s');
-        $data = \Excel::download(new TimesheetExport(), $name . '.xlsx'); 
+        $data = \Excel::download(new TimesheetExport(), $name . '.xlsx');
 
         return $data;
     }
@@ -227,7 +226,7 @@ class TimeSheetController extends Controller
             $timesheets = $timesheet[$i];
             $timesheetData=TimeSheet::where('employee_id',$timesheets[1])->where('date',$timesheets[0])->first();
             if(!empty($timesheetData))
-            {   
+            {
                 $errorArray[]=$timesheetData;
             }
             else
@@ -241,21 +240,21 @@ class TimeSheetController extends Controller
                 $time_sheet->save();
             }
         }
-       
-        
+
+
         if (empty($errorArray)) {
             $data['status'] = 'success';
             $data['msg']    = __('Record successfully imported');
         } else {
-           
+
             $data['status'] = 'error';
             $data['msg']    = count($errorArray) . ' ' . __('Record imported fail out of' . ' ' . $totalTimesheet . ' ' . 'record');
 
-           
+
             foreach ($errorArray as $errorData) {
                 $errorRecord[] = implode(',', $errorData->toArray());
             }
-            
+
             \Session::put('errorArray', $errorRecord);
         }
 

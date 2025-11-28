@@ -117,7 +117,8 @@ use App\Http\Controllers\YooKassaController;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-
+use App\Http\Controllers\MainActivitiesController;
+use App\Http\Controllers\ActivitiesController;
 
 
 Route::get('/', function () {
@@ -140,7 +141,6 @@ Route::get('/check', [HomeController::class, 'check'])->middleware(
 // Route::get('/password/resets/{lang?}', 'Auth\LoginController@showLinkRequestForm')->name('change.langPass');
 
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware(['XSS']);
-
 Route::get('career/{id}/{lang}', [JobController::class, 'career'])->name('career');
 Route::get('job/requirement/{code}/{lang}', [JobController::class, 'jobRequirement'])->name('job.requirement');
 Route::get('job/apply/{code}/{lang}', [JobController::class, 'jobApply'])->name('job.apply');
@@ -673,7 +673,10 @@ Route::group(['middleware' => ['verified']], function () {
 
     Route::any('/meeting/get_meeting_data', [MeetingController::class, 'get_meeting_data'])->name('meeting.get_meeting_data')->middleware(['auth', 'XSS']);
 
-    Route::post('employee/update/sallary/{id}', [SetSalaryController::class, 'employeeUpdateSalary'])->name('employee.salary.update')->middleware(
+    Route::post('
+
+
+    /update/sallary/{id}', [SetSalaryController::class, 'employeeUpdateSalary'])->name('employee.salary.update')->middleware(
         [
             'auth',
             'XSS',
@@ -1732,6 +1735,26 @@ Route::group(['middleware' => ['verified']], function () {
             'XSS',
         ]
     );
+       //Main Activities
+    Route::get('/mainActivities', [MainActivitiesController::class, 'index'])->name('mainActivities.index')->middleware(['auth', 'XSS']);
+    Route::get('/mainActivities/create', [MainActivitiesController::class, 'create'])->name('mainActivities.create')->middleware(['auth', 'XSS']);
+    Route::post('/mainActivities/store', [MainActivitiesController::class, 'store'])->name('mainActivities.store')->middleware(['auth', 'XSS']);
+    Route::get('mainActivities/{mainActivity}/edit',  [MainActivitiesController::class, 'edit'])->name('mainActivities.edit')->middleware(['auth', 'XSS']);
+    Route::put('/mainActivities/{mainActivities}/update',  [MainActivitiesController::class, 'update'])->name('mainActivities.update')->middleware(['auth', 'XSS']);
+    Route::delete('/mainActivities/{mainActivities}/delete', [MainActivitiesController::class, 'destroy'])->name('mainActivities.delete')->middleware(['auth', 'XSS']);
+    //end activites
+
+    //activities
+    Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities.index')->middleware(['auth', 'XSS']);
+    Route::get('/activities/create', [ActivitiesController::class, 'create'])->name('activities.create')->middleware(['auth', 'XSS']);
+    Route::post('/activities/store', [ActivitiesController::class, 'store'])->name('activities.store')->middleware(['auth', 'XSS']);
+    Route::get('activities/{activity}/edit',  [ActivitiesController::class, 'edit'])->name('activities.edit')->middleware(['auth', 'XSS']);
+    Route::put('/activities/{activities}/update',  [ActivitiesController::class, 'update'])->name('activities.update')->middleware(['auth', 'XSS']);
+    Route::delete('/activities/delete/{activities}', [ActivitiesController::class, 'destroy'])->name('activities.destroy')->middleware(['auth', 'XSS']);
+    //end activites
+
+
+    Route::post('/biometric-attendance/sync/{start_date?}/{end_date?}', [BiometricAttendanceController::class, 'AllSync'])->middleware(['auth'])->name('biometric-attendance.allsync');
     Route::post('/biometric-attendance/sync/{start_date?}/{end_date?}', [BiometricAttendanceController::class, 'AllSync'])->middleware(['auth'])->name('biometric-attendance.allsync');
 
     // cache
