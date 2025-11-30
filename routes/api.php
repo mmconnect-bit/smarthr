@@ -125,7 +125,7 @@ Route::post('/attendance/upload', function (Request $request) {
 
 
 Route::get('fetch-employee', function () {
-    $employees = Employee::select('id','name','email', 'phone')->where('created_by',1)->get();
+    $employees = Employee::select('id','name','email', 'phone')->get();
     return response()->json([
         'status'         => 'success',
         'message'        => 'employee  is  sucessfull fetched',
