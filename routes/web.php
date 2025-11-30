@@ -15,6 +15,7 @@ use App\Http\Controllers\IncomeTypeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEmployeeController;
+use App\Http\Controllers\CasualAttendanceController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AccountListController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\PaySlipController;
+use App\Http\Controllers\CasualPaySlipController;
 use App\Http\Controllers\ResignationController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\PromotionController;
@@ -779,6 +781,12 @@ Route::group(['middleware' => ['verified']], function () {
         ]
     );
 
+       Route::resource('casual-payslip', CasualPaySlipController::class)->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
 
     Route::resource('resignation', ResignationController::class)->middleware(
         [
@@ -932,6 +940,12 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('import/attendance', [AttendanceEmployeeController::class, 'import'])->name('attendance.import');
 
     Route::resource('timesheet', TimeSheetController::class)->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+       Route::resource('casual-attendance', CasualAttendanceController::class)->middleware(
         [
             'auth',
             'XSS',
@@ -1743,6 +1757,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::put('/mainActivities/{mainActivities}/update',  [MainActivitiesController::class, 'update'])->name('mainActivities.update')->middleware(['auth', 'XSS']);
     Route::delete('/mainActivities/{mainActivities}/delete', [MainActivitiesController::class, 'destroy'])->name('mainActivities.delete')->middleware(['auth', 'XSS']);
     //end activites
+    Route::get('casual-attendance/file/export', [CasualAttendanceController::class, 'export'])->name('casual-attendance.file.export');
 
     //activities
     Route::get('/activities', [ActivitiesController::class, 'index'])->name('activities.index')->middleware(['auth', 'XSS']);

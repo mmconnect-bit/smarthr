@@ -90,6 +90,7 @@
 
 
                                 </ul>
+
                             </li>
                         @endif
 
@@ -192,6 +193,9 @@
                         <li class="dash-item">
                             <a class="dash-link" href="{{ route('payslip.index') }}">{{ __('Payslip') }}</a>
                         </li>
+                         <li class="dash-item">
+                            <a class="dash-link" href="{{ route('casual-payslip.index') }}">{{ __('Casual Payslip') }}</a>
+                        </li>
 
                     </ul>
                 </li>
@@ -232,11 +236,9 @@
                             </li>
                         @endcan
                         @can('Manage Leave')
-
                             <li class="dash-item {{ Request::segment(1) == 'calender' ? ' active' : '' }}">
                                 <a class="dash-link" href="{{ route('leave.index') }}">{{ __('Manage Leave') }}</a>
                             </li>
-
                         @endcan
                         @can('Manage Attendance')
                             <li class="dash-item dash-hasmenu">
@@ -257,6 +259,11 @@
                                 </ul>
                             </li>
                         @endcan
+                         @can('Manage TimeSheet')
+                          <li class="dash-item">
+                                <a class="dash-link" href="{{ route('casual-attendance.index') }}">{{ __('Casual-Attendance') }}</a>
+                            </li>
+                             @endcan
                         @can('Manage Biometric Attendance')
 
                             <li class="dash-item">

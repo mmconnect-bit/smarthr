@@ -88,6 +88,8 @@ return array(
     'App\\Http\\Controllers\\BiometricAttendanceController' => $baseDir . '/app/Http/Controllers/BiometricAttendanceController.php',
     'App\\Http\\Controllers\\BranchController' => $baseDir . '/app/Http/Controllers/BranchController.php',
     'App\\Http\\Controllers\\CashfreeController' => $baseDir . '/app/Http/Controllers/CashfreeController.php',
+    'App\\Http\\Controllers\\CasualAttendanceController' => $baseDir . '/app/Http/Controllers/CasualAttendanceController.php',
+    'App\\Http\\Controllers\\CasualPaySlipController' => $baseDir . '/app/Http/Controllers/CasualPaySlipController.php',
     'App\\Http\\Controllers\\CinetPayController' => $baseDir . '/app/Http/Controllers/CinetPayController.php',
     'App\\Http\\Controllers\\CoingatePaymentController' => $baseDir . '/app/Http/Controllers/CoingatePaymentController.php',
     'App\\Http\\Controllers\\CommissionController' => $baseDir . '/app/Http/Controllers/CommissionController.php',

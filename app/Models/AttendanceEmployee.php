@@ -16,6 +16,7 @@ class AttendanceEmployee extends Model
         'early_leaving',
         'overtime',
         'total_rest',
+        'activity_id',
         'created_by',
     ];
 
@@ -27,5 +28,9 @@ class AttendanceEmployee extends Model
     public function employee()
     {
         return $this->hasOne('App\Models\Employee', 'id', 'employee_id');
+    }
+       public function activity()
+    {
+        return $this->hasOne('App\Models\Activities', 'id', 'activity_id');
     }
 }

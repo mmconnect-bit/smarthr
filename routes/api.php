@@ -2,7 +2,9 @@
 use App\Imports\AttendanceImport;
 use App\Models\AttendanceEmployee;
 use App\Models\Employee;
+use App\Models\MainActivities;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +14,6 @@ Route::post('/attendance/upload', function (Request $request) {
     $validator = Validator::make($request->all(), [
         'file' => 'required|file|mimes:csv,xlsx,xls,txt'
     ]);
-
     if ($validator->fails()) {
         return response()->json([
             'status'  => 'error',
@@ -55,8 +56,8 @@ Route::post('/attendance/upload', function (Request $request) {
         }
 
         // Clean row
-        $row = array_pad(array_map('trim', $row), 4, null);
-        [$email, $date, $clockIn, $clockOut] = $row;
+        $row = array_pad(array_map('trim', $row), 5, null);
+        [$email, $date, $clockIn, $clockOut,$activitId] = $row;
 
         if (empty($email) || empty($date)) {
             $failed++;
@@ -103,6 +104,7 @@ Route::post('/attendance/upload', function (Request $request) {
                 'late'          => $late,
                 'early_leaving' => $earlyLeaving,
                 'overtime'      => $overtime,
+                'activity_id' => $activitId,
                 'created_by'    => 1, // or use a system user ID
             ]
         );
@@ -118,10 +120,29 @@ Route::post('/attendance/upload', function (Request $request) {
         'missing_emails' => array_unique($errorEmails),
     ]);
 
-})->name('attendance.upload'); // No middleware → public endpoint
+})->name('attendance.upload');
 
 
 
+Route::get('fetch-employee', function () {
+    $employees = Employee::select('id','name','email', 'phone')->where('created_by',1)->get();
+    return response()->json([
+        'status'         => 'success',
+        'message'        => 'employee  is  sucessfull fetched',
+        'users'      => $employees,
+
+    ]);
+});
+
+Route::get('fetch-activities', function () {
+      $activities=  MainActivities::with('activities')->get();
+    return response()->json([
+        'status'         => 'success',
+        'message'        => 'activities  is  sucessfull fetched',
+        'activities'      => $activities,
+
+    ]);
+});
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

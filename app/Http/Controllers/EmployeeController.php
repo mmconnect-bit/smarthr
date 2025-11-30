@@ -66,8 +66,9 @@ class EmployeeController extends Controller
             $designations     = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
+            $employeesCode=$this->employeeNumber();
 
-            return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));
+            return view('employee.create', compact('employees','employeesCode', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -184,7 +185,7 @@ class EmployeeController extends Controller
                     'address' => $request['address'],
                     'email' => $request['email'],
                     'password' => Hash::make($request['password']),
-                    'employee_id' => $this->employeeNumber(),
+                    'employee_id' =>$request['employee_id'],
                     'biometric_emp_id' => !empty($request['biometric_emp_id']) ? $request['biometric_emp_id'] : '',
                     'branch_id' => $request['branch_id'],
                     'department_id' => $request['department_id'],
@@ -268,7 +269,7 @@ class EmployeeController extends Controller
             $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $employee     = Employee::find($id);
-            $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
+            $employeesId  = $employee->employee_id;
 
             return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents'));
         } else {
@@ -746,7 +747,7 @@ class EmployeeController extends Controller
             'start_time' => !empty($settings['company_start_time']) ? $settings['company_start_time'] : '',
             'end_time' => !empty($settings['company_end_time']) ? $settings['company_end_time'] : '',
             'total_hours' => $result,
-            //         
+            //
 
         ];
         $joiningletter->content = JoiningLetter::replaceVariable($joiningletter->content, $obj);

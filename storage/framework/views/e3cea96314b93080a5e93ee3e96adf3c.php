@@ -1,47 +1,50 @@
-@extends('layouts.admin')
+<?php $__env->startSection('page-title'); ?>
+    <?php echo e(__('Employee Profile')); ?>
 
-@section('page-title')
-    {{ __('Employee Profile') }}
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Employee Profile') }}</li>
-@endsection
+<?php $__env->startSection('breadcrumb'); ?>
+    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
+    <li class="breadcrumb-item"><?php echo e(__('Employee Profile')); ?></li>
+<?php $__env->stopSection(); ?>
 
-@section('action-button')
+<?php $__env->startSection('action-button'); ?>
     <a class="btn btn-sm btn-primary collapsed" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-        aria-expanded="false" aria-controls="multiCollapseExample1" data-bs-toggle="tooltip" title="{{ __('Filter') }}">
+        aria-expanded="false" aria-controls="multiCollapseExample1" data-bs-toggle="tooltip" title="<?php echo e(__('Filter')); ?>">
         <i class="ti ti-filter"></i>
     </a>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@php
+<?php
     // $profile = asset(Storage::url('uploads/avatar/'));
     $profile = \App\Models\Utility::get_file('uploads/avatar/');
 
-@endphp
-@section('content')
+?>
+<?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="multi-collapse mt-2 collapse" id="multiCollapseExample1">
                 <div class="card">
                     <div class="card-body">
-                        {{ Form::open(['route' => ['employee.profile'], 'method' => 'get', 'id' => 'employee_profile_filter']) }}
+                        <?php echo e(Form::open(['route' => ['employee.profile'], 'method' => 'get', 'id' => 'employee_profile_filter'])); ?>
+
                         <div class="row align-items-center justify-content-end">
                             <div class="col-xl-10">
                                 <div class="row">
                                     <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('branch', __('Select Branch*'), ['class' => 'form-label']) }}
-                                            {{ Form::select('branch', $brances, isset($_GET['branch']) ? $_GET['branch'] : '', ['class' => ' select-width form-control', 'id' => 'branch_id']) }}
+                                            <?php echo e(Form::label('branch', __('Select Branch*'), ['class' => 'form-label'])); ?>
+
+                                            <?php echo e(Form::select('branch', $brances, isset($_GET['branch']) ? $_GET['branch'] : '', ['class' => ' select-width form-control', 'id' => 'branch_id'])); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
                                             <div class="btn-box" id="department_id">
-                                                {{ Form::label('department', __('Department'), ['class' => 'form-label']) }}
+                                                <?php echo e(Form::label('department', __('Department'), ['class' => 'form-label'])); ?>
+
                                                 <select class="form-control select department_id" name="department"
                                                     id="department_id" placeholder="Select Department">
                                                 </select>
@@ -50,10 +53,11 @@
                                     </div>
                                     <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('designation', __('Designation'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('designation', __('Designation'), ['class' => 'form-label'])); ?>
+
                                             <select class="  select-width select2-multiple form-control" id="designation_id"
-                                                name="designation" data-placeholder="{{ __('Select Designation ...') }}">
-                                                <option value="">{{ __('Designation') }}</option>
+                                                name="designation" data-placeholder="<?php echo e(__('Select Designation ...')); ?>">
+                                                <option value=""><?php echo e(__('Designation')); ?></option>
                                             </select>
                                         </div>
                                     </div>
@@ -67,7 +71,7 @@
                                             data-bs-toggle="tooltip" title="" data-bs-original-title="Apply">
                                             <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
                                         </a>
-                                        <a href="{{ route('employee.profile') }}" class="btn btn-sm btn-danger"
+                                        <a href="<?php echo e(route('employee.profile')); ?>" class="btn btn-sm btn-danger"
                                             data-bs-toggle="tooltip" title="" data-bs-original-title="Reset">
                                             <span class="btn-inner--icon"><i
                                                     class="ti ti-trash-off text-white-off "></i></span>
@@ -77,12 +81,13 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::close() }}
+                    <?php echo e(Form::close()); ?>
+
                 </div>
             </div>
         </div>
 
-        @forelse($employees as $employee)
+        <?php $__empty_1 = true; $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="col-xl-3">
                 <div class="card  text-center">
                     <div class="card-header border-0 pb-0">
@@ -93,72 +98,74 @@
                         </div>
                         <div class="card-header-right">
                             <div class="btn-group card-option">
-                                @if ($employee->user->is_active == 1)
+                                <?php if($employee->user->is_active == 1): ?>
                                     <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         <i class="feather icon-more-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        @can('Edit Employee')
-                                            <a href="{{ route('employee.edit', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}"
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Employee')): ?>
+                                            <a href="<?php echo e(route('employee.edit', \Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"
                                                 class="dropdown-item" data-url="" data-size="md" data-ajax-popup="true"
-                                                data-title="{{ __('Edit employee') }}"><i class="ti ti-edit "></i><span
-                                                    class="ms-2">{{ __('Edit') }}</span></a>
-                                        @endcan
+                                                data-title="<?php echo e(__('Edit employee')); ?>"><i class="ti ti-edit "></i><span
+                                                    class="ms-2"><?php echo e(__('Edit')); ?></span></a>
+                                        <?php endif; ?>
 
-                                        @can('Delete Employee')
-                                            {!! Form::open([
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Employee')): ?>
+                                            <?php echo Form::open([
                                                 'method' => 'DELETE',
                                                 'route' => ['employee.destroy', $employee->id],
                                                 'id' => 'delete-form-' . $employee->id,
-                                            ]) !!}
+                                            ]); ?>
+
                                             <a href="#" class="bs-pass-para dropdown-item"
-                                                data-confirm="{{ __('Are You Sure?') }}"
-                                                data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
-                                                data-confirm-yes="delete-form-{{ $employee->id }}"
-                                                title="{{ __('Delete') }}"><i class="ti ti-trash"></i><span
-                                                    class="ms-2">{{ __('Delete') }}</span></a>
-                                            {!! Form::close() !!}
-                                        @endcan
+                                                data-confirm="<?php echo e(__('Are You Sure?')); ?>"
+                                                data-text="<?php echo e(__('This action can not be undone. Do you want to continue?')); ?>"
+                                                data-confirm-yes="delete-form-<?php echo e($employee->id); ?>"
+                                                title="<?php echo e(__('Delete')); ?>"><i class="ti ti-trash"></i><span
+                                                    class="ms-2"><?php echo e(__('Delete')); ?></span></a>
+                                            <?php echo Form::close(); ?>
+
+                                        <?php endif; ?>
                                     </div>
-                                @else
+                                <?php else: ?>
                                     <i class="ti ti-lock"></i>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="avatar">
-                            <a href="{{ !empty($employee->user->avatar) ? asset(Storage::url('uploads/avatar')) . '/' . $employee->user->avatar : asset(Storage::url('uploads/avatar')) . '/avatar.png' }}"
+                            <a href="<?php echo e(!empty($employee->user->avatar) ? asset(Storage::url('uploads/avatar')) . '/' . $employee->user->avatar : asset(Storage::url('uploads/avatar')) . '/avatar.png'); ?>"
                                 target="_blank">
-                                <img src="{{ !empty($employee->user->avatar) ? asset(Storage::url('uploads/avatar')) . '/' . $employee->user->avatar : asset(Storage::url('uploads/avatar')) . '/avatar.png' }}"
+                                <img src="<?php echo e(!empty($employee->user->avatar) ? asset(Storage::url('uploads/avatar')) . '/' . $employee->user->avatar : asset(Storage::url('uploads/avatar')) . '/avatar.png'); ?>"
                                     class="rounded-circle" style="width: 25%">
                             </a>
                         </div>
-                        <h4 class="mt-2 text-primary">{{ $employee->name }}</h4>
+                        <h4 class="mt-2 text-primary"><?php echo e($employee->name); ?></h4>
                         <small
-                            class="">{{ ucfirst(!empty($employee->designation) ? $employee->designation->name : '') }}</small>
+                            class=""><?php echo e(ucfirst(!empty($employee->designation) ? $employee->designation->name : '')); ?></small>
 
                         <div class="row mt-2">
                             <div class="col-12 col-sm-12">
                                 <div class="d-grid">
-                                    @can('Show Employee Profile')
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Employee Profile')): ?>
                                         <a class="btn btn-outline-primary mx-5"
-                                            href="{{ route('show.employee.profile', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ $employee->employee_id }}</a>
-                                    @else
+                                            href="<?php echo e(route('show.employee.profile', \Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"><?php echo e($employee->employee_id); ?></a>
+                                    <?php else: ?>
                                         <a class="btn btn-outline-primary mx-5"
-                                            href="{{ route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ $employee->employee_id }}</a>
-                                    @endcan
+                                            href="<?php echo e(route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"><?php echo e($employee->employee_id); ?></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
     <script>
         $(document).ready(function() {
             var b_id = $('#branch_id').val();
@@ -173,11 +180,11 @@
         function getDepartment(bid) {
 
             $.ajax({
-                url: '{{ route('monthly.getdepartment') }}',
+                url: '<?php echo e(route('monthly.getdepartment')); ?>',
                 type: 'POST',
                 data: {
                     "branch_id": bid,
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(data) {
 
@@ -186,7 +193,7 @@
                 </select>`;
                     $('.department_div').html(emp_selct);
 
-                    $('.department_id').append('<option value=""> {{ __('Select Department') }} </option>');
+                    $('.department_id').append('<option value=""> <?php echo e(__('Select Department')); ?> </option>');
                     $.each(data, function(key, value) {
                         $('.department_id').append('<option value="' + key + '">' + value +
                             '</option>');
@@ -210,15 +217,15 @@
 
         function getDesignation(did) {
             $.ajax({
-                url: '{{ route('employee.json') }}',
+                url: '<?php echo e(route('employee.json')); ?>',
                 type: 'POST',
                 data: {
                     "department_id": did,
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(data) {
                     $('#designation_id').empty();
-                    $('#designation_id').append('<option value="">{{ __('Select Designation') }}</option>');
+                    $('#designation_id').append('<option value=""><?php echo e(__('Select Designation')); ?></option>');
                     $.each(data, function(key, value) {
                         $('#designation_id').append('<option value="' + key + '">' + value +
                             '</option>');
@@ -227,4 +234,6 @@
             });
         }
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/mmconnect/Desktop/desktop/my project/SmartHR/irad.smarthr.co.tz/resources/views/employee/profile.blade.php ENDPATH**/ ?>

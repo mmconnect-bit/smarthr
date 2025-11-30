@@ -90,6 +90,7 @@
 
 
                                 </ul>
+
                             </li>
                         <?php endif; ?>
 
@@ -189,6 +190,9 @@
                         <li class="dash-item">
                             <a class="dash-link" href="<?php echo e(route('payslip.index')); ?>"><?php echo e(__('Payslip')); ?></a>
                         </li>
+                         <li class="dash-item">
+                            <a class="dash-link" href="<?php echo e(route('casual-payslip.index')); ?>"><?php echo e(__('Casual Payslip')); ?></a>
+                        </li>
 
                     </ul>
                 </li>
@@ -229,11 +233,9 @@
                             </li>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Leave')): ?>
-
                             <li class="dash-item <?php echo e(Request::segment(1) == 'calender' ? ' active' : ''); ?>">
                                 <a class="dash-link" href="<?php echo e(route('leave.index')); ?>"><?php echo e(__('Manage Leave')); ?></a>
                             </li>
-
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Attendance')): ?>
                             <li class="dash-item dash-hasmenu">
@@ -254,6 +256,11 @@
                                 </ul>
                             </li>
                         <?php endif; ?>
+                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage TimeSheet')): ?>
+                          <li class="dash-item">
+                                <a class="dash-link" href="<?php echo e(route('casual-attendance.index')); ?>"><?php echo e(__('Casual-Attendance')); ?></a>
+                            </li>
+                             <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Biometric Attendance')): ?>
 
                             <li class="dash-item">

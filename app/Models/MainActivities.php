@@ -15,7 +15,7 @@ class MainActivities extends Model
 
     public function activities()
     {
-        return $this->hasMany('App\Models\Activities', 'id', 'main_activity_id');
+       return $this->hasMany(Activities::class, 'main_activity_id');
     }
 
 }

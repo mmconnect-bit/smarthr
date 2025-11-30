@@ -999,6 +999,8 @@ class ComposerStaticInit60acc5c748850f71ecbbb8ca6e78bcd0
         'App\\Http\\Controllers\\BiometricAttendanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/BiometricAttendanceController.php',
         'App\\Http\\Controllers\\BranchController' => __DIR__ . '/../..' . '/app/Http/Controllers/BranchController.php',
         'App\\Http\\Controllers\\CashfreeController' => __DIR__ . '/../..' . '/app/Http/Controllers/CashfreeController.php',
+        'App\\Http\\Controllers\\CasualAttendanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/CasualAttendanceController.php',
+        'App\\Http\\Controllers\\CasualPaySlipController' => __DIR__ . '/../..' . '/app/Http/Controllers/CasualPaySlipController.php',
         'App\\Http\\Controllers\\CinetPayController' => __DIR__ . '/../..' . '/app/Http/Controllers/CinetPayController.php',
         'App\\Http\\Controllers\\CoingatePaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/CoingatePaymentController.php',
         'App\\Http\\Controllers\\CommissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommissionController.php',
