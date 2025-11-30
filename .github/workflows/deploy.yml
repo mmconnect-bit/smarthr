@@ -51,6 +51,7 @@ jobs:
           sudo chown -R ${{ secrets.SERVER_USER }} storage bootstrap/cache
           sudo chmod -R 775 storage bootstrap/cache
           # Clear caches
+          php  artisan composer install
           php artisan config:clear
           php artisan cache:clear
           php artisan route:clear
