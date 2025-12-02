@@ -121,6 +121,17 @@
                                                 'required' => 'required'
                                             ]) !!}
                                         </div>
+                                         <div class="form-group col-md-6">
+                                            {{ Form::label('level_id', __('Select Level'), ['class' => 'form-label']) }}
+                                            <div class="form-icon-user">
+                                                {{ Form::select('level_id', $levels, $employee->level_id ?? null, [
+                                                    'class' => 'form-control',
+                                                    'id' => 'level_id',
+                                                    'placeholder' => 'Select Level',
+                                                    'required' => false  // change to true if mandatory
+                                                ]) }}
+                                            </div>
+                                        </div>
                                         <div class="form-group col-md-6">
                                             {!! Form::label('company_doj', 'Company Date Of Joining', ['class' => 'form-label']) !!}
                                             {!! Form::date('company_doj', null, [

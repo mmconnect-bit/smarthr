@@ -161,11 +161,28 @@
                                 class="dash-mtext">{{ __('Employee') }}</span></a>
                     </li>
                 @else
-                    <li class="dash-item {{ Request::segment(1) == 'employee' ? 'active' : '' }}">
-                        <a href="{{ route('employee.index') }}" class="dash-link"><span class="dash-micon"><i
-                                    class="ti ti-user"></i></span><span
-                                class="dash-mtext">{{ __('Employee') }}</span></a>
-                    </li>
+                     <li  class="dash-item dash-hasmenu {{ Request::segment(1) == 'calender' && Request::segment(2) == 'employee' ? 'dash-trigger active' : '' }}">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-users"></i></span><span
+                            class="dash-mtext">{{ __('Employee') }}</span><span class="dash-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+
+
+                    <ul id="employeeMenu" class="dash-submenu collapse {{ Request::segment(1) == 'employee' ? 'show' : '' }}">
+
+                        @foreach(\App\Models\Level::get() as $level)
+                            <li class="dash-item
+                                {{ Request::route()->getName() == 'employee.level' && Request::segment(2) == $level->id ? 'active' : '' }}">
+
+                                <a href="{{ route('employee.level', $level->id) }}" class="dash-link">
+                                    <span class="me-2">{{ $level->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+
+                    </ul>
+</li>
+
                 @endif
             @endif
             <!-- employee-->

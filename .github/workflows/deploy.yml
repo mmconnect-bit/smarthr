@@ -58,6 +58,6 @@ jobs:
           php artisan view:clear
           # Recreate storage link if needed
           php artisan storage:link
-          sudo chown -R www-data:www-data /var/www/irad.smarthr.co.tz/public/contracts
-          sudo chmod -R 775 /var/www/irad.smarthr.co.tz/public/contracts
+          sudo chown -R www-data:www-data /var/www/irad.smarthr.co.tz/public
+          sudo chmod -R 775 /var/www/irad.smarthr.co.tz/public
 

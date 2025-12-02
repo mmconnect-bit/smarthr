@@ -157,11 +157,28 @@
                                 class="dash-mtext"><?php echo e(__('Employee')); ?></span></a>
                     </li>
                 <?php else: ?>
-                    <li class="dash-item <?php echo e(Request::segment(1) == 'employee' ? 'active' : ''); ?>">
-                        <a href="<?php echo e(route('employee.index')); ?>" class="dash-link"><span class="dash-micon"><i
-                                    class="ti ti-user"></i></span><span
-                                class="dash-mtext"><?php echo e(__('Employee')); ?></span></a>
-                    </li>
+                     <li  class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'calender' && Request::segment(2) == 'employee' ? 'dash-trigger active' : ''); ?>">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-users"></i></span><span
+                            class="dash-mtext"><?php echo e(__('Employee')); ?></span><span class="dash-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+
+
+                    <ul id="employeeMenu" class="dash-submenu collapse <?php echo e(Request::segment(1) == 'employee' ? 'show' : ''); ?>">
+
+                        <?php $__currentLoopData = \App\Models\Level::get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $level): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li class="dash-item
+                                <?php echo e(Request::route()->getName() == 'employee.level' && Request::segment(2) == $level->id ? 'active' : ''); ?>">
+
+                                <a href="<?php echo e(route('employee.level', $level->id)); ?>" class="dash-link">
+                                    <span class="me-2"><?php echo e($level->name); ?></span>
+                                </a>
+                            </li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                    </ul>
+</li>
+
                 <?php endif; ?>
             <?php endif; ?>
             <!-- employee-->

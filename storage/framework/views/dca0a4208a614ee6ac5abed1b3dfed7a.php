@@ -168,6 +168,12 @@
                                         <span><?php echo e(!empty($employee->designation) ? $employee->designation->name : ''); ?></span>
                                     </div>
                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="info text-sm">
+                                        <strong class="font-bold"><?php echo e(__('Level')); ?> :</strong>
+                                        <span><?php echo e($employee->level->name); ?></span>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-6">
                                     <div class="info text-sm">
@@ -175,6 +181,7 @@
                                         <span><?php echo e(\Auth::user()->dateFormat($employee->company_doj)); ?></span>
                                     </div>
                                 </div>
+
 
                                 <div class="col-md-6">
                                     <div class="info text-sm">

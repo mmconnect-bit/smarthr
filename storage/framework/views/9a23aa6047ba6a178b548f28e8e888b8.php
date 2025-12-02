@@ -43,6 +43,7 @@
                                     <th><?php echo e(__('Branch')); ?></th>
                                     <th><?php echo e(__('Department')); ?></th>
                                     <th><?php echo e(__('Designation')); ?></th>
+                                     <th><?php echo e(__('Level')); ?></th>
                                     <th><?php echo e(__('Date Of Joining')); ?></th>
                                     <?php if(Gate::check('Edit Employee') || Gate::check('Delete Employee')): ?>
                                         <th width="200px"><?php echo e(__('Action')); ?></th>
@@ -73,6 +74,10 @@
                                         </td>
                                         <td>
                                             <?php echo e(!empty($employee->designation_id) ? $employee->designation->name : '-'); ?>
+
+                                        </td>
+                                          <td>
+                                            <?php echo e(!empty($employee->level) ? $employee->level->name : '-'); ?>
 
                                         </td>
                                         <td>

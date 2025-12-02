@@ -111,6 +111,9 @@
                                         {!! Form::text('employee_id', $employeesId, ['class' => 'form-control']) !!}
                                     </div>
 
+
+
+
                                     <div class="form-group col-md-6">
                                         {{ Form::label('branch_id', __('Select Branch*'), ['class' => 'form-label']) }}
                                         <div class="form-icon-user">
@@ -149,13 +152,35 @@
                                             // 'required' => 'required'
                                         ]) !!}
                                     </div>
-                                    <div class="form-group">
+
+
+
+
+
+                                      <div class="form-group col-md-6">
+                                        {{ Form::label('level_id', __('Select Level*'), ['class' => 'form-label']) }}
+                                        <div class="form-icon-user">
+                                            {{ Form::select('level_id', $levels, null, [
+                                                'class' => 'form-control',
+                                                'required' => 'required',
+                                                'placeholder' => 'Select Level',
+                                                'id' => 'level_id'
+                                            ]) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
                                         {!! Form::label('company_doj', __('Company Date Of Joining'), ['class' => '  form-label']) !!}
                                         {{ Form::date('company_doj', null, ['class' => 'form-control current_date', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Select company date of joining']) }}
+
                                     </div>
+
+
+                                    {{-- <div class="form-group">
+                                        {!! Form::label('company_doj', __('Company Date Of Joining'), ['class' => '  form-label']) !!}
+                                        {{ Form::date('company_doj', null, ['class' => 'form-control current_date', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Select company date of joining']) }}
+                                    </div> --}}
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">

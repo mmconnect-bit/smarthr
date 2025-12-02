@@ -166,6 +166,12 @@
                                         <span>{{ !empty($employee->designation) ? $employee->designation->name : '' }}</span>
                                     </div>
                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="info text-sm">
+                                        <strong class="font-bold">{{ __('Level') }} :</strong>
+                                        <span>{{ $employee->level->name }}</span>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-6">
                                     <div class="info text-sm">
@@ -173,6 +179,7 @@
                                         <span>{{ \Auth::user()->dateFormat($employee->company_doj) }}</span>
                                     </div>
                                 </div>
+
 
                                 <div class="col-md-6">
                                     <div class="info text-sm">

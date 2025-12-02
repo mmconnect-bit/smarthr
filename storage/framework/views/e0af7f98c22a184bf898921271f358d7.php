@@ -24,6 +24,13 @@
             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
         </a>
         <?php endif; ?>
+          <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Branch')): ?>
+            <a href="<?php echo e(route('level.index')); ?>"
+                class="list-group-item list-group-item-action border-0 <?php echo e(request()->is('level*') ? 'active' : ''); ?>"><?php echo e(__('Level')); ?>
+
+                <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+            </a>
+        <?php endif; ?>
 
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Leave Type')): ?>
         <a href="<?php echo e(route('leavetype.index')); ?>"

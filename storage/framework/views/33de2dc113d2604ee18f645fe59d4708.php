@@ -135,6 +135,19 @@
                                             ]); ?>
 
                                         </div>
+                                         <div class="form-group col-md-6">
+                                            <?php echo e(Form::label('level_id', __('Select Level'), ['class' => 'form-label'])); ?>
+
+                                            <div class="form-icon-user">
+                                                <?php echo e(Form::select('level_id', $levels, $employee->level_id ?? null, [
+                                                    'class' => 'form-control',
+                                                    'id' => 'level_id',
+                                                    'placeholder' => 'Select Level',
+                                                    'required' => false  // change to true if mandatory
+                                                ])); ?>
+
+                                            </div>
+                                        </div>
                                         <div class="form-group col-md-6">
                                             <?php echo Form::label('company_doj', 'Company Date Of Joining', ['class' => 'form-label']); ?>
 

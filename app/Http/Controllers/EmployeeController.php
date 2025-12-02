@@ -23,6 +23,7 @@ use App\Imports\EmployeesImport;
 use App\Exports\EmployeesExport;
 use App\Models\Contract;
 use App\Models\ExperienceCertificate;
+use App\Models\Level;
 use App\Models\LoginDetail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\NOC;
@@ -40,14 +41,17 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Level $level)
     {
+
+
+
 
         if (\Auth::user()->can('Manage Employee')) {
             if (Auth::user()->type == 'employee') {
                 $employees = Employee::where('user_id', '=', Auth::user()->id)->get();
             } else {
-                $employees = Employee::where('created_by', \Auth::user()->creatorId())->with(['branch', 'department', 'designation', 'user'])->get();
+                $employees = Employee::where('created_by', \Auth::user()->creatorId())->with(['branch', 'department', 'designation','level', 'user'])->where('level_id',$level->id)->get();
             }
 
             return view('employee.index', compact('employees'));
@@ -66,9 +70,10 @@ class EmployeeController extends Controller
             $designations     = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
+            $levels=Level::get()->pluck('name', 'id');
             $employeesCode=$this->employeeNumber();
 
-            return view('employee.create', compact('employees','employeesCode', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));
+            return view('employee.create', compact('employees','employeesCode', 'employeesId', 'levels','departments', 'designations', 'documents', 'branches', 'company_settings'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -198,6 +203,7 @@ class EmployeeController extends Controller
                     'bank_identifier_code' => $request['bank_identifier_code'],
                     'branch_location' => $request['branch_location'],
                     'tax_payer_id' => $request['tax_payer_id'],
+                    'level_id'=>$request['level_id'],
                     'created_by' => \Auth::user()->creatorId(),
                 ]
             );
@@ -270,8 +276,8 @@ class EmployeeController extends Controller
             $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $employee     = Employee::find($id);
             $employeesId  = $employee->employee_id;
-
-            return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents'));
+            $levels=Level::get()->pluck('name', 'id');
+            return view('employee.edit', compact('employee', 'employeesId','levels', 'branches', 'departments', 'designations', 'documents'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

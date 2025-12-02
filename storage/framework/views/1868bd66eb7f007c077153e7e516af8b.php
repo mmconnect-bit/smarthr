@@ -34,7 +34,7 @@
                                     <td>
                                         <a href="<?php echo e(route('setsalary.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"
                                             class="btn btn-outline-primary">
-                                            <?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?>
+                                            <?php echo e($employee->employee_id); ?>
 
                                         </a>
                                     </td>

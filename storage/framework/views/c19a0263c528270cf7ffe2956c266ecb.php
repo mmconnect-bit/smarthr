@@ -119,6 +119,9 @@
 
                                     </div>
 
+
+
+
                                     <div class="form-group col-md-6">
                                         <?php echo e(Form::label('branch_id', __('Select Branch*'), ['class' => 'form-label'])); ?>
 
@@ -161,15 +164,36 @@
                                         ]); ?>
 
                                     </div>
-                                    <div class="form-group">
+
+
+
+
+
+                                      <div class="form-group col-md-6">
+                                        <?php echo e(Form::label('level_id', __('Select Level*'), ['class' => 'form-label'])); ?>
+
+                                        <div class="form-icon-user">
+                                            <?php echo e(Form::select('level_id', $levels, null, [
+                                                'class' => 'form-control',
+                                                'required' => 'required',
+                                                'placeholder' => 'Select Level',
+                                                'id' => 'level_id'
+                                            ])); ?>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
                                         <?php echo Form::label('company_doj', __('Company Date Of Joining'), ['class' => '  form-label']); ?>
 
                                         <?php echo e(Form::date('company_doj', null, ['class' => 'form-control current_date', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Select company date of joining'])); ?>
 
+
                                     </div>
+
+
+                                    
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">

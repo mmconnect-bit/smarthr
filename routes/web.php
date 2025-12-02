@@ -16,6 +16,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEmployeeController;
 use App\Http\Controllers\CasualAttendanceController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\AccountListController;
@@ -1695,7 +1696,8 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('setting/joiningletter/', [SettingsController::class, 'index'])->name('get.joiningletter.language');
     Route::get('employee/pdf/{id}', [EmployeeController::class, 'joiningletterPdf'])->name('joiningletter.download.pdf');
     Route::get('employee/doc/{id}', [EmployeeController::class, 'joiningletterDoc'])->name('joininglatter.download.doc');
-
+    Route::get('/employees/level/{level}', [EmployeeController::class, 'index'])
+    ->name('employee.level');
     //Experience Certificate
     Route::post('setting/exp/{lang?}', [SettingsController::class, 'experienceCertificateupdate'])->name('experiencecertificate.update');
     Route::get('setting/exp', [SettingsController::class, 'index'])->name('get.experiencecertificate.language');
@@ -1780,4 +1782,17 @@ Route::group(['middleware' => ['verified']], function () {
         Artisan::call('optimize:clear');
         return redirect()->back()->with('success', 'Cache Clear Successfully');
     })->name('config.cache');
+
+
+    // Route::resource('level', LevelController::class)
+    //      ->parameters(['level' => 'level']) // optional, makes route name "level"
+    //      ->middleware(['permission:Create Level|Edit Level|Delete Level|Manage Level']);
+
+    // If you prefer explicit named routes (recommended for clarity & your current Blade)
+    Route::get('/level', [LevelController::class, 'index'])->name('level.index');
+    Route::get('/level/create', [LevelController::class, 'create'])->name('level.create');
+    Route::post('/level', [LevelController::class, 'store'])->name('level.store');
+    Route::get('/level/{level}/edit', [LevelController::class, 'edit'])->name('level.edit');
+    Route::put('/level/{level}', [LevelController::class, 'update'])->name('level.update');
+    Route::delete('/level/{level}', [LevelController::class, 'destroy'])->name('level.destroy');
 });

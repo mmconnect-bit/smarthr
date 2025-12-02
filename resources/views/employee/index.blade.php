@@ -44,6 +44,7 @@
                                     <th>{{ __('Branch') }}</th>
                                     <th>{{ __('Department') }}</th>
                                     <th>{{ __('Designation') }}</th>
+                                     <th>{{ __('Level') }}</th>
                                     <th>{{ __('Date Of Joining') }}</th>
                                     @if (Gate::check('Edit Employee') || Gate::check('Delete Employee'))
                                         <th width="200px">{{ __('Action') }}</th>
@@ -72,6 +73,9 @@
                                         </td>
                                         <td>
                                             {{ !empty($employee->designation_id) ? $employee->designation->name : '-' }}
+                                        </td>
+                                          <td>
+                                            {{ !empty($employee->level) ? $employee->level->name : '-' }}
                                         </td>
                                         <td>
                                             {{ \Auth::user()->dateFormat($employee->company_doj) }}

@@ -21,6 +21,12 @@
             <div class="float-end"><i class="ti ti-chevron-right"></i></div>
         </a>
         @endcan
+          @can('Manage Branch')
+            <a href="{{ route('level.index') }}"
+                class="list-group-item list-group-item-action border-0 {{ request()->is('level*') ? 'active' : '' }}">{{ __('Level') }}
+                <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+            </a>
+        @endcan
 
         @can('Manage Leave Type')
         <a href="{{ route('leavetype.index') }}"
