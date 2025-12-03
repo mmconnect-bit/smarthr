@@ -676,10 +676,7 @@ Route::group(['middleware' => ['verified']], function () {
 
     Route::any('/meeting/get_meeting_data', [MeetingController::class, 'get_meeting_data'])->name('meeting.get_meeting_data')->middleware(['auth', 'XSS']);
 
-    Route::post('
-
-
-    /update/sallary/{id}', [SetSalaryController::class, 'employeeUpdateSalary'])->name('employee.salary.update')->middleware(
+    Route::post('/update/sallary/{id}', [SetSalaryController::class, 'employeeUpdateSalary'])->name('employee.salary.update')->middleware(
         [
             'auth',
             'XSS',

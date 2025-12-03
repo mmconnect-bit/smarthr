@@ -1,5 +1,6 @@
 <?php echo e(Form::model($employee, ['route' => ['employee.salary.update', $employee->id], 'method' => 'POST'])); ?>
 
+
 <div class="modal-body">
     <div class="row">
         <div class="form-group">
