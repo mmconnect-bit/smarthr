@@ -33,7 +33,7 @@
                             @foreach ($employees as $employee)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('setsalary.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}"
+                                        <a href="{{ route('setsalary.show', $employee->id) }}"
                                             class="btn btn-outline-primary">
                                             {{$employee->employee_id }}
                                         </a>

@@ -71,12 +71,12 @@ class SetSalaryController extends Controller
 
     public function show($id)
     {
-        try {
-            $id = Crypt::decrypt($id);
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', __('Permission Denied.'));
-        }
-        
+        // try {
+        //     $id = Crypt::decrypt($id);
+        // } catch (\Throwable $th) {
+        //     return redirect()->back()->with('error', __('Permission Denied.'));
+        // }
+
         $payslip_type      = PayslipType::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $allowance_options = AllowanceOption::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         $loan_options      = LoanOption::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
